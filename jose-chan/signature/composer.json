@@ -1,0 +1,40 @@
+{
+  "name": "jose-chan/signature",
+  "description": "",
+  "keywords": ["sign", "verify"],
+  "authors": [{
+    "name": "JoseChan",
+    "email": "524233828@qq.com"
+  }],
+  "license": "MIT",
+  "type": "library",
+  "require": {
+    "php": "^7.1.3",
+    "jose-chan/rsa-sign": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "JoseChan\\Signature\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "dont-discover": [
+      ],
+      "providers": [
+      ]
+    }
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
