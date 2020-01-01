@@ -1,0 +1,2 @@
+                $filter->equal("{%field%}","{%label%}")->select({%enum%});
+

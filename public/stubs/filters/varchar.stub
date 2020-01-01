@@ -1,0 +1,3 @@
+                $filter->where(function ($query) {
+                    $query->where('{%field%}', 'like', "{$this->input}%");
+                }, '{%label%}');

@@ -1,10 +1,8 @@
 <?php
 
 use Illuminate\Routing\Router;
-use Encore\Admin\Facades\Admin;
-use Illuminate\Support\Facades\Route;
 
-Admin::routes();
+Admin::registerAuthRoutes();
 
 Route::group([
     'prefix'        => config('admin.route.prefix'),
@@ -12,9 +10,6 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
 
-    $router->get('/', 'HomeController@index')->name('admin.home');
-    $router->resource("/banners", 'BannerController');
+    $router->get('/', 'HomeController@index');
 
 });
-
-

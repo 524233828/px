@@ -1,0 +1,1 @@
+            $form->text('{%field%}',"{%label%}")->rules("required|string");
