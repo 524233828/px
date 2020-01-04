@@ -19,7 +19,7 @@ class Banner extends Model
 
     public static function fetchUseful()
     {
-        return self::query()->where(["status", "=", "1"])->get();
+        return self::query()->where([["status", "=", "1"]])->get();
     }
 
     public function getImgUrlAttribute($value)
