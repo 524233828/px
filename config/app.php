@@ -56,6 +56,8 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'resource_url' => env('RESOURCE_URL', "http://127.0.0.1:8014"),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

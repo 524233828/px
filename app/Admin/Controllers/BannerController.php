@@ -89,6 +89,8 @@ class BannerController extends Controller
 
     public function grid()
     {
+        $config = config("filesystems");
+
         return Admin::grid(Banner::class, function (Grid $grid) {
 
             $grid->column("id","id")->sortable();
@@ -123,14 +125,10 @@ class BannerController extends Controller
             $form->display('id',"id");
             $form->text('name',"name")->rules("required|string");
             $form->image("img_url", "img_url");
-//            $form->text('img_url',"img_url")->rules("required|string");
             $form->datetime('created_at',"created_at");
             $form->datetime('updated_at',"updated_at");
             $form->text('link',"link")->rules("required|string");
             $form->select("status","status")->options([0=>"冻结",1=>"启用"]);
-
-
-
         });
     }
 }
