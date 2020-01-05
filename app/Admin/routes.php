@@ -15,6 +15,8 @@ Route::group([
     $router->get('/', 'HomeController@index')->name('admin.home');
     $router->resource("/banners", 'BannerController');
     $router->resource("/classes", 'ClassController');
+    $router->resource("/category", 'CategoryController');
+    $router->resource("/goods", 'GoodsController');
 
 });
 
