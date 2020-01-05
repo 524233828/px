@@ -26,7 +26,7 @@ class CardOrderHandler extends AbstractOrderHandler
 
     public function buySuccess(OrderModel $order)
     {
-        // TODO: Implement buySuccess() method.
+        return false;
     }
 
     public function getMoney($order_data): float

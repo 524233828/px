@@ -19,10 +19,25 @@ class Payment
 {
     const WECHAT_MINIPROGRAM = "wechat_mina";
 
+    /**
+     * 下单
+     * @param Order $order
+     * @param string $pay_type
+     * @return array|bool|mixed|null
+     */
     public static function unified(Order $order, $pay_type = self::WECHAT_MINIPROGRAM)
     {
+        $pay_sn = Order::getPaySn();
+
+        //更新订单的支付号
+        $order->pay_sn = $pay_sn;
+
+        if (!$order->save()) {
+            return false;
+        }
+
         $order_info = [
-            "order_id" => $order->order_sn,
+            "order_id" => $pay_sn,
             "amount" => Amount::dollarToCent($order->total_fee),
             "subject" => $order->info,
             'currency' => 'CNY',
@@ -30,43 +45,52 @@ class Payment
 //            'return_url' => $redirect_url,
         ];
 
-        if(!empty($redirect_url)){
+        if (!empty($redirect_url)) {
             $order_info['return_url'] = $redirect_url;
         }
 
         $order_info['user_ip'] = client_ip(0, true);
 
-
-        if(substr($pay_type,0, 6) == "wechat"){
-            if(!empty($code)){
+        if (substr($pay_type, 0, 6) == "wechat") {
+            if (!empty($code)) {
                 $order_info['extras']['code'] = $code;
             }
 
-            if(isset($user['openid'])){
+            if (isset($user['openid'])) {
                 $order_info['extras']['open_id'] = User::$info['openid'];
             }
         }
 
+        //获取支付对象
         $config = config("payment");
         $pay = new Cashier($pay_type, $config[$pay_type]);
 
-        if(substr($pay_type,0, 6) == "wechat"){
+        //向第三方支付系统下单
+        if (substr($pay_type, 0, 6) == "wechat") {
             $params = $pay->charge($order_info)->get("parameters");
             $params['timeStamp'] = (string)$params['timeStamp'];
             return ["jsApiParameters" => json_encode($params, JSON_UNESCAPED_UNICODE)];
-        }else{
+        } else {
             return $pay->charge($order_info)->get("charge_url");
         }
     }
 
+    /**
+     * 订单回调
+     * @param $pay_sn
+     * @return bool
+     * @throws \Exception
+     */
     public static function notify($pay_sn)
     {
         /** @var Order|null $order */
         $order = Order::query()->where("pay_sn", "=", $pay_sn)->first();
 
-        if($order){
-            $result = OrderHandler::buySuccess($order);
+        if ($order) {
+            return OrderHandler::buySuccess($order);
         }
+
+        return false;
 
     }
 }

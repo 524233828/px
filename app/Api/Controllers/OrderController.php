@@ -60,5 +60,7 @@ class OrderController extends Controller
         if ($form->get("status") === "paid") {
             Payment::notify($form->get('trade_sn'));
         }
+
+        return $this->response([]);
     }
 }
