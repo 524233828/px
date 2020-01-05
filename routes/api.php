@@ -21,4 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get("/banners", "BannerController@fetch");
 
 Route::get("/classed", "ClassController@fetch");
+Route::get("/category", "CategoryController@fetchByParentId");
+
+
 

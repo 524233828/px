@@ -3,7 +3,7 @@
 /**
  * Created by JoseChan/Admin/ControllerCreator.
  * User: admin
- * DateTime: 2020-01-04 17:42:12
+ * DateTime: 2020-01-05 17:38:57
  */
 
 namespace App\Admin\Controllers;
@@ -26,14 +26,14 @@ class CategoryController extends Controller
         return Admin::content(function (Content $content) {
 
             //页面描述
-            $content->header('分类管理');
+            $content->header('课程分类管理');
             //小标题
-            $content->description('分类管理');
+            $content->description('课程分类管理');
 
             //面包屑导航，需要获取上层所有分类，根分类固定
             $content->breadcrumb(
                 ['text' => '首页', 'url' => '/'],
-                ['text' => '分类管理', 'url' => '/category']
+                ['text' => '课程分类管理', 'url' => '/category']
             );
 
             $content->body($this->grid());
@@ -50,13 +50,13 @@ class CategoryController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('分类管理');
+            $content->header('课程分类管理');
             $content->description('编辑');
 
             //面包屑导航，需要获取上层所有分类，根分类固定
             $content->breadcrumb(
                 ['text' => '首页', 'url' => '/'],
-                ['text' => '分类管理', 'url' => '/category'],
+                ['text' => '课程分类管理', 'url' => '/category'],
                 ['text' => '编辑']
             );
 
@@ -73,13 +73,13 @@ class CategoryController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('分类管理');
+            $content->header('课程分类管理');
             $content->description('新增');
 
             //面包屑导航，需要获取上层所有分类，根分类固定
             $content->breadcrumb(
                 ['text' => '首页', 'url' => '/'],
-                ['text' => '分类管理', 'url' => '/category'],
+                ['text' => '课程分类管理', 'url' => '/category'],
                 ['text' => '新增']
             );
 
@@ -91,10 +91,9 @@ class CategoryController extends Controller
     {
         return Admin::grid(Category::class, function (Grid $grid) {
 
-            $grid->column("id","id");
+            $grid->column("id","id")->sortable();
             $grid->column("name","分类名称");
-            $grid->column("created_at","created_at")->sortable();
-            $grid->column("updated_at","update_at")->sortable();
+            $grid->column("created_at","created_at");
 
 
             //允许筛选的项
@@ -116,12 +115,25 @@ class CategoryController extends Controller
         return Admin::form(Category::class, function (Form $form) {
 
             $form->display('id',"id");
-            //$form->select();
             $form->text('name',"分类名称")->rules("required|string");
             $form->datetime('created_at',"created_at");
             $form->datetime('updated_at',"updated_at");
-
+            $form->select('parent_id',"上级分类")->options($this->getCategories())->default(0);
+            $form->select("status","状态")->options([0=>"冻结",1=>"启用"])->default(1);
 
         });
+    }
+
+    public function getCategories()
+    {
+        $categories = [0=>"无"];
+        $category = Category::where("parent_id", "=", 0)->get();
+        if($category){
+            foreach ($category->toArray() as $item){
+                $categories[$item['id']] = $item['name'];
+            }
+        }
+
+        return $categories;
     }
 }
