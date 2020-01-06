@@ -18,6 +18,7 @@ Route::group([
     $router->resource("/category", 'CategoryController');
     $router->resource("/goods", 'GoodsController');
     $router->resource("/shops", 'ShopController');
+    $router->resource("/wallet", 'WalletController');
 
 });
 
