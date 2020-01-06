@@ -20,6 +20,7 @@ Route::group([
     $router->resource("/shops", 'ShopController');
     $router->resource("/wallet", 'WalletController');
     $router->resource("/withdraw", 'WithdrawController');
+    $router->resource("/user", 'UserController');
 
 });
 
