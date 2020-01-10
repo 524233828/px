@@ -14,4 +14,14 @@ use Illuminate\Database\Eloquent\Model;
 class PxUser extends Model
 {
     protected $table = "px_user";
+
+    public function getFrontFields()
+    {
+        return [
+            "id" => $this->id,
+            "nickname" => $this->nickname,
+            "headimg_url" => $this->headimg_url,
+            "phone_number" => $this->phone_number,
+        ];
+    }
 }

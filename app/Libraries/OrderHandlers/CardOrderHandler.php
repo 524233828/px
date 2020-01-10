@@ -21,7 +21,7 @@ class CardOrderHandler extends AbstractOrderHandler
 
     public function create(OrderModel $order, $order_date): OrderModel
     {
-        return false;
+        return null;
     }
 
     public function buySuccess(OrderModel $order)

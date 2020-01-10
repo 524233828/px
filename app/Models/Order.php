@@ -13,6 +13,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    protected $table = "px_order";
+
+    protected $fillable = ["order_sn", "uid", "money", "type"];
+
     public static function getOrderSn()
     {
         return microtime(true)*10000;

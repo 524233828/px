@@ -19,7 +19,7 @@ class RegisterHandler extends AbstractHandler
     {
         $user = new PxUser();
 
-        $user->openid = $user_info['openid'];
+        $user->open_id = $user_info['openid'];
 
         if($user->save()){
             return $user;

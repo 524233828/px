@@ -11,7 +11,7 @@ return [
         "key" => "px", //密钥
         "iss" => "http://www.px.com",
         "alg" => "HS256",
-        "expired" => 7200, //过期时间
+        "expired" => 365*86400, //过期时间
         "user_model" => \App\Models\PxUser::class, //用户模型
     ],
 
