@@ -19,6 +19,9 @@ Route::group([
     $router->resource("/goods", 'GoodsController');
     $router->resource("/shops", 'ShopController');
     $router->resource("/orders", 'OrderController');
+    $router->resource("/wallet", 'WalletController');
+    $router->resource("/withdraw", 'WithdrawController');
+    $router->resource("/user", 'UserController');
 
 });
 
