@@ -82,17 +82,17 @@ class Order
 
         if ($order->save()) {
 
-            //生成订单成功，创建相关业务的数据
-            if ($order = $handler->create($order, $order_data)) {
+            try{
+                $business_order = $handler->create($order, $order_data);
                 $order->getConnection()->commit();
                 return $order;
-            } else {
+            }catch (\Exception $exception){
                 $order->getConnection()->rollBack();
-                return null;
+                throw $exception;
             }
         }
 
-        return null;
+        throw new \Exception("create order fails");
 
     }
 

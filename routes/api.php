@@ -24,11 +24,15 @@ Route::get("/banners", "BannerController@fetch");
 // 课程
 Route::get("/classed", "ClassController@fetch");
 
+//预约
+Route::post("/class/appoint", "AppointController@create")->middleware(["dispatch", "login.check"]);;
+
 // 课程分类
 Route::get("/category", "CategoryController@fetchByParentId");
 
 // 支付/下单
 Route::post("/order/unifier", "OrderController@unifier")->middleware(["dispatch", "login.check"]);
+Route::post("/order/pay", "OrderController@pay")->middleware(["dispatch", "login.check"]);
 
 //用户
 Route::get("/user/info", "UserController@info")->middleware(["dispatch", "login.check"]);
@@ -37,5 +41,8 @@ Route::get("/user/info", "UserController@info")->middleware(["dispatch", "login.
 Route::post("/child/save", "ChildController@save")->middleware(["dispatch", "login.check"]);
 Route::get("/child/list", "ChildController@fetch")->middleware(["dispatch", "login.check"]);
 Route::get("/child/info", "ChildController@get")->middleware(["dispatch", "login.check"]);
+
+//预约卡
+Route::get("/card/fetch", "CardController@fetch")->middleware(["dispatch", "login.check"]);
 
 

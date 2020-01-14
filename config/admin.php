@@ -427,6 +427,24 @@ return [
                     'api_key' => '3693fe745aea0df8852739dac08a22fb',
                 ],
             ]
+        ],
+
+        'china-distpicker' => [
+
+            // 如果要关掉这个扩展，设置为false
+            'enable' => true,
+        ],
+
+        'wang-editor' => [
+
+            // 如果要关掉这个扩展，设置为false
+            'enable' => true,
+
+            // 编辑器的配置
+            'config' => [
+                'uploadImgServer' => '/admin/wangeditor/upload',
+                'uploadFileName' => 'wangeditor_image[]',
+            ]
         ]
     ],
 ];

@@ -43,7 +43,7 @@ class OrderController extends Controller
                 $return['payment'] = $payment;
             }
 
-            return $return;
+            return $this->response($return);
 
         } catch (\Exception $exception) {
             return $this->response([], 2000, "下单失败：{$exception->getMessage()}");
@@ -62,5 +62,26 @@ class OrderController extends Controller
         }
 
         return $this->response([]);
+    }
+
+    public function pay(Request $request)
+    {
+
+        $this->validate($request->all(), ["order_sn" => "required"]);
+        $order_sn = $request->get("order_sn");
+        $pay_type = $request->get("pay_type", Payment::WECHAT_MINIPROGRAM);
+        //下单
+        /** @var \App\Models\Order $order */
+        $order = \App\Models\Order::query()->where("order_sn", "=", $order_sn)->first();
+
+        if (!$order) {
+            return $this->response([], 2001, "订单不存在");
+        }
+
+        $payment = Payment::unified($order, $pay_type);
+
+        $return['payment'] = $payment;
+
+        return $this->response($return);
     }
 }

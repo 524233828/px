@@ -22,6 +22,7 @@ Route::group([
     $router->resource("/wallet", 'WalletController');
     $router->resource("/withdraw", 'WithdrawController');
     $router->resource("/user", 'UserController');
+    $router->post("/wangeditor/upload", 'WangEditorController@save');
 
 });
 

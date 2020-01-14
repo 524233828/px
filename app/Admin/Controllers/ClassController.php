@@ -10,6 +10,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Classes;
 use App\Http\Controllers\Controller;
+use App\Models\Shop;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
@@ -96,37 +97,26 @@ class ClassController extends Controller
             $grid->column("start_time","上课时间");
             $grid->column("created_at","created_at");
 
-
             //允许筛选的项
             //筛选规则不允许用like，且搜索字段必须为索引字段
             //TODO: 使用模糊查询必须通过搜索引擎，此处请扩展搜索引擎
             $grid->filter(function (Grid\Filter $filter){
-
                 $filter->equal("id","id");
-
-
             });
-
-
         });
     }
 
     protected function form()
     {
         return Admin::form(Classes::class, function (Form $form) {
-
             $form->display('id',"id");
-            $form->text('shop_id',"关联店铺id")->rules("required|integer");
+            $form->select('shop_id',"店铺")->options(Shop::getSelector())->rules("notIn:0");
             $form->text('name',"课程名字")->rules("required|string");
             $form->text('info',"课程信息")->rules("required|string");
-            $form->text('desc', '课程简介')->rules("required|string");
-            $form->text('pic',"课程图片")->rules("required|string");
+            $form->editor('desc', '课程简介');
+            $form->image('pic',"课程图片")->move("classes/images");
             $form->datetime('start_time',"上课时间");
             $form->datetime('end_time',"下课时间");
-            $form->datetime('created_at',"created_at");
-            $form->datetime('updated_at',"updated_at");
-
-
         });
     }
 }

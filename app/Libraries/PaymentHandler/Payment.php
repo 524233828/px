@@ -56,8 +56,8 @@ class Payment
                 $order_info['extras']['code'] = $code;
             }
 
-            if (isset($user['openid'])) {
-                $order_info['extras']['open_id'] = User::$info['openid'];
+            if (isset(User::$info['open_id'])) {
+                $order_info['extras']['open_id'] = User::$info['open_id'];
             }
         }
 

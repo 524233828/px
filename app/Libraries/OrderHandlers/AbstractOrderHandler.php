@@ -15,7 +15,13 @@ abstract class AbstractOrderHandler
 
     abstract public function validate($order_data): bool;
 
-    abstract public function create(OrderModel $order, $order_date): OrderModel;
+    /**
+     * 创建业务订单，返回一个业务订单对象
+     * @param OrderModel $order
+     * @param $order_date
+     * @return mixed
+     */
+    abstract public function create(OrderModel $order, $order_date);
 
     abstract public function buySuccess(OrderModel $order);
 

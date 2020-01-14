@@ -14,8 +14,9 @@ use Illuminate\Database\Eloquent\Model;
 class Banner extends Model
 {
 
-    protected $table = "px_banner";
+    use Image;
 
+    protected $table = "px_banner";
 
     public static function fetchUseful()
     {
@@ -24,8 +25,7 @@ class Banner extends Model
 
     public function getImgUrlAttribute($value)
     {
-        $url = config("app.resource_url");
-        return $url . DIRECTORY_SEPARATOR .$value;
+        return $this->imageHandle($value);
     }
 
 }
