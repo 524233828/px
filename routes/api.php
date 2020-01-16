@@ -22,10 +22,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get("/banners", "BannerController@fetch");
 
 // 课程
-Route::get("/classed", "ClassController@fetch");
+Route::get("/class/list", "ClassController@fetch");
 
 //预约
-Route::post("/class/appoint", "AppointController@create")->middleware(["dispatch", "login.check"]);;
+Route::post("/class/appoint", "AppointController@create")->middleware(["dispatch", "login.check"]);
+
+//评价
+Route::post("/comment/class", "CommentController@create")->middleware(["dispatch", "login.check"]);
 
 // 课程分类
 Route::get("/category", "CategoryController@fetchByParentId");
@@ -45,4 +48,6 @@ Route::get("/child/info", "ChildController@get")->middleware(["dispatch", "login
 //预约卡
 Route::get("/card/fetch", "CardController@fetch")->middleware(["dispatch", "login.check"]);
 
-
+//店铺
+Route::get("/shop/list", "ShopController@fetch");
+Route::get("/shop/info", "ShopController@get");

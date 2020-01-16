@@ -14,9 +14,19 @@ use App\Models\Child;
 use App\Models\Order as OrderModel;
 use JoseChan\UserLogin\Constants\User;
 
+/**
+ * 卡券购买业务处理
+ * Class CardOrderHandler
+ * @package App\Libraries\OrderHandler
+ */
 class CardOrderHandler extends AbstractOrderHandler
 {
 
+    /**
+     * 参数过滤
+     * @param $order_data
+     * @return bool
+     */
     public function validate($order_data): bool
     {
         return $this->validator($order_data,[
@@ -25,6 +35,7 @@ class CardOrderHandler extends AbstractOrderHandler
     }
 
     /**
+     * 创建业务相关记录
      * @param OrderModel $order
      * @param $order_date
      * @return CardOrder|mixed
@@ -60,11 +71,21 @@ class CardOrderHandler extends AbstractOrderHandler
         return $card_order;
     }
 
+    /**
+     * 回调业务处理
+     * @param OrderModel $order
+     * @return bool
+     */
     public function buySuccess(OrderModel $order)
     {
         return false;
     }
 
+    /**
+     * 获取价格
+     * @param $order_data
+     * @return float
+     */
     public function getMoney($order_data): float
     {
         return 100.00;

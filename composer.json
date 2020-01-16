@@ -12,6 +12,7 @@
         "encore/laravel-admin": "^1.7",
         "fideloper/proxy": "^4.0",
         "jose-chan/admin-creator": "v2.0.*",
+        "jose-chan/pager": "^1.0",
         "jose-chan/user-login": "^0.0.2",
         "laravel-admin-ext/china-distpicker": "^1.4",
         "laravel-admin-ext/latlong": "^1.2",

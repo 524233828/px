@@ -116,8 +116,6 @@ class CategoryController extends Controller
 
             $form->display('id',"id");
             $form->text('name',"分类名称")->rules("required|string");
-            $form->datetime('created_at',"created_at");
-            $form->datetime('updated_at',"updated_at");
             $form->select('parent_id',"上级分类")->options($this->getCategories())->default(0);
             $form->select("status","状态")->options([0=>"冻结",1=>"启用"])->default(1);
 

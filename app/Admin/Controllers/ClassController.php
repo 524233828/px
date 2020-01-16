@@ -8,6 +8,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Category;
 use App\Models\Classes;
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
@@ -111,6 +112,7 @@ class ClassController extends Controller
         return Admin::form(Classes::class, function (Form $form) {
             $form->display('id',"id");
             $form->select('shop_id',"店铺")->options(Shop::getSelector())->rules("notIn:0");
+            $form->select("category_id", "分类")->options(Category::getSelector())->rules("notIn:0");
             $form->text('name',"课程名字")->rules("required|string");
             $form->text('info',"课程信息")->rules("required|string");
             $form->editor('desc', '课程简介');
