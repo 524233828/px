@@ -3,7 +3,7 @@
 /**
  * Created by JoseChan/Admin/ControllerCreator.
  * User: admin
- * DateTime: 2020-01-05 20:07:46
+ * DateTime: 2020-01-14 20:07:02
  */
 
 namespace App\Admin\Controllers;
@@ -15,6 +15,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -90,16 +91,30 @@ class OrderController extends Controller
     public function grid()
     {
         return Admin::grid(Order::class, function (Grid $grid) {
+            $grid->disableCreateButton();
 
-            $grid->column("order_sn","订单号")->sortable();
+            $grid->actions(function (Grid\Displayers\Actions $actions) {
+                $actions->disableEdit();
+                $actions->disableView();
+                $actions->disableDelete();
+            });
+            $grid->column("id","id")->sortable();
+            $grid->column("order_sn","订单号");
             $grid->column("uid","用户id");
             $grid->column("type","订单类型");
-            $grid->column("money","订单金额")->sortable();
-            $grid->column("admin_id","商户id");
+            $grid->column("money","订单金额");
             $grid->column("created_at","创建时间")->sortable();
+            $grid->column("updated_at","更新时间")->sortable();
             $grid->column("pay_sn","支付号");
-            $grid->column("status","订单状态")->using([0=>"冻结",1=>"启用"]);
+            $grid->column("status","订单状态 0-未付款 1-已付款 2-已退款");
 
+            $uid = Admin::user()->id;
+            $role = DB::table("admin_role_users")->where(["user_id" => $uid])->first(["role_id"]);
+            $role = (array)$role;
+
+            if ($role['role_id'] != 1) {
+                $grid->model()->where(["type", "=", 1], ["admin_id", "=", $uid]);
+            }
 
             //允许筛选的项
             //筛选规则不允许用like，且搜索字段必须为索引字段
@@ -111,12 +126,8 @@ class OrderController extends Controller
                 }, '订单号');
                 $filter->equal("uid","用户id");
                 $filter->equal("type","订单类型");
-                $filter->equal("admin_id","商户id");
                 $filter->between("created_at","创建时间")->datetime();
-                $filter->where(function ($query) {
-                    $query->where('pay_sn', 'like', "{$this->input}%");
-                }, '支付号');
-                $filter->equal("status","订单状态")->select([0=>"冻结",1=>"启用"]);
+                $filter->equal("status","订单状态 0-未付款 1-已付款 2-已退款")->select(0,1,2);
 
 
 
@@ -135,11 +146,10 @@ class OrderController extends Controller
             $form->text('uid',"用户id")->rules("required|integer");
             $form->text('type',"订单类型")->rules("required|integer");
             $form->text('money',"订单金额")->rules("required");
-            $form->text('admin_id',"商户id")->rules("required|integer");
             $form->datetime('created_at',"创建时间");
             $form->datetime('updated_at',"更新时间");
             $form->text('pay_sn',"支付号")->rules("required|string");
-            $form->select("status","订单状态")->options([0=>"冻结",1=>"启用"]);
+            $form->select("status","订单状态 0-未付款 1-已付款 2-已退款")->options(0,1,2);
 
 
 
