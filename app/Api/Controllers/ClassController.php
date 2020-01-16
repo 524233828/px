@@ -56,7 +56,7 @@ class ClassController extends Controller
         }
 
         /** @var ClassCollection $classes 获取课程 */
-        $classes = Classes::query()->where()->get();
+        $classes = Classes::query()->where($where)->get();
 
         $classes->sortBy(function (Classes $item, $key) use ($latitude, $longitude) {
             return $item->shop->computeDistance($latitude, $longitude);
@@ -65,6 +65,30 @@ class ClassController extends Controller
         $classes->computeCommentsInfo();
 
         return $this->response(["list" => $classes]);
+    }
+
+    public function get(Request $request)
+    {
+        $this->validate($request->all(), [
+            "class_id" => "required|Integer"
+        ]);
+
+        $class_id = $request->get("class_id");
+        $latitude = $request->get("latitude", null);
+        $longitude = $request->get("longitude", null);
+
+        /** @var Classes $class */
+        $class = Classes::find($class_id);
+
+        $class->computeCommentsInfo();
+
+        $class->shop;
+
+        if (!empty($latitude) && !empty($longitude)) {
+            $class->shop->computeDistance($latitude, $longitude);
+        }
+
+        return $this->response($class);
     }
 
 }

@@ -37,14 +37,14 @@ class ClassCollection extends Collection
      */
     public function getComments()
     {
-        $this->map(function (Classes $item, $key) use (&$shop_ids) {
+        return $this->map(function (Classes $item, $key) use (&$shop_ids) {
             $item->comments;
         });
     }
 
     public function computeCommentsInfo()
     {
-        $this->map(function (Classes $item, $key) use (&$shop_ids) {
+        return $this->map(function (Classes $item, $key) use (&$shop_ids) {
             $item->computeCommentsInfo();
         });
     }

@@ -23,6 +23,7 @@ Route::get("/banners", "BannerController@fetch");
 
 // 课程
 Route::get("/class/list", "ClassController@fetch");
+Route::get("/class/info", "ClassController@get");
 
 //预约
 Route::post("/class/appoint", "AppointController@create")->middleware(["dispatch", "login.check"]);
