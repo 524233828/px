@@ -40,6 +40,7 @@ Route::post("/order/pay", "OrderController@pay")->middleware(["dispatch", "login
 
 //用户
 Route::get("/user/info", "UserController@info")->middleware(["dispatch", "login.check"]);
+Route::get("/user/code", "UserController@code")->middleware(["dispatch", "login.check"]);
 
 //常用人
 Route::post("/child/save", "ChildController@save")->middleware(["dispatch", "login.check"]);

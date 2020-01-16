@@ -24,4 +24,9 @@ class PxUser extends Model
             "phone_number" => $this->phone_number,
         ];
     }
+
+    public function getCodeAttribute()
+    {
+        return str_pad($this->id, 8, "0", STR_PAD_LEFT);
+    }
 }
