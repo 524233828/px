@@ -11,6 +11,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class PxUser
+ * @package App\Models
+ */
 class PxUser extends Model
 {
     protected $table = "px_user";

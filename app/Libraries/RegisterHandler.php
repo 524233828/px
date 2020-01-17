@@ -10,6 +10,7 @@ namespace App\Libraries;
 
 
 use App\Models\PxUser;
+use App\Models\Wallet;
 use JoseChan\UserLogin\Libraries\Wechat\Miniprogram\RegisterHandler\AbstractHandler;
 
 class RegisterHandler extends AbstractHandler
@@ -21,10 +22,23 @@ class RegisterHandler extends AbstractHandler
 
         $user->open_id = $user_info['openid'];
 
+        $user->getConnection()->beginTransaction();
+
         if($user->save()){
-            return $user;
+            //创建用户钱包
+            $wallet = new Wallet([
+                "uid" => $user->id,
+                "ammount" => 0,
+                "freeze_amount" => 0
+            ]);
+
+            if($wallet->save()){
+                $user->getConnection()->commit();
+                return $user;
+            }
         }
 
+        $user->getConnection()->rollBack();
         return false;
 
     }

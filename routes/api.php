@@ -58,3 +58,7 @@ Route::get("/shop/info", "ShopController@get");
 Route::post("/collect/create", "CollectController@create")->middleware(["dispatch", "login.check"]);
 Route::post("/collect/cancel", "CollectController@cancel")->middleware(["dispatch", "login.check"]);
 Route::get("/collect/list", "CollectController@fetch")->middleware(["dispatch", "login.check"]);
+
+//钱包
+Route::get("/wallet/info", "WalletController@get")->middleware(["dispatch", "login.check"]);
+Route::post("/wallet/withdraw", "WalletController@withdraw")->middleware(["dispatch", "login.check"]);
