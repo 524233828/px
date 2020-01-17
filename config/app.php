@@ -177,6 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //register payment extension
+        App\Libraries\PaymentExtensions\Provider\PayExtServiceProvider::class
+
     ],
 
     /*
