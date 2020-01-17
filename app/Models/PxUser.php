@@ -14,6 +14,16 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class PxUser
  * @package App\Models
+ * @property integer $id ID
+ * @property string $open_id openID
+ * @property integer $pid 父ID
+ * @property string $nickname 昵称
+ * @property string $headimg_url 头像地址
+ * @property string $phone_number 手机号
+ * @property integer $code 邀请码，暂时无用
+ * @property string $created_at ID 创建时间
+ * @property string $updated_at ID 更新时间
+ *
  */
 class PxUser extends Model
 {

@@ -11,6 +11,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 首页banner
+ * Class Banner
+ * @package App\Models
+ * @property integer $id ID
+ * @property string $name 名字
+ * @property string $img_url 图片
+ * @property string $link 链接
+ * @property integer $status 状态
+ * @property string $created_at 创建时间
+ * @property string $updated_at 更新时间
+ */
 class Banner extends Model
 {
 

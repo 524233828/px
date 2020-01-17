@@ -14,9 +14,19 @@ use App\Models\Shop;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 
+/**
+ * 店铺相关
+ * Class ShopController
+ * @package App\Api\Controllers
+ */
 class ShopController extends Controller
 {
 
+    /**
+     * 获取店铺列表
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetch(Request $request)
     {
         $latitude = $request->get("latitude", null);
@@ -46,6 +56,11 @@ class ShopController extends Controller
         return $this->response(["list" => $shops]);
     }
 
+    /**
+     * 店铺详情
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get(Request $request)
     {
         $this->validate($request->all(), [

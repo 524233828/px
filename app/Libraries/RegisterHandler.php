@@ -13,6 +13,11 @@ use App\Models\PxUser;
 use App\Models\Wallet;
 use JoseChan\UserLogin\Libraries\Wechat\Miniprogram\RegisterHandler\AbstractHandler;
 
+/**
+ * 注册处理类
+ * Class RegisterHandler
+ * @package App\Libraries
+ */
 class RegisterHandler extends AbstractHandler
 {
 

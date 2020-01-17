@@ -15,6 +15,11 @@ use App\Models\Order;
 use App\Models\PxUser;
 use App\Models\Wallet;
 
+/**
+ * 分销处理类
+ * Class Distribution
+ * @package App\Libraries\PaymentHandler
+ */
 class Distribution
 {
 
@@ -59,7 +64,7 @@ class Distribution
             $distribution = new \App\Models\Distribution([
                 "uid" => $distribution_user->id,
                 "order_sn" => $order->order_sn,
-                "remark" => "",
+                "remark" => "分销",
                 "total_amount" => $order->money,
                 "percent" => $distribution_rate,
                 "amount" => $amount
@@ -72,7 +77,7 @@ class Distribution
                 "out_trade_no" => $order->order_sn,
                 "type" => Bill::TYPE_INCOME,
                 "money" => $amount,
-                "remark" => "",
+                "remark" => "分销获得",
                 "uid" => $distribution_user->id
             ]);
 

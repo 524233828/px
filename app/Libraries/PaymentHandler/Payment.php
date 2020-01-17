@@ -15,6 +15,11 @@ use Runner\NezhaCashier\Cashier;
 use Runner\NezhaCashier\Utils\Amount;
 use App\Libraries\OrderHandler\Order as OrderHandler;
 
+/**
+ * 支付处理类
+ * Class Payment
+ * @package App\Libraries\PaymentHandler
+ */
 class Payment
 {
     const WECHAT_MINIPROGRAM = "wechat_mina";
@@ -38,8 +43,8 @@ class Payment
 
         $order_info = [
             "order_id" => $pay_sn,
-            "amount" => Amount::dollarToCent($order->total_fee),
-            "subject" => $order->info,
+            "amount" => Amount::dollarToCent($order->money),
+            "subject" => "",
             'currency' => 'CNY',
             'description' => $order['info'],
 //            'return_url' => $redirect_url,

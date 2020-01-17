@@ -18,6 +18,7 @@ use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\UserLogin\Constants\User;
 
 /**
+ * 预约相关
  * Class AppointController
  * @package App\Api\Controllers
  */
@@ -67,7 +68,7 @@ class AppointController extends Controller
         }
 
         //检查卡券预约过多少次该商户的课程
-        $appoint_num = Appoint::countBusinessCardAppointNum($class->shop->admin_id);
+        $appoint_num = Appoint::countBusinessCardAppointNum($class->shop->admin_id, $card_id);
         if ($appoint_num >= 3) {
             return $this->response([], 3003, "同一个商户只能预约三次");
         }

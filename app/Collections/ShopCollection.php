@@ -12,6 +12,11 @@ namespace App\Collections;
 use App\Models\Shop;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * 商店模型的集合
+ * Class ShopCollection
+ * @package App\Collections
+ */
 class ShopCollection extends Collection
 {
     /**

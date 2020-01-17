@@ -15,7 +15,6 @@ use App\Models\Config;
 use App\Models\PxUser;
 use App\Models\Wallet;
 use App\Models\Withdraw;
-use function EasyWeChat\Kernel\Support\get_client_ip;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\UserLogin\Constants\User;
@@ -24,6 +23,10 @@ use Runner\NezhaCashier\Cashier;
 class WalletController extends Controller
 {
 
+    /**
+     * 获取钱包信息
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get()
     {
         /** @var PxUser $uesr */
@@ -37,6 +40,12 @@ class WalletController extends Controller
         return $this->response(["wallet" => $wallet, "bill" => $bill]);
     }
 
+    /**
+     * 提现
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function withdraw(Request $request)
     {
         $this->validate($request->all(), [
@@ -99,7 +108,7 @@ class WalletController extends Controller
                 "openid" => Withdraw::getWithdrawSn(),
                 "amount" => $money,
                 "desc" => "用户提现",
-                "ip" => get_client_ip()
+                "ip" => client_ip(0, true)
             ];
 
             if(!$wallet->save()){

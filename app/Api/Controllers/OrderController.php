@@ -14,9 +14,19 @@ use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use Runner\NezhaCashier\Cashier;
 
+/**
+ * 订单相关
+ * Class OrderController
+ * @package App\Api\Controllers
+ */
 class OrderController extends Controller
 {
 
+    /**
+     * 下单
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function unifier(Request $request)
     {
         $with_pay = $request->get("with_pay", true);
@@ -50,6 +60,12 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * 回调
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function notify(Request $request)
     {
         $config = config("payment");
@@ -64,6 +80,11 @@ class OrderController extends Controller
         return $this->response([]);
     }
 
+    /**
+     * 支付
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function pay(Request $request)
     {
 

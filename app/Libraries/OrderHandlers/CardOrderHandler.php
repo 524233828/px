@@ -11,6 +11,7 @@ namespace App\Libraries\OrderHandler;
 
 use App\Models\CardOrder;
 use App\Models\Child;
+use App\Models\Config;
 use App\Models\Order as OrderModel;
 use JoseChan\UserLogin\Constants\User;
 
@@ -88,6 +89,6 @@ class CardOrderHandler extends AbstractOrderHandler
      */
     public function getMoney($order_data): float
     {
-        return 100.00;
+        return Config::get("card_amount", 100.00);
     }
 }

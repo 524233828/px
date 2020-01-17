@@ -11,9 +11,18 @@ namespace App\Api\Controllers;
 use App\Models\Banner;
 use JoseChan\Base\Api\Controllers\Controller;
 
+/**
+ * banner相关
+ * Class BannerController
+ * @package App\Api\Controllers
+ */
 class BannerController extends Controller
 {
 
+    /**
+     * 获取banner列表
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetch()
     {
         $banners = Banner::fetchUseful();

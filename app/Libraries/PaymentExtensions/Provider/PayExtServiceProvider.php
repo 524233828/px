@@ -13,6 +13,11 @@ use App\Libraries\PaymentExtensions\Gateway\Wechat\Transfers;
 use Illuminate\Support\ServiceProvider;
 use Runner\NezhaCashier\Cashier;
 
+/**
+ * 注册交易扩展
+ * Class PayExtServiceProvider
+ * @package App\Libraries\PaymentExtensions\Provider
+ */
 class PayExtServiceProvider extends ServiceProvider
 {
 

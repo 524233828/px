@@ -10,9 +10,19 @@ namespace App\Libraries\OrderHandler;
 
 use App\Models\Order as OrderModel;
 
+/**
+ * 业务订单逻辑处理器
+ * Class AbstractOrderHandler
+ * @package App\Libraries\OrderHandler
+ */
 abstract class AbstractOrderHandler
 {
 
+    /**
+     * 校验业务相关参数
+     * @param $order_data
+     * @return bool
+     */
     abstract public function validate($order_data): bool;
 
     /**
@@ -23,8 +33,18 @@ abstract class AbstractOrderHandler
      */
     abstract public function create(OrderModel $order, $order_date);
 
+    /**
+     * 支付成功回调处理
+     * @param OrderModel $order
+     * @return mixed
+     */
     abstract public function buySuccess(OrderModel $order);
 
+    /**
+     * 获取业务金额
+     * @param $order_data
+     * @return float
+     */
     abstract public function getMoney($order_data): float;
 
     /**

@@ -17,17 +17,30 @@ use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\UserLogin\Constants\User;
 use JoseChan\UserLogin\Libraries\Wechat\MiniProgram\Application;
 
+/**
+ * 用户相关
+ * Class UserController
+ * @package App\Api\Controllers
+ */
 class UserController extends Controller
 {
 
     use Image;
 
+    /**
+     * 用户信息
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function info()
     {
         /** @var PxUser $info */
         return $this->response(User::$info->getFrontFields());
     }
 
+    /**
+     * 用户邀请码
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function code()
     {
         /** @var PxUser $user */

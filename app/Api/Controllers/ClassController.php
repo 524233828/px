@@ -67,6 +67,11 @@ class ClassController extends Controller
         return $this->response(["list" => $classes]);
     }
 
+    /**
+     * 获取课程详情
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function get(Request $request)
     {
         $this->validate($request->all(), [

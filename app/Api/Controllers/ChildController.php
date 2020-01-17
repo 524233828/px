@@ -16,9 +16,19 @@ use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\UserLogin\Constants\User;
 
+/**
+ * 常用人相关
+ * Class ChildController
+ * @package App\Api\Controllers
+ */
 class ChildController extends Controller
 {
 
+    /**
+     * 新增/编辑常用人
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function save(Request $request)
     {
         $this->validate($request->all(), [
@@ -55,6 +65,11 @@ class ChildController extends Controller
         }
     }
 
+    /**
+     * 获取常用人列表
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetch(Request $request)
     {
         /** @var Collection $children */
@@ -67,6 +82,11 @@ class ChildController extends Controller
         return $this->response(["list" => []]);
     }
 
+    /**
+     * 获取常用人信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get(Request $request)
     {
 

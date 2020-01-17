@@ -13,9 +13,19 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 
+/**
+ * 课程分类相关
+ * Class CategoryController
+ * @package App\Api\Controllers
+ */
 class CategoryController extends Controller
 {
 
+    /**
+     * 根据父类ID获取分类
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetchByParentId(Request $request)
     {
         $parent_id = $request->get("parent_id", 0);

@@ -12,6 +12,11 @@ namespace App\Libraries\PaymentExtensions\Gateway\Wechat;
 use Runner\NezhaCashier\Gateways\Wechat\AbstractWechatGateway;
 use Runner\NezhaCashier\Requests\Charge;
 
+/**
+ * 自己封装的交易类，主要用来做企业转账，其他请使用runner/nezha-pay组件
+ * Class Transfers
+ * @package App\Libraries\PaymentExtensions\Gateway\Wechat
+ */
 class Transfers extends AbstractWechatGateway
 {
 
@@ -55,6 +60,11 @@ class Transfers extends AbstractWechatGateway
         return 'JSAPI';
     }
 
+    /**
+     * 微信转账到零钱
+     * @param array $form
+     * @return array
+     */
     public function pay(array $form): array
     {
         $payload = [

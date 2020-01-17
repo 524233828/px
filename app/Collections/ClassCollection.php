@@ -13,6 +13,11 @@ use App\Models\Classes;
 use App\Models\Shop;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * 课程模型集合
+ * Class ClassCollection
+ * @package App\Collections
+ */
 class ClassCollection extends Collection
 {
 
@@ -42,6 +47,10 @@ class ClassCollection extends Collection
         });
     }
 
+    /**
+     * 计算评价信息
+     * @return ClassCollection|\Illuminate\Support\Collection
+     */
     public function computeCommentsInfo()
     {
         return $this->map(function (Classes $item, $key) use (&$shop_ids) {

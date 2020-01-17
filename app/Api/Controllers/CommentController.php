@@ -16,8 +16,18 @@ use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\UserLogin\Constants\User;
 
+/**
+ * 评价相关
+ * Class CommentController
+ * @package App\Api\Controllers
+ */
 class CommentController extends Controller
 {
+    /**
+     * 评价课程
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
         $this->validate($request->all(), [

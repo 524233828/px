@@ -8,16 +8,25 @@
 
 namespace App\Api\Controllers;
 
-
 use App\Models\CardOrder;
 use App\Models\Classes;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\UserLogin\Constants\User;
 
+/**
+ * 卡券相关
+ * Class CardController
+ * @package App\Api\Controllers
+ */
 class CardController extends Controller
 {
 
+    /**
+     * 获取所有卡券
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetch(Request $request)
     {
 //        $this->validate($request->all(), [
