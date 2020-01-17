@@ -83,10 +83,18 @@ class Payment
      */
     public static function notify($pay_sn)
     {
+        $log = myLog("order_notify");
         /** @var Order|null $order */
         $order = Order::query()->where("pay_sn", "=", $pay_sn)->first();
 
         if ($order) {
+            //分销处理
+            try{
+                Distribution::handler($order);
+            }catch (\Exception $exception){
+                $log->debug($exception->getMessage() . "\n". $exception->getTraceAsString());
+            }
+
             return OrderHandler::buySuccess($order);
         }
 

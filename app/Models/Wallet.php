@@ -9,4 +9,6 @@ class Wallet extends Model
 {
     protected $table = "px_wallet";
 
+    protected $fillable = ["uid", "amount", "freeze_amount"];
+
 }

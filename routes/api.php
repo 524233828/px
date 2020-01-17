@@ -53,3 +53,7 @@ Route::get("/card/fetch", "CardController@fetch")->middleware(["dispatch", "logi
 //店铺
 Route::get("/shop/list", "ShopController@fetch");
 Route::get("/shop/info", "ShopController@get");
+
+//钱包
+Route::get("/wallet/info", "WalletController@get")->middleware(["dispatch", "login.check"]);
+Route::post("/wallet/withdraw", "WalletController@withdraw")->middleware(["dispatch", "login.check"]);

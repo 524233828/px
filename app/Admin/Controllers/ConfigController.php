@@ -3,12 +3,12 @@
 /**
  * Created by JoseChan/Admin/ControllerCreator.
  * User: admin
- * DateTime: 2020-01-05 14:47:46
+ * DateTime: 2020-01-17 14:33:41
  */
 
 namespace App\Admin\Controllers;
 
-use App\Models\Goods;
+use App\Models\Config;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Facades\Admin;
@@ -16,7 +16,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 
-class GoodsController extends Controller
+class ConfigController extends Controller
 {
 
     use HasResourceActions;
@@ -26,14 +26,14 @@ class GoodsController extends Controller
         return Admin::content(function (Content $content) {
 
             //页面描述
-            $content->header('商品管理');
+            $content->header('系统配置');
             //小标题
-            $content->description('商品管理');
+            $content->description('系统配置');
 
             //面包屑导航，需要获取上层所有分类，根分类固定
             $content->breadcrumb(
                 ['text' => '首页', 'url' => '/'],
-                ['text' => '商品管理', 'url' => 'goods']
+                ['text' => '系统配置', 'url' => '/config']
             );
 
             $content->body($this->grid());
@@ -50,13 +50,13 @@ class GoodsController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('商品管理');
+            $content->header('系统配置');
             $content->description('编辑');
 
             //面包屑导航，需要获取上层所有分类，根分类固定
             $content->breadcrumb(
                 ['text' => '首页', 'url' => '/'],
-                ['text' => '商品管理', 'url' => 'goods'],
+                ['text' => '系统配置', 'url' => '/config'],
                 ['text' => '编辑']
             );
 
@@ -73,13 +73,13 @@ class GoodsController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('商品管理');
+            $content->header('系统配置');
             $content->description('新增');
 
             //面包屑导航，需要获取上层所有分类，根分类固定
             $content->breadcrumb(
                 ['text' => '首页', 'url' => '/'],
-                ['text' => '商品管理', 'url' => 'goods'],
+                ['text' => '系统配置', 'url' => '/config'],
                 ['text' => '新增']
             );
 
@@ -89,13 +89,12 @@ class GoodsController extends Controller
 
     public function grid()
     {
-        return Admin::grid(Goods::class, function (Grid $grid) {
+        return Admin::grid(Config::class, function (Grid $grid) {
 
             $grid->column("id","id")->sortable();
-            $grid->column("name","商品名称");
-            $grid->column("img_url","商品图片");
-            $grid->column("created_at","created_at")->sortable();
-            $grid->column("updated_at","updated_at")->sortable();
+            $grid->column("desc","描述");
+            $grid->column("value","值");
+            $grid->column("key","变量名");
 
 
             //允许筛选的项
@@ -105,8 +104,11 @@ class GoodsController extends Controller
 
                 $filter->equal("id","id");
                 $filter->where(function ($query) {
-                    $query->where('name', 'like', "{$this->input}%");
-                }, '商品名称');
+                    $query->where('key', 'like', "{$this->input}%");
+                }, '变量名');
+                $filter->where(function ($query) {
+                    $query->where('desc', 'like', "{$this->input}%");
+                }, '描述');
 
 
             });
@@ -117,14 +119,19 @@ class GoodsController extends Controller
 
     protected function form()
     {
-        return Admin::form(Goods::class, function (Form $form) {
+        return Admin::form(Config::class, function (Form $form) {
 
-            $form->text('id',"id")->rules("required|integer");
-            $form->text('name',"商品名称")->rules("required|string");
-            $form->image('img_url',"img_url");
-            $form->datetime('created_at',"created_at");
-            $form->datetime('updated_at',"updated_at");
+            $form->display('id',"id");
+            $form->text('desc',"描述")->rules("required|string");
+            $form->text('value',"值")->rules("required|string");
 
+            if($form->isEditing()){
+                $form->text('key',"变量名")->rules("required|string")->readonly();
+                $form->text('callback',"处理函数")->rules("required|string")->readonly();
+            }else{
+                $form->text('key',"变量名")->rules("required|string");
+                $form->text('callback',"处理函数")->rules("required|string");
+            }
 
         });
     }
