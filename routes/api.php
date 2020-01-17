@@ -53,3 +53,8 @@ Route::get("/card/fetch", "CardController@fetch")->middleware(["dispatch", "logi
 //店铺
 Route::get("/shop/list", "ShopController@fetch");
 Route::get("/shop/info", "ShopController@get");
+
+//收藏
+Route::post("/collect/create", "CollectController@create")->middleware(["dispatch", "login.check"]);
+Route::post("/collect/cancel", "CollectController@cancel")->middleware(["dispatch", "login.check"]);
+Route::get("/collect/list", "CollectController@fetch")->middleware(["dispatch", "login.check"]);
