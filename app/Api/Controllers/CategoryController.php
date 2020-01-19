@@ -10,6 +10,7 @@ namespace App\Api\Controllers;
 
 
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 
@@ -35,6 +36,32 @@ class CategoryController extends Controller
             return $this->response(["list" => $category->toArray()]);
         }
         return $this->response(["list" => []]);
+    }
 
+    public function fetch(){
+        /** @var Collection $category */
+        $category = Category::get();
+
+        $parent_list = [];
+        $child_list = [];
+        if($category->isNotEmpty()){
+            foreach ($category->toArray() as $item){
+                if($item['parent_id'] == 0){
+                    $parent_list[$item['id']] = $item;
+                }else{
+                    $child_list[$item['parent_id']][] = $item;
+                }
+            }
+
+            if(!empty($child_list)){
+                foreach ($child_list as $parent_id => $children){
+                    if(isset($parent_list[$parent_id])){
+                        $parent_list[$parent_id]['children'] = $children;
+                    }
+                }
+            }
+        }
+
+        return $this->response(["list" => $parent_list]);
     }
 }

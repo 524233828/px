@@ -34,6 +34,7 @@ Route::post("/comment/class", "CommentController@create")->middleware(["jwt.disp
 
 // 课程分类
 Route::get("/category", "CategoryController@fetchByParentId");
+Route::get("/category/list", "CategoryController@fetch");
 
 // 支付/下单
 Route::post("/order/unifier", "OrderController@unifier")->middleware(["jwt.dispatch", "login.check"]);
