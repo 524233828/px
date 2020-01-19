@@ -90,4 +90,16 @@ class AppointController extends Controller
         return $this->response([], 3004, "预约失败");
     }
 
+    public function fetch()
+    {
+        $appoint = Appoint::query()->where("uid", "=", User::$info['id'])->first();
+        
+        $appoint->classes;
+
+        if(!$appoint){
+            return $this->response([], 2002, "暂无预约");
+        }
+
+        return $this->response($appoint->toArray());
+    }
 }

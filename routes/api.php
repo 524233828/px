@@ -27,6 +27,7 @@ Route::get("/class/info", "ClassController@get");
 
 //预约
 Route::post("/class/appoint", "AppointController@create")->middleware(["dispatch", "login.check"]);
+Route::get("/appoint/list", "AppointController@fetch")->middleware(["dispatch", "login.check"]);
 
 //评价
 Route::post("/comment/class", "CommentController@create")->middleware(["dispatch", "login.check"]);
