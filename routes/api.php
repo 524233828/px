@@ -26,40 +26,40 @@ Route::get("/class/list", "ClassController@fetch");
 Route::get("/class/info", "ClassController@get");
 
 //预约
-Route::post("/class/appoint", "AppointController@create")->middleware(["dispatch", "login.check"]);
-Route::get("/appoint/list", "AppointController@fetch")->middleware(["dispatch", "login.check"]);
+Route::post("/class/appoint", "AppointController@create")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/appoint/list", "AppointController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 
 //评价
-Route::post("/comment/class", "CommentController@create")->middleware(["dispatch", "login.check"]);
+Route::post("/comment/class", "CommentController@create")->middleware(["jwt.dispatch", "login.check"]);
 
 // 课程分类
 Route::get("/category", "CategoryController@fetchByParentId");
 
 // 支付/下单
-Route::post("/order/unifier", "OrderController@unifier")->middleware(["dispatch", "login.check"]);
-Route::post("/order/pay", "OrderController@pay")->middleware(["dispatch", "login.check"]);
+Route::post("/order/unifier", "OrderController@unifier")->middleware(["jwt.dispatch", "login.check"]);
+Route::post("/order/pay", "OrderController@pay")->middleware(["jwt.dispatch", "login.check"]);
 
 //用户
-Route::get("/user/info", "UserController@info")->middleware(["dispatch", "login.check"]);
-Route::get("/user/code", "UserController@code")->middleware(["dispatch", "login.check"]);
+Route::get("/user/info", "UserController@info")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/user/code", "UserController@code")->middleware(["jwt.dispatch", "login.check"]);
 
 //常用人
-Route::post("/child/save", "ChildController@save")->middleware(["dispatch", "login.check"]);
-Route::get("/child/list", "ChildController@fetch")->middleware(["dispatch", "login.check"]);
-Route::get("/child/info", "ChildController@get")->middleware(["dispatch", "login.check"]);
+Route::post("/child/save", "ChildController@save")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/child/list", "ChildController@fetch")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/child/info", "ChildController@get")->middleware(["jwt.dispatch", "login.check"]);
 
 //预约卡
-Route::get("/card/fetch", "CardController@fetch")->middleware(["dispatch", "login.check"]);
+Route::get("/card/fetch", "CardController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 
 //店铺
 Route::get("/shop/list", "ShopController@fetch");
 Route::get("/shop/info", "ShopController@get");
 
 //收藏
-Route::post("/collect/create", "CollectController@create")->middleware(["dispatch", "login.check"]);
-Route::post("/collect/cancel", "CollectController@cancel")->middleware(["dispatch", "login.check"]);
-Route::get("/collect/list", "CollectController@fetch")->middleware(["dispatch", "login.check"]);
+Route::post("/collect/create", "CollectController@create")->middleware(["jwt.dispatch", "login.check"]);
+Route::post("/collect/cancel", "CollectController@cancel")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/collect/list", "CollectController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 
 //钱包
-Route::get("/wallet/info", "WalletController@get")->middleware(["dispatch", "login.check"]);
-Route::post("/wallet/withdraw", "WalletController@withdraw")->middleware(["dispatch", "login.check"]);
+Route::get("/wallet/info", "WalletController@get")->middleware(["jwt.dispatch", "login.check"]);
+Route::post("/wallet/withdraw", "WalletController@withdraw")->middleware(["jwt.dispatch", "login.check"]);
