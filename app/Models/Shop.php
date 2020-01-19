@@ -81,6 +81,11 @@ class Shop extends Model
         return $this->imageHandle($value);
     }
 
+    /**
+     * 获取距离
+     * @param $value
+     * @return string
+     */
     public function getDistanceAttribute($value)
     {
         if ($value > 100000) {
