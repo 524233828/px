@@ -77,6 +77,13 @@ class CollectController extends Controller
 
         $collect_res = Collect::query()->where([["uid", "=", User::$info['id']], ["type", "=", $type]])->first();
 
+        if ($type == 1) {
+            $collect_res->shop;
+        } else {
+            $collect_res->classes;
+        }
+
+
         if(!$collect_res){
             return $this->response([], 2002, "暂无收藏");
         }

@@ -24,6 +24,7 @@ Route::group([
     $router->resource("/user", 'UserController');
     $router->resource("/config", 'ConfigController');
     $router->post("/wangeditor/upload", 'WangEditorController@save');
+    $router->resource("/appoint", 'AppointController');
 
 });
 
