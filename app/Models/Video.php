@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Video extends Model
 {
+    use Image;
     protected $table = "px_video";
 
     public const TYPE_SHOP = 1;
@@ -42,13 +43,19 @@ class Video extends Model
         }
     }
 
-    public static function getBusiness($type){
-        if($type == self::TYPE_SHOP){
+    public static function getBusiness($type)
+    {
+        if ($type == self::TYPE_SHOP) {
             $business = Shop::query()->get(["id", "name as text"]);
-        }else{
-            $business = Classes::query()->get(["id","name as text"]);
+        } else {
+            $business = Classes::query()->get(["id", "name as text"]);
         }
 
         return $business;
+    }
+
+    public function getPathAttribute($value)
+    {
+        return $this->imageHandle($value);
     }
 }
