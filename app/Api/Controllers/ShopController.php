@@ -84,6 +84,8 @@ class ShopController extends Controller
 
         $shop->classes;
 
+        $shop->video;
+
         $shop->computeCommentsInfo();
 
         return $this->response($shop);

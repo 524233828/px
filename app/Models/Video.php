@@ -34,13 +34,13 @@ class Video extends Model
         self::TYPE_CLASS => "课程",
     ];
 
-    public function business()
+    public function shop()
     {
-        if ($this->type == self::TYPE_SHOP) {
-            return $this->belongsTo(Shop::class, "business_id", "id");
-        } else {
-            return $this->belongsTo(Classes::class, "business_id", "id");
-        }
+        return $this->belongsTo(Shop::class, "business_id", "id");
+    }
+
+    public function classes(){
+        return $this->belongsTo(Classes::class, "business_id", "id");
     }
 
     public static function getBusiness($type)
@@ -54,8 +54,8 @@ class Video extends Model
         return $business;
     }
 
-    public function getPathAttribute($value)
-    {
-        return $this->imageHandle($value);
-    }
+//    public function getPathAttribute($value)
+//    {
+//        return $this->imageHandle($value);
+//    }
 }

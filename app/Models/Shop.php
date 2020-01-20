@@ -37,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $comment_count 评价数
  * @property Collection $comments 评价列表
  * @property ClassCollection $classes 课程列表
+ * @property Collection $video 视频列表
  */
 class Shop extends Model
 {
@@ -75,6 +76,13 @@ class Shop extends Model
     {
         return $this->hasMany(Classes::class, "shop_id", "id");
     }
+
+    public function video()
+    {
+        return $this->hasMany(Video::class, "business_id", "id")
+            ->where("type", "=", Video::TYPE_SHOP);
+    }
+
 
     public function getHeadimgUrlAttribute($value)
     {

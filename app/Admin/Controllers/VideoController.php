@@ -92,12 +92,14 @@ class VideoController extends Controller
     {
         return Admin::grid(Video::class, function (Grid $grid) {
 
+
             $grid->column("id","id");
             $grid->column("type","业务类型")->using(Video::$business_type);
             $grid->column("path","地址");
-            $grid->column("business.name","名称");
+            $grid->column("business_id","业务ID");
             $grid->column("created_at","创建时间");
             $grid->column("updated_at","更新时间");
+
 
 
             //允许筛选的项
@@ -118,20 +120,43 @@ class VideoController extends Controller
 
     protected function form()
     {
-        return Admin::form(Video::class, function (Form $form) {
+        $form = Admin::form(Video::class, function (Form $form) {
 
             $form->display('id',"id");
             $form->select('type',"业务类型")
                 ->options(Video::$business_type)
                 ->load('business_id', "/admin/business");
-            $form->file('path',"地址")
-                ->disk("oss");
+            $form->text('path',"地址");
             $form->select('business_id',"业务对象")->rules("required|integer");
             $form->datetime('created_at',"创建时间");
             $form->datetime('updated_at',"更新时间");
 
-
         });
+
+        $script = <<<SCRIPT
+        var type = $(".type")
+        var target = $(type).closest('.fields-group').find(".business_id");
+        $.get("/admin/business",{q : $(".type").val()}, function (data) {
+            target.find("option").remove();
+            var selected_value = $(target).data("value");
+            $(target).select2({
+                placeholder: {"id":"","text":"\u9009\u62e9"},
+                allowClear: true,
+                data: $.map(data, function (d) {
+                    d.id = d.id;
+                    d.text = d.text;
+                    if(d.id == selected_value){
+                        d.selected = true;
+                    }
+                    return d;
+                })
+            }).trigger('change');
+            
+        });
+SCRIPT;
+
+        Admin::script($script);
+        return  $form;
     }
 
     public function getBusiness(Request $request)

@@ -89,6 +89,8 @@ class ClassController extends Controller
 
         $class->shop;
 
+        $class->video;
+
         if (!empty($latitude) && !empty($longitude)) {
             $class->shop->computeDistance($latitude, $longitude);
         }

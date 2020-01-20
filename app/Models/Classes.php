@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $category_id 分类ID
  * @property Shop $shop 店铺
  * @property Collection $comments 评价列表
+ * @property Collection $video 视频列表
  */
 class Classes extends Model
 {
@@ -50,6 +51,12 @@ class Classes extends Model
     public function getPicAttribute($value)
     {
         return $this->imageHandle($value);
+    }
+
+    public function video()
+    {
+        return $this->hasMany(Video::class, "business_id", "id")
+            ->where("type", "=", Video::TYPE_CLASS);
     }
 
     public function newCollection(array $models = [])
