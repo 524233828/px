@@ -10,11 +10,15 @@ namespace App\Admin\Controllers;
 
 use App\Models\Appoint;
 use App\Http\Controllers\Controller;
+use Encore\Admin\Auth\Database\Administrator;
+use Encore\Admin\Auth\Database\Role;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class AppointController extends Controller
 {
@@ -90,18 +94,24 @@ class AppointController extends Controller
     public function grid()
     {
         return Admin::grid(Appoint::class, function (Grid $grid) {
-            $grid->disableCreateButton();
 
-            $grid->actions(function (Grid\Displayers\Actions $actions) {
-                $actions->disableEdit();
-                $actions->disableView();
-                $actions->disableDelete();
-            });
+            /** @var Administrator $administrator */
+            $administrator = Admin::user();
+            /** @var Collection $roles */
+            $roles = $administrator->roles;
+
+            $role_ids = array_column($roles->toArray(), "id");
+            if(in_array(2, $role_ids)){
+                $grid->model()->where("admin_id", "=", $administrator->id);
+            }
+
+            $grid->disableCreateButton();
+            $grid->disableActions(true);
             $grid->column("id","id")->sortable();
             $grid->column("shop_id","商户id")->sortable();
             $grid->column("uid","用户id");
             $grid->column("class_id","课程id")->sortable();
-            $grid->column("status","预约状态 待上课 已完成");
+            $grid->column("status","预约状态");
             $grid->column("created_at","created_at")->sortable();
             $grid->column("updated_at","updated_at")->sortable();
             $grid->column("card_id","卡券ID");

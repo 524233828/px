@@ -30,6 +30,10 @@ class Withdraw extends Model
         "remark"
     ];
 
+    public function user(){
+        return $this->belongsTo(PxUser::class, "uid", "id");
+    }
+
     public static function getWithdrawSn()
     {
         return (string)(microtime(true) * 10000);

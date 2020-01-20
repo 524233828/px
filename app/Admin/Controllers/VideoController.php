@@ -3,20 +3,21 @@
 /**
  * Created by JoseChan/Admin/ControllerCreator.
  * User: admin
- * DateTime: 2020-01-20 10:42:28
+ * DateTime: 2020-01-20 11:56:02
  */
 
 namespace App\Admin\Controllers;
 
-use App\Models\Wallet;
+use App\Models\Video;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Illuminate\Http\Request;
 
-class WalletController extends Controller
+class VideoController extends Controller
 {
 
     use HasResourceActions;
@@ -26,14 +27,14 @@ class WalletController extends Controller
         return Admin::content(function (Content $content) {
 
             //页面描述
-            $content->header('用户钱包');
+            $content->header('视频管理');
             //小标题
-            $content->description('用户钱包');
+            $content->description('视频管理');
 
             //面包屑导航，需要获取上层所有分类，根分类固定
             $content->breadcrumb(
                 ['text' => '首页', 'url' => '/'],
-                ['text' => '用户钱包', 'url' => '/wallet']
+                ['text' => '视频管理', 'url' => '/video']
             );
 
             $content->body($this->grid());
@@ -50,13 +51,13 @@ class WalletController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('用户钱包');
+            $content->header('视频管理');
             $content->description('编辑');
 
             //面包屑导航，需要获取上层所有分类，根分类固定
             $content->breadcrumb(
                 ['text' => '首页', 'url' => '/'],
-                ['text' => '用户钱包', 'url' => '/wallet'],
+                ['text' => '视频管理', 'url' => '/video'],
                 ['text' => '编辑']
             );
 
@@ -73,13 +74,13 @@ class WalletController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('用户钱包');
+            $content->header('视频管理');
             $content->description('新增');
 
             //面包屑导航，需要获取上层所有分类，根分类固定
             $content->breadcrumb(
                 ['text' => '首页', 'url' => '/'],
-                ['text' => '用户钱包', 'url' => '/wallet'],
+                ['text' => '视频管理', 'url' => '/video'],
                 ['text' => '新增']
             );
 
@@ -89,15 +90,14 @@ class WalletController extends Controller
 
     public function grid()
     {
-        return Admin::grid(Wallet::class, function (Grid $grid) {
+        return Admin::grid(Video::class, function (Grid $grid) {
 
-            $grid->disableCreateButton();
-            $grid->disableActions();
             $grid->column("id","id");
-            $grid->column("uid","用户ID");
-            $grid->column("amount","余额");
-            $grid->column("freeze_amount","冻结金额");
-            $grid->column("updated_at","更新时间")->sortable();
+            $grid->column("type","业务类型")->using(Video::$business_type);
+            $grid->column("path","地址");
+            $grid->column("business.name","名称");
+            $grid->column("created_at","创建时间");
+            $grid->column("updated_at","更新时间");
 
 
             //允许筛选的项
@@ -105,7 +105,9 @@ class WalletController extends Controller
             //TODO: 使用模糊查询必须通过搜索引擎，此处请扩展搜索引擎
             $grid->filter(function (Grid\Filter $filter){
 
-                $filter->equal("uid","用户ID");
+                $filter->equal("id","id");
+                $filter->equal("type","业务类型");
+                $filter->equal("business_id","业务ID");
 
 
             });
@@ -116,16 +118,26 @@ class WalletController extends Controller
 
     protected function form()
     {
-        return Admin::form(Wallet::class, function (Form $form) {
+        return Admin::form(Video::class, function (Form $form) {
 
             $form->display('id',"id");
-            $form->text('uid',"用户ID")->rules("required|integer");
-            $form->text('amount',"余额")->rules("required");
-            $form->text('freeze_amount',"冻结金额")->rules("required");
+            $form->select('type',"业务类型")
+                ->options(Video::$business_type)
+                ->load('business_id', "/admin/business");
+            $form->file('path',"地址")
+                ->disk("oss");
+            $form->select('business_id',"业务对象")->rules("required|integer");
             $form->datetime('created_at',"创建时间");
             $form->datetime('updated_at',"更新时间");
 
 
         });
+    }
+
+    public function getBusiness(Request $request)
+    {
+        $type = $request->get("q", 1);
+
+        return Video::getBusiness($type);
     }
 }

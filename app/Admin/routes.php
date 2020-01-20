@@ -25,7 +25,11 @@ Route::group([
     $router->resource("/config", 'ConfigController');
     $router->post("/wangeditor/upload", 'WangEditorController@save');
     $router->resource("/appoint", 'AppointController');
+    $router->resource("/bills", 'BillController');
+    $router->resource("/video", 'VideoController');
+    $router->get("/business", 'VideoController@getBusiness');
 
 });
+
 
 

@@ -46,6 +46,10 @@ class Bill extends Model
 
     protected $fillable = ["bill_no", "out_trade_type", "out_trade_no", "type", "money", "remark", "uid"];
 
+    public function user(){
+        return $this->belongsTo(PxUser::class, "uid", "id");
+    }
+
     /**
      * 生成订单流水号
      * @return string
