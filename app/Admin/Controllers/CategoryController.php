@@ -93,6 +93,7 @@ class CategoryController extends Controller
 
             $grid->column("id","id")->sortable();
             $grid->column("name","分类名称");
+            $grid->column("img_url","img_url");
             $grid->column("created_at","created_at");
 
 
@@ -116,6 +117,7 @@ class CategoryController extends Controller
 
             $form->display('id',"id");
             $form->text('name',"分类名称")->rules("required|string");
+            $form->image("img_url", "img_url");
             $form->select('parent_id',"上级分类")->options($this->getCategories())->default(0);
             $form->select("status","状态")->options([0=>"冻结",1=>"启用"])->default(1);
 

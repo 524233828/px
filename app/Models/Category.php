@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    use Image;
     protected $table = "px_category";
 
     public static function getSelector()
@@ -19,5 +20,10 @@ class Category extends Model
         }
 
         return $category_list;
+    }
+
+    public function getImgUrlAttribute($value)
+    {
+        return $this->imageHandle($value);
     }
 }
