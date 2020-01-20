@@ -33,7 +33,7 @@ class RegisterHandler extends AbstractHandler
             //创建用户钱包
             $wallet = new Wallet([
                 "uid" => $user->id,
-                "ammount" => 0,
+                "amount" => 0,
                 "freeze_amount" => 0
             ]);
 

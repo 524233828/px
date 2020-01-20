@@ -64,6 +64,8 @@ class ClassController extends Controller
 
         $classes->computeCommentsInfo();
 
+        $classes->getAgeInfo();
+
         return $this->response(["list" => $classes]);
     }
 
@@ -95,6 +97,7 @@ class ClassController extends Controller
             $class->shop->computeDistance($latitude, $longitude);
         }
 
+        $class->setAgeInfo();
         return $this->response($class);
     }
 

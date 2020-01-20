@@ -58,5 +58,11 @@ class ClassCollection extends Collection
         });
     }
 
+    public function getAgeInfo(){
+        return $this->map(function (Classes $item, $key) use (&$shop_ids) {
+            $item->setAgeInfo();
+        });
+    }
+
 
 }

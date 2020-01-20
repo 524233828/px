@@ -100,8 +100,6 @@ class VideoController extends Controller
             $grid->column("created_at","创建时间");
             $grid->column("updated_at","更新时间");
 
-
-
             //允许筛选的项
             //筛选规则不允许用like，且搜索字段必须为索引字段
             //TODO: 使用模糊查询必须通过搜索引擎，此处请扩展搜索引擎

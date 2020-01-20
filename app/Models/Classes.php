@@ -28,6 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at 创建时间
  * @property string $updated_at 更新时间
  * @property integer $category_id 分类ID
+ * @property integer $start_age 最小适龄
+ * @property integer $end_age 最大适龄
  * @property Shop $shop 店铺
  * @property Collection $comments 评价列表
  * @property Collection $video 视频列表
@@ -74,6 +76,19 @@ class Classes extends Model
         $this->setAttribute("comment_star", $this->comments->avg("star"));
 
         return $this;
+    }
+
+    public function setAgeInfo()
+    {
+        if ($this->start_age == 0 && $this->end_age == 0) {
+            $this->setAttribute("age_info", "适合所有人群");
+        }else if($this->start_age == 0){
+            $this->setAttribute("age_info", "适合{$this->end_age}岁以下人群");
+        }else if($this->end_age == 0){
+            $this->setAttribute("age_info", "适合{$this->start_age}岁以上人群");
+        }else{
+            $this->setAttribute("age_info", "适合{$this->start_age}岁至{$this->end_age}岁人群");
+        }
     }
 
 }
