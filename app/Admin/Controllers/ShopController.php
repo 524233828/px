@@ -202,6 +202,7 @@ class ShopController extends Controller
             $form->select('admin_id', "所属商户")->options($this->fetchBusiness())->rules("notIn:0");
             $form->text('name', "商店名称")->rules("required|string");
             $form->text('intro', "简介");
+            $form->text('tel', "联系电话");
             $form->editor('desc', "详情");
             $form->datetime('created_at', "创建时间");
             $form->datetime('updated_at', "最近更新时间");
