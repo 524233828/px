@@ -15,6 +15,7 @@ use App\Models\Shop;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
+use JoseChan\Pager\Pager;
 
 /**
  * 课程
@@ -46,6 +47,10 @@ class ClassController extends Controller
         $latitude = $request->get("latitude");
         $longitude = $request->get("longitude");
         $keyword = $request->get("keyword", null);
+        $page = $request->get("page", 1);
+        $size = $request->get("size", 20);
+
+        $pager = new Pager($page, $size);
 
         $where = [
             ["category_id", "=", $category],
@@ -66,7 +71,11 @@ class ClassController extends Controller
 
         $classes->getAgeInfo();
 
-        return $this->response(["list" => $classes]);
+        $count = $classes->count();
+
+        $classes = $classes->slice($pager->getFirstIndex(), $size);
+
+        return $this->response(["list" => $classes, "meta" => $pager->getPager($count)]);
     }
 
     /**

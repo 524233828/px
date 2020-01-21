@@ -13,6 +13,7 @@ use App\Collections\ShopCollection;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
+use JoseChan\Pager\Pager;
 
 /**
  * 店铺相关
@@ -33,7 +34,10 @@ class ShopController extends Controller
         $longitude = $request->get("longitude", null);
         $keyword = $request->get("keyword", null);
         $sort = $request->get("sort", Shop::SORT_NOT);
+        $page = $request->get("page", 1);
+        $size = $request->get("size", 20);
 
+        $pager = new Pager($page, $size);
         $where = [];
 
         if (!empty($keyword)) {
@@ -53,7 +57,11 @@ class ShopController extends Controller
             $shops->computeDistance($latitude, $longitude);
         }
 
-        return $this->response(["list" => $shops]);
+        $count = $shops->count();
+
+        $shops = $shops->slice($pager->getFirstIndex(), $size);
+
+        return $this->response(["list" => $shops, "meta" => $pager->getPager($count)]);
     }
 
     /**
