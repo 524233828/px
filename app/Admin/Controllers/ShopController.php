@@ -204,8 +204,6 @@ class ShopController extends Controller
             $form->text('intro', "简介");
             $form->text('tel', "联系电话");
             $form->editor('desc', "详情");
-            $form->datetime('created_at', "创建时间");
-            $form->datetime('updated_at', "最近更新时间");
             $form->image('headimg_url', "店铺头图")->move("shops/images");
             $form->select("status", "状态")->options([0 => "冻结", 1 => "启用"])->default(1);
 
