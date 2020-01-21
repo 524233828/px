@@ -51,12 +51,17 @@ class ShopCollection extends Collection
      * @param $longitude
      * @return ShopCollection
      */
-    public function sortSynthetic($latitude, $longitude)
+    public function sortSynthetic($latitude = null, $longitude = null)
     {
         return $this->sortByDesc(function (Shop $item, $key) use ($latitude, $longitude) {
             //综合排序权重目前分数最大值5分，距离最大值默认10000m
             //权重暂时用（分数*2000-距离）计算，越大权重越高
-            return $item->computeCommentsInfo()->comment_star * 2000 - $item->computeDistance($latitude, $longitude);
+            if(!empty($latitude) && !empty($longitude)){
+                $distance = $item->computeDistance($latitude, $longitude);
+                return $item->computeCommentsInfo()->comment_star * 2000 - $distance;
+            }
+
+            return $item->computeCommentsInfo()->comment_star;
         });
     }
 
@@ -85,9 +90,9 @@ class ShopCollection extends Collection
             throw new \Exception("sort type invalid");
         }
 
-        if (in_array($sort_type, [Shop::SORT_DISTANCE, Shop::SORT_SYNTHETIC])) {
+        if (in_array($sort_type, [Shop::SORT_DISTANCE])) {
             if (empty($latitude) || empty($longitude)) {
-                throw new \Exception("综合排序或按距离排序需要当前经纬度！");
+                throw new \Exception("按距离排序需要当前经纬度！");
             }
         }
 

@@ -27,7 +27,9 @@ Route::group([
     $router->resource("/appoint", 'AppointController');
     $router->resource("/bills", 'BillController');
     $router->resource("/video", 'VideoController');
+    $router->resource("/area", 'ChinaAreaController');
     $router->get("/business", 'VideoController@getBusiness');
+
 
 });
 

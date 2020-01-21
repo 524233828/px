@@ -37,11 +37,17 @@ class ShopController extends Controller
         $page = $request->get("page", 1);
         $size = $request->get("size", 20);
 
+        $district_id = $request->get("area_code", null);
+
         $pager = new Pager($page, $size);
         $where = [];
 
         if (!empty($keyword)) {
             $where[] = ["name", "=", $keyword];
+        }
+
+        if(!empty($district_id)){
+            $where[] = ["district_id", "=", $district_id];
         }
 
         /** @var ShopCollection $shops */

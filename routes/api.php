@@ -64,3 +64,6 @@ Route::get("/collect/list", "CollectController@fetch")->middleware(["jwt.dispatc
 //钱包
 Route::get("/wallet/info", "WalletController@get")->middleware(["jwt.dispatch", "login.check"]);
 Route::post("/wallet/withdraw", "WalletController@withdraw")->middleware(["jwt.dispatch", "login.check"]);
+
+//地区
+Route::get("/area", "AreaController@getAreaByParentArea");
