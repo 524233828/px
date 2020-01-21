@@ -218,7 +218,7 @@ class ShopController extends Controller
                 'district' => 440203,
             ]);
 
-            $form->text('详细地址', '地址');
+            $form->text('position', '详细地址');
             /** @var Latlong $map */
             $form->latlong('latitude', 'longitude', '位置')->default(['lat' => 24.8109, 'lng' => 113.5974]);
 
