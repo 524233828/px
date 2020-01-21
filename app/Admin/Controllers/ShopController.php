@@ -116,92 +116,93 @@ class ShopController extends Controller
     protected function form()
     {
 
-        Admin::script(
-            '
-        $("#search-latitudelongitude").on("keyup", null, function (e) {
-            let $this = $(this);
-            let $val = $this.val();
-            $("input[name=\'position\']").val($val)
-        });
-        
-        $("#search-latitudelongitude").on("change", null, function (e) {
-            let $this = $(this);
-            let $val = $this.val();
-            $("input[name=\'position\']").val($val)
-        });
-        
-        $("select[name=\'province_id\']").on("change", null, function(e) {
-        
-            let province_id = "";
-            let city_id = "";
-            let district_id = "";
-            if($("select[name=\'province_id\']").find("option:selected").val() != ""){
-                province_id = $("select[name=\'province_id\']").find("option:selected").text()
-            }
-            
-            if($("select[name=\'city_id\']").find("option:selected").val() != ""){
-                city_id = $("select[name=\'city_id\']").find("option:selected").text()
-            }
-            
-            if($("select[name=\'district_id\']").find("option:selected").val() != ""){
-                district_id = $("select[name=\'district_id\']").find("option:selected").text()
-            }
-//            qq.maps.SearchService().search(province_id + city_id + district_id);
-            
-            $("#search-latitudelongitude").val(province_id + city_id + district_id);
-//            $(".btn.btn-info.btn-flat").trigger("click");
-        });
-        
-        $("select[name=\'city_id\']").on("change", null, function(e) {
-        
-            let province_id = "";
-            let city_id = "";
-            let district_id = "";
-            if($("select[name=\'province_id\']").find("option:selected").val() != ""){
-                province_id = $("select[name=\'province_id\']").find("option:selected").text()
-            }
-            
-            if($("select[name=\'city_id\']").find("option:selected").val() != ""){
-                city_id = $("select[name=\'city_id\']").find("option:selected").text()
-            }
-            
-            if($("select[name=\'district_id\']").find("option:selected").val() != ""){
-                district_id = $("select[name=\'district_id\']").find("option:selected").text()
-            }
-            
-            $("#search-latitudelongitude").val(province_id + city_id + district_id);
-//            $(".btn.btn-info.btn-flat").trigger("click");
-        });
-        
-        $("select[name=\'district_id\']").on("change", null, function(e) {
-            let province_id = "";
-            let city_id = "";
-            let district_id = "";
-            if($("select[name=\'province_id\']").find("option:selected").val() != ""){
-                province_id = $("select[name=\'province_id\']").find("option:selected").text()
-            }
-            
-            if($("select[name=\'city_id\']").find("option:selected").val() != ""){
-                city_id = $("select[name=\'city_id\']").find("option:selected").text()
-            }
-            
-            if($("select[name=\'district_id\']").find("option:selected").val() != ""){
-                district_id = $("select[name=\'district_id\']").find("option:selected").text()
-            }
-            
-            $("#search-latitudelongitude").val(province_id + city_id + district_id);
-//            $(".btn.btn-info.btn-flat").trigger("click");
-        });
-        
-'
-        );
+//        Admin::script(
+//            '
+//        $("#search-latitudelongitude").on("keyup", null, function (e) {
+//            let $this = $(this);
+//            let $val = $this.val();
+//            $("input[name=\'position\']").val($val)
+//        });
+//
+//        $("#search-latitudelongitude").on("change", null, function (e) {
+//            let $this = $(this);
+//            let $val = $this.val();
+//            $("input[name=\'position\']").val($val)
+//        });
+//
+//        $("select[name=\'province_id\']").on("change", null, function(e) {
+//
+//            let province_id = "";
+//            let city_id = "";
+//            let district_id = "";
+//            if($("select[name=\'province_id\']").find("option:selected").val() != ""){
+//                province_id = $("select[name=\'province_id\']").find("option:selected").text()
+//            }
+//
+//            if($("select[name=\'city_id\']").find("option:selected").val() != ""){
+//                city_id = $("select[name=\'city_id\']").find("option:selected").text()
+//            }
+//
+//            if($("select[name=\'district_id\']").find("option:selected").val() != ""){
+//                district_id = $("select[name=\'district_id\']").find("option:selected").text()
+//            }
+////            qq.maps.SearchService().search(province_id + city_id + district_id);
+//
+//            $("#search-latitudelongitude").val(province_id + city_id + district_id);
+////            $(".btn.btn-info.btn-flat").trigger("click");
+//        });
+//
+//        $("select[name=\'city_id\']").on("change", null, function(e) {
+//
+//            let province_id = "";
+//            let city_id = "";
+//            let district_id = "";
+//            if($("select[name=\'province_id\']").find("option:selected").val() != ""){
+//                province_id = $("select[name=\'province_id\']").find("option:selected").text()
+//            }
+//
+//            if($("select[name=\'city_id\']").find("option:selected").val() != ""){
+//                city_id = $("select[name=\'city_id\']").find("option:selected").text()
+//            }
+//
+//            if($("select[name=\'district_id\']").find("option:selected").val() != ""){
+//                district_id = $("select[name=\'district_id\']").find("option:selected").text()
+//            }
+//
+//            $("#search-latitudelongitude").val(province_id + city_id + district_id);
+////            $(".btn.btn-info.btn-flat").trigger("click");
+//        });
+//
+//        $("select[name=\'district_id\']").on("change", null, function(e) {
+//            let province_id = "";
+//            let city_id = "";
+//            let district_id = "";
+//            if($("select[name=\'province_id\']").find("option:selected").val() != ""){
+//                province_id = $("select[name=\'province_id\']").find("option:selected").text()
+//            }
+//
+//            if($("select[name=\'city_id\']").find("option:selected").val() != ""){
+//                city_id = $("select[name=\'city_id\']").find("option:selected").text()
+//            }
+//
+//            if($("select[name=\'district_id\']").find("option:selected").val() != ""){
+//                district_id = $("select[name=\'district_id\']").find("option:selected").text()
+//            }
+//
+//            $("#search-latitudelongitude").val(province_id + city_id + district_id);
+////            $(".btn.btn-info.btn-flat").trigger("click");
+//        });
+//
+//'
+//        );
         return Admin::form(Shop::class, function (Form $form) {
 
 
             $form->display('id', "id");
             $form->select('admin_id', "所属商户")->options($this->fetchBusiness())->rules("notIn:0");
             $form->text('name', "商店名称")->rules("required|string");
-            $form->editor('desc', "简介");
+            $form->text('intro', "简介");
+            $form->editor('desc', "详情");
             $form->datetime('created_at', "创建时间");
             $form->datetime('updated_at', "最近更新时间");
             $form->image('headimg_url', "店铺头图")->move("shops/images");
@@ -217,9 +218,9 @@ class ShopController extends Controller
                 'district' => 440203,
             ]);
 
+            $form->text('详细地址', '地址');
             /** @var Latlong $map */
             $form->latlong('latitude', 'longitude', '位置')->default(['lat' => 24.8109, 'lng' => 113.5974]);
-            $form->hidden('position', '地址');
 
 //            $form->text('latitude',"纬度")->rules("required|string");
 //            $form->text('longitude',"经度")->rules("required|string");
