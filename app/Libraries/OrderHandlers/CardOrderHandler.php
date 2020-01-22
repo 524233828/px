@@ -38,14 +38,14 @@ class CardOrderHandler extends AbstractOrderHandler
     /**
      * 创建业务相关记录
      * @param OrderModel $order
-     * @param $order_date
+     * @param $order_data
      * @return CardOrder|mixed
      * @throws \Exception
      */
-    public function create(OrderModel $order, $order_date)
+    public function create(OrderModel $order, $order_data)
     {
         //获取常用人信息
-        $child_id = $order_date['child_id'];
+        $child_id = $order_data['child_id'];
 
         /** @var Child $child */
         $child = Child::find($child_id);

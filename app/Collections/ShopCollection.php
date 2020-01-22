@@ -131,7 +131,7 @@ class ShopCollection extends Collection
      */
     public function computeCommentsInfo()
     {
-        return $this->map(function (Shop $item, $key) use (&$shop_ids) {
+        return $this->map(function (Shop $item, $key) {
             $item->computeCommentsInfo();
         });
     }
