@@ -25,7 +25,7 @@ class CollectCollection extends Collection
      */
     public function getShops()
     {
-        return $this->map(function (Collect $item, $key) use (&$business_ids) {
+        return $this->map(function (Collect $item, $key) {
             $item->shop;
         });
     }
@@ -35,7 +35,7 @@ class CollectCollection extends Collection
      */
     public function getClasses()
     {
-        return $this->map(function (Collect $item, $key) use (&$business_ids) {
+        return $this->map(function (Collect $item, $key){
             $item->classes;
         });
     }
