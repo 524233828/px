@@ -24,7 +24,7 @@ Route::get("/banners", "BannerController@fetch");
 // 课程
 Route::get("/class/list", "ClassController@fetch");
 Route::get("/class/list/byShop", "ClassController@fetchByShopId");
-Route::get("/class/info", "ClassController@get");
+Route::get("/class/info", "ClassController@get")->middleware(["jwt.dispatch", "login.check"]);
 
 //预约
 Route::post("/class/appoint", "AppointController@create")->middleware(["jwt.dispatch", "login.check"]);
@@ -57,7 +57,7 @@ Route::get("/card/fetch", "CardController@fetch")->middleware(["jwt.dispatch", "
 
 //店铺
 Route::get("/shop/list", "ShopController@fetch");
-Route::get("/shop/info", "ShopController@get");
+Route::get("/shop/info", "ShopController@get")->middleware(["jwt.dispatch", "login.check"]);
 
 //收藏
 Route::post("/collect/create", "CollectController@create")->middleware(["jwt.dispatch", "login.check"]);

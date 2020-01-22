@@ -172,5 +172,14 @@ class Shop extends Model
 
     public function isCollect(PxUser $user)
     {
+        $count = Collect::query()->where([
+            ["type", "=", Collect::TYPE_SHOP],
+            ["business_id", "=", $this->id],
+            ["uid", "=", $user->id]
+        ])->count();
+
+        $this->setAttribute("is_collect", $count);
+
+        return $this;
     }
 }

@@ -16,6 +16,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\Pager\Pager;
+use JoseChan\UserLogin\Constants\User;
 
 /**
  * 课程
@@ -107,6 +108,8 @@ class ClassController extends Controller
         }
 
         $class->setAgeInfo();
+
+        $class->isCollect(User::$info);
         return $this->response($class);
     }
 

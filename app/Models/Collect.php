@@ -25,6 +25,10 @@ use App\Collections\CollectCollection;
  */
 class Collect extends Model
 {
+
+    public const TYPE_SHOP = 1;
+    public const TYPE_CLASS = 2;
+
     protected $table = "px_collect";
 
     protected $fillable = ["uid", "business_id", "type"];

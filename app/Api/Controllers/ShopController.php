@@ -14,6 +14,7 @@ use App\Models\Shop;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\Pager\Pager;
+use JoseChan\UserLogin\Constants\User;
 
 /**
  * 店铺相关
@@ -101,6 +102,8 @@ class ShopController extends Controller
         $shop->video;
 
         $shop->computeCommentsInfo();
+
+        $shop->isCollect(User::$info);
 
         return $this->response($shop);
     }
