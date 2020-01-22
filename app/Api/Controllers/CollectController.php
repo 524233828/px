@@ -8,6 +8,7 @@
 
 namespace App\Api\Controllers;
 
+use App\Collections\CollectCollection;
 use App\Models\Collect;
 use JoseChan\Base\Api\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -74,19 +75,18 @@ class CollectController extends Controller
         ]);
         $type = $request->get("type");
 
+        /** @var CollectCollection $collects 获取收藏 */
+        $collects = Collect::query()->where([["uid", "=", User::$info['id']], ["type", "=", $type]])->get();
 
-        $collect_res = Collect::query()->where([["uid", "=", User::$info['id']], ["type", "=", $type]])->first();
-
-        if(!$collect_res){
+        if(!$collects){
             return $this->response([], 2002, "暂无收藏");
         }
         
         if ($type == 1) {
-            $collect_res->shop;
+            $collects->getShops();
         } else {
-            $collect_res->classes;
+            $collects->getClasses();
         }
-
-        return $this->response($collect_res->toArray());
+        return $this->response($collects->toArray());
     }
 }
