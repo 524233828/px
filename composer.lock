@@ -1385,16 +1385,16 @@
         },
         {
             "name": "jose-chan/user-login",
-            "version": "v0.1.1",
+            "version": "v0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ILoveJoseM/user-login.git",
-                "reference": "e88656ebbf22f11102cff072eff8a13edd57a51f"
+                "reference": "b22ef48466517d638aab635c57ca1ab3ae0cc9bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ILoveJoseM/user-login/zipball/e88656ebbf22f11102cff072eff8a13edd57a51f",
-                "reference": "e88656ebbf22f11102cff072eff8a13edd57a51f",
+                "url": "https://api.github.com/repos/ILoveJoseM/user-login/zipball/b22ef48466517d638aab635c57ca1ab3ae0cc9bf",
+                "reference": "b22ef48466517d638aab635c57ca1ab3ae0cc9bf",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1446,7 +1446,7 @@
                 "laravel",
                 "login"
             ],
-            "time": "2020-01-19T03:13:24+00:00"
+            "time": "2020-01-22T02:23:09+00:00"
         },
         {
             "name": "laravel-admin-ext/china-distpicker",

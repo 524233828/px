@@ -43,6 +43,7 @@ Route::post("/order/pay", "OrderController@pay")->middleware(["jwt.dispatch", "l
 //用户
 Route::get("/user/info", "UserController@info")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/user/code", "UserController@code")->middleware(["jwt.dispatch", "login.check"]);
+Route::post("/user/update", "UserController@update")->middleware(["jwt.dispatch", "login.check"]);
 
 //常用人
 Route::post("/child/save", "ChildController@save")->middleware(["jwt.dispatch", "login.check"]);
