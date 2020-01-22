@@ -14,6 +14,7 @@ use App\Models\Classes;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
+use JoseChan\Pager\Pager;
 use JoseChan\UserLogin\Constants\User;
 
 /**
@@ -51,7 +52,7 @@ class CommentController extends Controller
             ["uid", "=", User::$info['id']],
         ]);
 
-        if(!$appoint){
+        if (!$appoint) {
             return $this->response([], 4001, "您未购买或预约过该课程");
         }
 
@@ -65,10 +66,45 @@ class CommentController extends Controller
 
         $comment = new Comment($comment_data);
 
-        if($comment->save()){
+        if ($comment->save()) {
             return $this->response([]);
-        }else{
+        } else {
             return $this->response([], 4002, "评价失败");
         }
+    }
+
+    public function fetch(Request $request)
+    {
+        $this->validate($request->all(), [
+            "type" => "required|in:1,2",
+            "id" => "required"
+        ]);
+
+        $type = $request->get("type");
+        $id = $request->get("id");
+        $page = $request->get("page", 1);
+        $size = $request->get("size", 20);
+
+        $where = [];
+        if($type == 1){
+            $where[] = ["shop_id", "=", $id];
+        }else{
+            $where[] = ["class_id", "=", $id];
+        }
+
+        $count = Comment::query()->where($where)->count();
+        $pager = new Pager($page, $size);
+
+        if($count == 0){
+            return $this->response(["list"=>[], "meta" => $pager->getPager($count)]);
+        }
+
+        $comment = Comment::query()->where($where)->offset($pager->getFirstIndex())->limit($size)->get();
+
+        $comment->map(function ($item){
+            $item->user;
+        });
+
+        return $this->response(["list"=>$comment, "meta" => $pager->getPager($count)]);
     }
 }

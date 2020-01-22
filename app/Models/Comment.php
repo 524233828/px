@@ -15,4 +15,8 @@ class Comment extends Model
 {
     protected $table = "px_comment";
     protected $fillable = ["uid", "class_id", "comment", "star", "shop_id"];
+
+    public function user(){
+        return $this->belongsTo(PxUser::class, "uid", "id");
+    }
 }

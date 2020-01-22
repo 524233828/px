@@ -31,6 +31,7 @@ Route::get("/appoint/list", "AppointController@fetch")->middleware(["jwt.dispatc
 
 //评价
 Route::post("/comment/class", "CommentController@create")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/comment/list", "CommentController@fetch");
 
 // 课程分类
 Route::get("/category", "CategoryController@fetchByParentId");
