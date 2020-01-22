@@ -47,7 +47,7 @@ class Classes extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, "class_id", "id");
+        return $this->hasMany(Comment::class, "class_id", "id")->select(["star"]);
     }
 
     public function getPicAttribute($value)

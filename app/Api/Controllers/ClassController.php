@@ -110,4 +110,36 @@ class ClassController extends Controller
         return $this->response($class);
     }
 
+    public function fetchByShopId(Request $request)
+    {
+        $this->validate($request->all(), [
+            "shop_id" => "required",
+        ]);
+
+        $shop_id = $request->get("shop_id");
+        $page = $request->get("page", 1);
+        $size = $request->get("size", 20);
+
+        $pager = new Pager($page, $size);
+
+        $where[] = ["shop_id", "=", $shop_id];
+
+        $count = Classes::query()->where($where)->count();
+
+        /** @var ClassCollection $classes 获取课程 */
+        $classes = Classes::query()
+            ->where($where)
+            ->offset($pager->getFirstIndex())
+            ->limit($size)
+            ->get();
+
+        $classes->computeCommentsInfo();
+
+        $classes->getAgeInfo();
+
+        $classes = $classes->slice($pager->getFirstIndex(), $size);
+
+        return $this->response(["list" => $classes, "meta" => $pager->getPager($count)]);
+    }
+
 }

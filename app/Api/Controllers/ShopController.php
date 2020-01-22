@@ -54,7 +54,7 @@ class ShopController extends Controller
         $shops = Shop::query()->where($where)->get();
 
         try {
-            $shops->sortShops($sort, $latitude, $longitude)->getClasses()->computeCommentsInfo();
+            $shops->sortShops($sort, $latitude, $longitude)->computeCommentsInfo();
         } catch (\Exception $exception) {
             return $this->response([], 5000, $exception->getMessage());
         }
@@ -96,7 +96,7 @@ class ShopController extends Controller
             $shop->computeDistance($latitude, $longitude);
         }
 
-        $shop->classes;
+//        $shop->classes;
 
         $shop->video;
 

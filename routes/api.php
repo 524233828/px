@@ -23,6 +23,7 @@ Route::get("/banners", "BannerController@fetch");
 
 // 课程
 Route::get("/class/list", "ClassController@fetch");
+Route::get("/class/list/byShop", "ClassController@fetchByShopId");
 Route::get("/class/info", "ClassController@get");
 
 //预约

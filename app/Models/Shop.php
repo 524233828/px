@@ -69,7 +69,7 @@ class Shop extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, "shop_id", "id");
+        return $this->hasMany(Comment::class, "shop_id", "id")->select(["star"]);
     }
 
     public function classes()
