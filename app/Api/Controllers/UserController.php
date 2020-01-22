@@ -11,6 +11,7 @@ namespace App\Api\Controllers;
 
 use App\Models\Image;
 use App\Models\PxUser;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
@@ -34,8 +35,17 @@ class UserController extends Controller
      */
     public function info()
     {
-        /** @var PxUser $info */
-        return $this->response(User::$info->getFrontFields());
+
+        //获取钱包
+        /** @var PxUser $user */
+        $user = User::$info;
+        /** @var Wallet $wallet */
+        $wallet = Wallet::query()->where("uid", "=", $user->id)->first();
+        $return = $user->getFrontFields();
+
+        $return["amount"] = $wallet->amount;
+
+        return $this->response($return);
     }
 
     /**
