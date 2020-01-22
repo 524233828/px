@@ -5,6 +5,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Category
+ * @package App\Models
+ * @property integer $id 名字
+ * @property string $name 名字
+ * @property string $created_at 创建时间
+ * @property string $updated_at 更新时间
+ * @property string $parent_id 父类ID
+ * @property string $status 状态
+ * @property string $img_url 图片
+ */
 class Category extends Model
 {
     use Image;
@@ -25,5 +36,10 @@ class Category extends Model
     public function getImgUrlAttribute($value)
     {
         return $this->imageHandle($value);
+    }
+
+    public function getChildren()
+    {
+        return Category::query()->where("parent_id", "=", $this->parent_id)->get();
     }
 }

@@ -10,6 +10,7 @@ namespace App\Api\Controllers;
 
 
 use App\Collections\ClassCollection;
+use App\Models\Category;
 use App\Models\Classes;
 use App\Models\Shop;
 use Illuminate\Http\JsonResponse;
@@ -55,16 +56,33 @@ class ClassController extends Controller
 
         $where = [];
 
+        $class_builder = Classes::query();
+
         if(!empty($keyword)){
             $where[] = ["name", "=", $keyword];
         }
 
+        $class_builder->where($where);
+
         if(!empty($category)){
-            $where[] = ["category_id", "=", $category];
+            /** @var Category|null $category_obj */
+            $category_obj = Category::query()->find($category);
+
+            if($category_obj){
+                if($category_obj->parent_id == 0){
+                    $children_category = $category_obj->getChildren();
+
+                    $ids = $children_category->keys()->toArray();
+
+                    $class_builder->whereIn("category", $ids);
+                }else{
+                    $class_builder->where("category_id", "=", $category);
+                }
+            }
         }
 
         /** @var ClassCollection $classes 获取课程 */
-        $classes = Classes::query()->where($where)->get();
+        $classes = $class_builder->get();
 
         $classes->sortBy(function (Classes $item, $key) use ($latitude, $longitude) {
             return $item->shop->computeDistance($latitude, $longitude);
