@@ -39,12 +39,12 @@ class ClassController extends Controller
     public function fetch(Request $request)
     {
         $this->validate($request->all(), [
-            "category" => "required",
+//            "category" => "required",
             "latitude" => "required",
             "longitude" => "required",
         ]);
 
-        $category = $request->get("category");
+        $category = $request->get("category", null);
         $latitude = $request->get("latitude");
         $longitude = $request->get("longitude");
         $keyword = $request->get("keyword", null);
@@ -53,12 +53,14 @@ class ClassController extends Controller
 
         $pager = new Pager($page, $size);
 
-        $where = [
-            ["category_id", "=", $category],
-        ];
+        $where = [];
 
         if(!empty($keyword)){
             $where[] = ["name", "=", $keyword];
+        }
+
+        if(!empty($category)){
+            $where[] = ["category_id", "=", $category];
         }
 
         /** @var ClassCollection $classes 获取课程 */
