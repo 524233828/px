@@ -169,4 +169,8 @@ class Shop extends Model
         $this->setAttribute("comment_star", $this->comments->avg("star"));
         return $this;
     }
+
+    public function isCollect(PxUser $user)
+    {
+    }
 }
