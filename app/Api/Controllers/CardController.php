@@ -47,12 +47,18 @@ class CardController extends Controller
                 ["status", "=", 1],
             ])->get();
 
+        $card->map(function (CardOrder $item){
+           $item->setAge();
+        });
+
         if(!$card)
         {
             $card = [];
+        }else{
+            $card = $card->toArray();
         }
 
-        return $this->response(["list" => $card->toArray()]);
+        return $this->response(["list" => $card]);
     }
 
 }

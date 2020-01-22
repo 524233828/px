@@ -9,7 +9,9 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use JoseChan\UserLogin\Constants\User;
 
 class CardOrder extends Model
 {
@@ -20,5 +22,14 @@ class CardOrder extends Model
     public static function getUserUsefulCard()
     {
         CardOrder::query()->where("user_id", "=", User::$info['id']);
+    }
+
+    public function setAge()
+    {
+        $now = new Carbon("now");
+        $child_birth = new Carbon($this->child_birth);
+        $this->setAttribute("age", $now->year - $child_birth->year);
+
+        return $this;
     }
 }
