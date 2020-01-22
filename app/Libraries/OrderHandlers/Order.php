@@ -8,6 +8,7 @@
 
 namespace App\Libraries\OrderHandler;
 
+use App\Libraries\OrderHandlers\ClassOrderHandler;
 use JoseChan\UserLogin\Constants\User;
 use App\Models\Order as OrderModel;
 
@@ -38,7 +39,8 @@ class Order
      * @var array $gateway
      */
     private static $gateway = [
-        self::CARD => CardOrderHandler::class
+        self::CARD => CardOrderHandler::class,
+        self::CLASSES => ClassOrderHandler::class
     ];
 
     /**

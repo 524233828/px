@@ -11,7 +11,10 @@ namespace App\Libraries\OrderHandlers;
 
 use App\Libraries\OrderHandler\AbstractOrderHandler;
 use App\Models\Classes;
+use App\Models\ClassOrder;
 use App\Models\Order as OrderModel;
+use App\Models\PxUser;
+use JoseChan\UserLogin\Constants\User;
 
 class ClassOrderHandler extends AbstractOrderHandler
 {
@@ -34,6 +37,20 @@ class ClassOrderHandler extends AbstractOrderHandler
             throw new \Exception("课程不存在");
         }
 
+        /** @var PxUser $user */
+        $user = User::$info;
+
+        $class_order = new ClassOrder([
+            "user_id" => $user->id,
+            "order_sn" => $order->order_sn,
+            "class_id" => $class_id,
+        ]);
+
+        if(!$class_order->save()){
+            throw new \Exception("生成业务单失败");
+        }
+
+        return $class_order;
     }
 
     public function buySuccess(OrderModel $order)
