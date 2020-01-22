@@ -17,6 +17,7 @@ class Comment extends Model
     protected $fillable = ["uid", "class_id", "comment", "star", "shop_id"];
 
     public function user(){
-        return $this->belongsTo(PxUser::class, "uid", "id");
+        return $this->belongsTo(PxUser::class, "uid", "id")
+            ->select(["id","nickname","headimg_url"]);
     }
 }
