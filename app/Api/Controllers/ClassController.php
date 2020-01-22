@@ -72,9 +72,11 @@ class ClassController extends Controller
                 if($category_obj->parent_id == 0){
                     $children_category = $category_obj->getChildren();
 
-                    $ids = $children_category->keys()->toArray();
+                    if($children_category->isNotEmpty()){
+                        $ids = array_column($children_category->toArray(), "id");
 
-                    $class_builder->whereIn("category", $ids);
+                        $class_builder->whereIn("category_id", $ids);
+                    }
                 }else{
                     $class_builder->where("category_id", "=", $category);
                 }

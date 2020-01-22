@@ -40,6 +40,6 @@ class Category extends Model
 
     public function getChildren()
     {
-        return Category::query()->where("parent_id", "=", $this->parent_id)->get();
+        return Category::query()->where("parent_id", "=", $this->id)->get();
     }
 }
