@@ -89,6 +89,8 @@ class Classes extends Model
         }else{
             $this->setAttribute("age_info", "适合{$this->start_age}岁至{$this->end_age}岁人群");
         }
+
+        return $this;
     }
 
     public function isCollect(PxUser $user)

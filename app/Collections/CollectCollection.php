@@ -26,7 +26,7 @@ class CollectCollection extends Collection
     public function getShops()
     {
         return $this->map(function (Collect $item, $key) {
-            $item->shop;
+            $item->shop->computeCommentsInfo()->classes->getAgeInfo();
         });
     }
 
@@ -36,7 +36,7 @@ class CollectCollection extends Collection
     public function getClasses()
     {
         return $this->map(function (Collect $item, $key){
-            $item->classes;
+            $item->classes->setAgeInfo()->shop->computeCommentsInfo();
         });
     }
 }
