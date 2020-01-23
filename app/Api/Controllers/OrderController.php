@@ -8,7 +8,8 @@
 
 namespace App\Api\Controllers;
 
-use App\Models\Order;
+use App\Libraries\OrderHandler\Order;
+use App\Models\Order as OrderModel;
 use App\Libraries\PaymentHandler\Payment;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
@@ -121,9 +122,9 @@ class OrderController extends Controller
 
         $pager = new Pager($page, $size);
 
-        $count = Order::query()->where($where)->count();
+        $count = OrderModel::query()->where($where)->count();
 
-        $order = Order::query()->where($where)
+        $order = OrderModel::query()->where($where)
             ->offset($pager->getFirstIndex())
             ->limit($size)
             ->get();
