@@ -131,7 +131,7 @@ class OrderController extends Controller
 
 
         if($order->isEmpty()){
-            return $this->response([], 2002, "暂无订单");
+            return $this->response([], 1, "暂无订单");
         }
 
 //        $appoint->map(function(Order $item){

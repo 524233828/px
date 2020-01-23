@@ -113,7 +113,7 @@ class AppointController extends Controller
 
 
         if($appoint->isEmpty()){
-            return $this->response([], 2002, "暂无预约");
+            return $this->response([], 1, "暂无预约");
         }
 
         $appoint->map(function(Appoint $item){
