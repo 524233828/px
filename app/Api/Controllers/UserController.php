@@ -122,5 +122,33 @@ class UserController extends Controller
 
     }
 
+    public function bindCode(Request $request)
+    {
+        $this->validate($request->all(), [
+            "code" => "required"
+        ]);
+
+        $code = (int) $request->get("code");
+
+        if($code == 0){
+            return $this->response([], 6004, "无效邀请码");
+        }
+
+        /** @var PxUser $user */
+        $user = User::$info;
+
+        if($user->pid != 0){
+            return $this->response([], 6005, "已绑定过邀请码");
+        }
+
+        $user->pid = $code;
+
+        if($user->save()){
+            return $this->response([]);
+        }
+
+        return $this->response([], 6005, "绑定邀请码失败");
+    }
+
 
 }
