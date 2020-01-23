@@ -91,4 +91,9 @@ class CardOrderHandler extends AbstractOrderHandler
     {
         return Config::get("card_amount", 100.00);
     }
+
+    public function getInfo($order_data): string
+    {
+        return "平台全场通用预约券";
+    }
 }

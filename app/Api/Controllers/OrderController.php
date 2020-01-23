@@ -8,10 +8,12 @@
 
 namespace App\Api\Controllers;
 
-use App\Libraries\OrderHandler\Order;
+use App\Models\Order;
 use App\Libraries\PaymentHandler\Payment;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
+use JoseChan\Pager\Pager;
+use JoseChan\UserLogin\Constants\User;
 use Runner\NezhaCashier\Cashier;
 
 /**
@@ -109,6 +111,35 @@ class OrderController extends Controller
 
     public function fetch(Request $request)
     {
+        $status = $request->get("status", null);
+        $page = $request->get("page", 1);
+        $size = $request->get("size", 20);
+        $where = [["uid", "=", User::$info['id']]];
+        if(!empty($status)){
+            $where[] = ["status", "=", $status];
+        }
 
+        $pager = new Pager($page, $size);
+
+        $count = Order::query()->where($where)->count();
+
+        $order = Order::query()->where($where)
+            ->offset($pager->getFirstIndex())
+            ->limit($size)
+            ->get();
+
+
+
+        if($order->isEmpty()){
+            return $this->response([], 2002, "暂无订单");
+        }
+
+//        $appoint->map(function(Order $item){
+//            $item->classes;
+//            $item->shop;
+//
+//        });
+
+        return $this->response(["list" => $order, "meta" => $pager->getPager($count)]);
     }
 }

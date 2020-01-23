@@ -79,7 +79,7 @@ class AppointController extends Controller
             "shop_id" => $class->shop_id,
             "uid" => User::$info['id'],
             "class_id" => $class_id,
-            "status" => 0,
+            "status" => 1,
             "card_id" => $card_id,
             "admin_id" => $class->shop->admin_id,
             "appoint_sn" => Appoint::getAppointSn()
@@ -110,7 +110,6 @@ class AppointController extends Controller
             ->offset($pager->getFirstIndex())
             ->limit($size)
             ->get();
-
 
 
         if($appoint->isEmpty()){
