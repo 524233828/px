@@ -141,13 +141,17 @@ class UserController extends Controller
             return $this->response([], 6005, "已绑定过邀请码");
         }
 
+        if($user->id == $code){
+            return $this->response([], 6006, "不能绑定自己的邀请码");
+        }
+
         $user->pid = $code;
 
         if($user->save()){
             return $this->response([]);
         }
 
-        return $this->response([], 6005, "绑定邀请码失败");
+        return $this->response([], 6007, "绑定邀请码失败");
     }
 
 
