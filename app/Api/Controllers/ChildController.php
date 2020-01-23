@@ -76,6 +76,11 @@ class ChildController extends Controller
         $children = Child::where("uid", "=", User::$info['id'])->get();
 
         if ($children->isNotEmpty()) {
+
+            $children->map(function (Child $item){
+                $item->setAge();
+            });
+
             return $this->response(["list" => $children->toArray()]);
         }
 

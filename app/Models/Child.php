@@ -9,6 +9,7 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -29,4 +30,13 @@ class Child extends Model
     protected $table = "px_child";
 
     protected $fillable = ["uid", "name", "tel", "birth", "gender"];
+
+    public function setAge()
+    {
+        $now = new Carbon("now");
+        $child_birth = new Carbon($this->birth);
+        $this->setAttribute("age", $now->year - $child_birth->year);
+
+        return $this;
+    }
 }
