@@ -24,13 +24,25 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at ID
  * @property integer $card_id ID
  * @property integer $admin_id ID
+ * @property Classes $classes ID
+ * @property Shop $shop ID
  */
 class Appoint extends Model
 {
 
     protected $table = "px_appoint";
 
-    protected $fillable = ["shop_id", "uid", "class_id", "status", "card_id", "admin_id"];
+    protected $fillable = ["shop_id", "uid", "class_id", "status", "card_id", "admin_id", "appoint_sn"];
+
+    public function classes()
+    {
+        return $this->belongsTo(Classes::class, "class_id", "id");
+    }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class, "shop_id", "id");
+    }
 
     /**
      * 统计卡券在某商店的预约次数
@@ -53,5 +65,10 @@ class Appoint extends Model
             ["admin_id", "=", $admin_id],
             ["card_id", "=", $card_id],
         ])->count();
+    }
+
+    public static function getAppointSn()
+    {
+        return (string)(microtime(true)*10000);
     }
 }

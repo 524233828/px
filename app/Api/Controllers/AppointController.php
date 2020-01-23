@@ -15,6 +15,7 @@ use App\Models\Classes;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
+use JoseChan\Pager\Pager;
 use JoseChan\UserLogin\Constants\User;
 
 /**
@@ -80,7 +81,8 @@ class AppointController extends Controller
             "class_id" => $class_id,
             "status" => 0,
             "card_id" => $card_id,
-            "admin_id" => $class->shop->admin_id
+            "admin_id" => $class->shop->admin_id,
+            "appoint_sn" => Appoint::getAppointSn()
         ]);
 
         if($appoint->save()){
@@ -90,16 +92,37 @@ class AppointController extends Controller
         return $this->response([], 3004, "预约失败");
     }
 
-    public function fetch()
+    public function fetch(Request $request)
     {
-        $appoint = Appoint::query()->where("uid", "=", User::$info['id'])->first();
-        
-        $appoint->classes;
+        $status = $request->get("status", null);
+        $page = $request->get("page", 1);
+        $size = $request->get("size", 20);
+        $where = [["uid", "=", User::$info['id']]];
+        if(!empty($status)){
+            $where[] = ["status", "=", $status];
+        }
 
-        if(!$appoint){
+        $pager = new Pager($page, $size);
+
+        $count = Appoint::query()->where($where)->count();
+
+        $appoint = Appoint::query()->where($where)
+            ->offset($pager->getFirstIndex())
+            ->limit($size)
+            ->get();
+
+
+
+        if($appoint->isEmpty()){
             return $this->response([], 2002, "暂无预约");
         }
 
-        return $this->response($appoint->toArray());
+        $appoint->map(function(Appoint $item){
+            $item->classes;
+            $item->shop;
+
+        });
+
+        return $this->response(["list" => $appoint, "meta" => $pager->getPager($count)]);
     }
 }
