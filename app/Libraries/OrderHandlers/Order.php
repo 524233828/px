@@ -76,6 +76,7 @@ class Order
             "uid" => $uid,
             "type" => $order_type,
             "money" => $money,
+            "info" => "",
         ];
 
         //生成订单
