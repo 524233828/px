@@ -75,3 +75,8 @@ Route::get("/area", "AreaController@getAreaByParentArea");
 
 //账单
 Route::get("/bill/list", "BillController@fetch")->middleware(["jwt.dispatch", "login.check"]);
+
+//商品
+Route::get("/goods/list", "GoodsController@fetch")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/goods/details", "GoodsController@get")->middleware(["jwt.dispatch", "login.check"]);
+
