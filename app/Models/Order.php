@@ -27,7 +27,7 @@ class Order extends Model
 {
     protected $table = "px_order";
 
-    protected $fillable = ["order_sn", "uid", "money", "type"];
+    protected $fillable = ["order_sn", "uid", "money", "type", "info"];
 
     public static function getOrderSn()
     {
