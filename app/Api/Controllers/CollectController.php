@@ -12,6 +12,7 @@ use App\Collections\CollectCollection;
 use App\Models\Collect;
 use JoseChan\Base\Api\Controllers\Controller;
 use Illuminate\Http\Request;
+use JoseChan\Pager\Pager;
 use JoseChan\UserLogin\Constants\User;
 
 class CollectController extends Controller
@@ -74,19 +75,38 @@ class CollectController extends Controller
             "type" => "required|in:1,2",
         ]);
         $type = $request->get("type");
+        $page = $request->get("page", 1);
+        $size = $request->get("size", 20);
+        $where = [["uid", "=", User::$info['id']], ["type", "=", $type]];
 
-        /** @var CollectCollection $collects 获取收藏 */
-        $collects = Collect::query()->where([["uid", "=", User::$info['id']], ["type", "=", $type]])->get();
+//        /** @var CollectCollection $collects 获取收藏 */
+//        $collects = Collect::query()->where([["uid", "=", User::$info['id']], ["type", "=", $type])->get();
+
+
+        $pager = new Pager($page, $size);
+
+        $count = Collect::query()->where($where)->count();
+
+        $collects = Collect::query()->where($where)
+            ->offset($pager->getFirstIndex())
+            ->limit($size)
+            ->get();
 
         if(!$collects){
             return $this->response([], 2002, "暂无收藏");
         }
         
         if ($type == 1) {
-            $collects->getShops();
+//            $collects->getShops();
+            $collects->map(function(Collect $item){
+                $item->shop;
+            });
         } else {
-            $collects->getClasses();
+//            $collects->getClasses();
+            $collects->map(function(Collect $item){
+                $item->classes;
+            });
         }
-        return $this->response($collects->toArray());
+        return $this->response(["list" => $collects, "meta" => $pager->getPager($count)]);
     }
 }
