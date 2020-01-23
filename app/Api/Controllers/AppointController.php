@@ -59,10 +59,10 @@ class AppointController extends Controller
             return $this->response([], 3006, "课程已过了上课时间");
         }
 
-        $appoint = Appoint::where([
+        $appoint = Appoint::query()->where([
             ["class_id", "=", $class_id],
             ["card_id", "=", $card_id],
-        ]);
+        ])->first();
 
         if($appoint){
             return $this->response([], 3005, "已预约过该课程，请耐心等待上课");

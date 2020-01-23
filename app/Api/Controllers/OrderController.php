@@ -107,7 +107,7 @@ class OrderController extends Controller
     }
 
 
-    public function myOrder(Request $request)
+    public function fetch(Request $request)
     {
 
     }
