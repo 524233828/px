@@ -115,7 +115,7 @@ class OrderController extends Controller
         $page = $request->get("page", 1);
         $size = $request->get("size", 20);
         $where = [["uid", "=", User::$info['id']]];
-        if(!empty($status)){
+        if($status!==null){
             $where[] = ["status", "=", $status];
         }
 
