@@ -51,7 +51,7 @@ Route::post("/user/update", "UserController@update")->middleware(["jwt.dispatch"
 Route::post("/child/save", "ChildController@save")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/child/list", "ChildController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/child/info", "ChildController@get")->middleware(["jwt.dispatch", "login.check"]);
-Route::post("/child/delete", "ChildController@detele")->middleware(["jwt.dispatch", "login.check"]);
+Route::post("/child/delete", "ChildController@delete")->middleware(["jwt.dispatch", "login.check"]);
 
 //预约卡
 Route::get("/card/fetch", "CardController@fetch")->middleware(["jwt.dispatch", "login.check"]);
