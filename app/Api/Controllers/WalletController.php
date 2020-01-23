@@ -144,7 +144,7 @@ class WalletController extends Controller
         if($wallet->save() && $bill->save() && $withdraw->save()){
             $wallet->getConnection()->commit();
 
-            return $this->response([], 7003, "操作成功，请等待人工审核");
+            return $this->response([], 1, "操作成功，请等待人工审核");
         }else{
             $wallet->getConnection()->rollBack();
 
