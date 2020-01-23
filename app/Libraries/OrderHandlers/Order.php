@@ -76,7 +76,7 @@ class Order
             "uid" => $uid,
             "type" => $order_type,
             "money" => $money,
-            "info" => "",
+            "info" => $handler->getInfo($order_data),
         ];
 
         //生成订单

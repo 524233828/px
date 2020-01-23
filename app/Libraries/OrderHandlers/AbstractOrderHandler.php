@@ -48,6 +48,13 @@ abstract class AbstractOrderHandler
     abstract public function getMoney($order_data): float;
 
     /**
+     * 获取购买信息
+     * @param $order_data
+     * @return string
+     */
+    abstract public function getInfo($order_data): string;
+
+    /**
      * 参数检查
      * @param $data
      * @param $rule
