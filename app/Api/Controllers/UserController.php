@@ -130,7 +130,9 @@ class UserController extends Controller
 
         $code = (int) $request->get("code");
 
-        if($code == 0){
+        $parent = PxUser::query()->find($code);
+
+        if($code == 0 || !$parent){
             return $this->response([], 6004, "无效邀请码");
         }
 
