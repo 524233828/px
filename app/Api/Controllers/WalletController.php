@@ -34,10 +34,7 @@ class WalletController extends Controller
         //获取钱包
         $wallet = Wallet::query()->where("uid", "=", $uesr->id)->first();
 
-        //流水信息
-        $bill = Bill::query()->where("uid", "=", $uesr->id)->get();
-
-        return $this->response(["wallet" => $wallet, "bill" => $bill]);
+        return $this->response(["wallet" => $wallet]);
     }
 
     /**
