@@ -60,7 +60,7 @@ class ChildController extends Controller
 
         if ($child->save()) {
             return $this->response([]);
-        }else{
+        } else {
             return $this->response([], 2001, "保存失败");
         }
     }
@@ -75,7 +75,7 @@ class ChildController extends Controller
         /** @var Collection $children */
         $children = Child::where("uid", "=", User::$info['id'])->get();
 
-        if($children->isNotEmpty()){
+        if ($children->isNotEmpty()) {
             return $this->response(["list" => $children->toArray()]);
         }
 
@@ -99,10 +99,36 @@ class ChildController extends Controller
         /** @var Child $child */
         $child = Child::find($id);
 
-        if(!$child){
+        if (!$child) {
             return $this->response([], 2002, "常用人不存在");
         }
 
         return $this->response($child->toArray());
+    }
+
+    public function delete(Request $request)
+    {
+        $this->validate($request->all(), [
+            "id" => "required",
+        ]);
+
+        $id = $request->get("id");
+
+        /** @var Child $child */
+        $child = Child::find($id);
+
+        if (!$child) {
+            return $this->response([], 2002, "常用人不存在");
+        }
+
+        if ($child->uid != User::$info['id']) {
+            return $this->response([], 2000, "无权删除别人的常用人信息");
+        }
+
+        if($child->delete()){
+            return $this->response([]);
+        }
+
+        return $this->response([], 2003, "删除失败");
     }
 }

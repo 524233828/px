@@ -51,6 +51,7 @@ Route::post("/user/update", "UserController@update")->middleware(["jwt.dispatch"
 Route::post("/child/save", "ChildController@save")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/child/list", "ChildController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/child/info", "ChildController@get")->middleware(["jwt.dispatch", "login.check"]);
+Route::post("/child/delete", "ChildController@detele")->middleware(["jwt.dispatch", "login.check"]);
 
 //预约卡
 Route::get("/card/fetch", "CardController@fetch")->middleware(["jwt.dispatch", "login.check"]);
@@ -70,3 +71,6 @@ Route::post("/wallet/withdraw", "WalletController@withdraw")->middleware(["jwt.d
 
 //地区
 Route::get("/area", "AreaController@getAreaByParentArea");
+
+//账单
+Route::get("/bill/list", "BillController@fetch")->middleware(["jwt.dispatch", "login.check"]);
