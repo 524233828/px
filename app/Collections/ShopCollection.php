@@ -98,17 +98,17 @@ class ShopCollection extends Collection
 
         //距离排序
         if($sort_type == Shop::SORT_DISTANCE){
-            $this->sortByDistance($latitude, $longitude);
+            return $this->sortByDistance($latitude, $longitude);
         }
 
         //综合排序
         if($sort_type == Shop::SORT_SYNTHETIC){
-            $this->sortSynthetic($latitude, $longitude);
+            return $this->sortSynthetic($latitude, $longitude);
         }
 
         //评分排序
         if($sort_type == Shop::SORT_STAR){
-            $this->sortByStar();
+           return $this->sortByStar();
         }
 
         return $this;
