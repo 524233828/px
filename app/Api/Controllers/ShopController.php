@@ -57,6 +57,8 @@ class ShopController extends Controller
         try {
             $shops = $shops->sortShops($sort, $latitude, $longitude);
 
+            $shops = $shops->values();
+
             $shops->getClasses()->computeCommentsInfo();
         } catch (\Exception $exception) {
             return $this->response([], 5000, $exception->getMessage());
@@ -69,6 +71,8 @@ class ShopController extends Controller
         $count = $shops->count();
 
         $shops = $shops->slice($pager->getFirstIndex(), $size);
+
+
 
         return $this->response(["list" => $shops, "meta" => $pager->getPager($count)]);
     }
