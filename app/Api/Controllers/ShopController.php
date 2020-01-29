@@ -44,7 +44,7 @@ class ShopController extends Controller
         $where = [];
 
         if (!empty($keyword)) {
-            $where[] = ["name", "=", $keyword];
+            $where[] = ["name", "LIKE", "%$keyword%"];
         }
 
         if(!empty($district_id)){
