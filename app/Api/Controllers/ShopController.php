@@ -65,14 +65,12 @@ class ShopController extends Controller
         }
 
         if (!empty($latitude) && !empty($longitude)) {
-            $shops = $shops->computeDistance($latitude, $longitude);
+            $shops->computeDistance($latitude, $longitude);
         }
 
         $count = $shops->count();
 
         $shops = $shops->slice($pager->getFirstIndex(), $size);
-
-
 
         return $this->response(["list" => $shops, "meta" => $pager->getPager($count)]);
     }
