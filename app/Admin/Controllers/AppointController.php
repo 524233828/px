@@ -103,15 +103,15 @@ class AppointController extends Controller
             $role_ids = array_column($roles->toArray(), "id");
             if(in_array(2, $role_ids)){
                 $grid->model()->where("admin_id", "=", $administrator->id);
+                $grid->column("shop_id","商户id")->sortable();
             }
 
             $grid->disableCreateButton();
             $grid->disableActions(true);
             $grid->column("id","id")->sortable();
-            $grid->column("shop_id","商户id")->sortable();
             $grid->column("uid","用户id");
-            $grid->column("class_id","课程id")->sortable();
-            $grid->column("status","预约状态");
+            $grid->column("classes.name","课程名称")->sortable();
+            $grid->column("status","预约状态")->using([0 => "待上课", 1 => "已完成"]);
             $grid->column("created_at","created_at")->sortable();
             $grid->column("updated_at","updated_at")->sortable();
             $grid->column("card_id","卡券ID");
