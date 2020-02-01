@@ -21,6 +21,10 @@ class Category extends Model
     use Image;
     protected $table = "px_category";
 
+    public function parent(){
+        return $this->belongsTo(Category::class, "parent_id", "id");
+    }
+
     public static function getSelector()
     {
         $category = self::query()->where("parent_id", "<>", 0)->get();
