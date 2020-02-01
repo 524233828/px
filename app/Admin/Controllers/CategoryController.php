@@ -93,7 +93,7 @@ class CategoryController extends Controller
 
             $grid->column("id","id")->sortable();
             $grid->column("name","分类名称");
-            $grid->column("parent.name","分类名称");
+            $grid->column("parent.name","父类名称");
             $grid->column("img_url","img_url");
             $grid->column("created_at","created_at");
 
