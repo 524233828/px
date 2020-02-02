@@ -57,7 +57,7 @@ class Classes extends Model
 
     public function video()
     {
-        return $this->hasMany(Video::class, "business_id", "id")
+        return $this->hasOne(Video::class, "business_id", "id")
             ->where("type", "=", Video::TYPE_CLASS);
     }
 
