@@ -116,7 +116,7 @@ class OrderController extends Controller
         $page = $request->get("page", 1);
         $size = $request->get("size", 20);
         $where = [["uid", "=", User::$info['id']]];
-        if($status!==null){
+        if ($status !== null) {
             $where[] = ["status", "=", $status];
         }
 
@@ -130,9 +130,10 @@ class OrderController extends Controller
             ->get();
 
 
-
-        if($order->isEmpty()){
-            return $this->response([], 1, "暂无订单");
+        if ($order->isEmpty()) {
+            return $this->response([
+                "list" => [], "meta" => $pager->getPager(0)
+            ], 1, "暂无订单");
         }
 
 //        $appoint->map(function(Order $item){

@@ -77,6 +77,8 @@ class CollectController extends Controller
         $type = $request->get("type");
         $page = $request->get("page", 1);
         $size = $request->get("size", 20);
+        $latitude = $request->get("latitude", 0);
+        $longitude = $request->get("longitude", 0);
         $where = [["uid", "=", User::$info['id']], ["type", "=", $type]];
 
 //        /** @var CollectCollection $collects 获取收藏 */
@@ -97,14 +99,16 @@ class CollectController extends Controller
         }
         
         if ($type == 1) {
-//            $collects->getShops();
             $collects->map(function(Collect $item){
                 $item->shop;
             });
         } else {
-//            $collects->getClasses();
-            $collects->map(function(Collect $item){
-                $item->classes;
+            $collects->map(function(Collect $item) use ($latitude, $longitude){
+                $item->classes->shop->computeCommentsInfo();
+
+                if (!empty($latitude) && !empty($longitude)) {
+                    $item->classes->shop->computeDistance($latitude, $longitude);
+                }
             });
         }
         return $this->response(["list" => $collects, "meta" => $pager->getPager($count)]);

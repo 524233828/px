@@ -121,7 +121,7 @@ class ClassController extends Controller
 
         $class->computeCommentsInfo();
 
-        $class->shop;
+        $class->shop->computeCommentsInfo();
 
         $class->video;
 
