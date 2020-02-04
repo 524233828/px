@@ -57,7 +57,7 @@ class CommentController extends Controller
         $class_order = ClassOrder::query()->where([
             ["class_id", "=", $class_id],
             ["user_id", "=", User::$info['id']],
-            ["status", "=", 2],
+            ["status", "=", 1],
         ]);
 
         if (!$appoint && !$class_order) {
