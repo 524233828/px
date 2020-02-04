@@ -14,4 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 class GoodsOrder extends Model
 {
     protected $table = "px_goods_order";
+
+    protected $fillable = ["user_id", "order_sn", "goods_id", "status"];
 }
