@@ -121,6 +121,7 @@ class GoodsController extends Controller
 
             $form->text('id',"id")->rules("required|integer");
             $form->text('name',"商品名称")->rules("required|string");
+            $form->text('price',"商品价格")->rules("required");
             $form->image('img_url',"上传图片");
             $form->text("intro", "商品简介");
             $form->editor("desc", "商品详情");
