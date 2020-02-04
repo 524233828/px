@@ -81,3 +81,5 @@ Route::get("/bill/list", "BillController@fetch")->middleware(["jwt.dispatch", "l
 Route::get("/goods/list", "GoodsController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/goods/details", "GoodsController@get")->middleware(["jwt.dispatch", "login.check"]);
 
+//系统配置
+Route::get("/config", "ConfigController@get");
