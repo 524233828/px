@@ -137,7 +137,7 @@ class OrderController extends Controller
         }
 
         $order->map(function(OrderModel $item){
-            $item->class_order;
+            $item->classOrder;
         });
 
 //        $appoint->map(function(Order $item){

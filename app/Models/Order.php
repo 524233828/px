@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $pay_sn 支付号
  * @property integer $status 状态
  * @property string $img_url 图片
- * @property ClassOrder $class_order 相关订单
+ * @property ClassOrder $classOrder 相关订单
  */
 class Order extends Model
 {
@@ -31,8 +31,8 @@ class Order extends Model
 
     protected $fillable = ["order_sn", "uid", "money", "type", "info", "img_url"];
 
-    public function class_order(){
-        return $this->hasOne("class_order", "order_sn", "order_sn");
+    public function classOrder(){
+        return $this->hasOne(ClassOrder::class, "order_sn", "order_sn");
     }
 
     public static function getOrderSn()
