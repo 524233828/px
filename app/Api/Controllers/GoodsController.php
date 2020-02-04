@@ -37,7 +37,7 @@ class GoodsController extends Controller
             ->get();
 
         if($goods->isEmpty()){
-            return $this->response([], 2002, "暂无商品");
+            return $this->response(["list" => [], "meta" => $pager->getPager(0)]);
         }
 
         return $this->response(["list" => $goods, "meta" => $pager->getPager($count)]);
