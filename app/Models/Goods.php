@@ -23,6 +23,8 @@ class Goods extends Model
     use Image;
     protected $table = "px_goods";
 
+    protected $fillable = ["user_id", "order_sn", "goods_id", "status"];
+
     public function getImgUrlAttribute($value)
     {
         return $this->imageHandle($value);
