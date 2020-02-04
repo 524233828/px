@@ -16,14 +16,29 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at ID
  * @property string $intro ID
  * @property string $desc ID
+ * @property integer $num ID
  */
 class Goods extends Model
 {
     use Image;
     protected $table = "px_goods";
 
-    public function getImgUrlAttribute($value){
+    public function getImgUrlAttribute($value)
+    {
         return $this->imageHandle($value);
+    }
+
+    public function computeBuyNum()
+    {
+        $num = GoodsOrder::query()->where([
+            ["goods_id", "=", $this->id],
+            ["status", "=", 1],
+        ])->count();
+
+        $this->setAttribute("buy_num", $num);
+
+        return $this;
+
     }
 
 }
