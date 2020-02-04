@@ -136,6 +136,10 @@ class OrderController extends Controller
             ], 1, "暂无订单");
         }
 
+        $order->map(function(OrderModel $item){
+            $item->class_order;
+        });
+
 //        $appoint->map(function(Order $item){
 //            $item->classes;
 //            $item->shop;

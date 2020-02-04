@@ -22,12 +22,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at 更新时间
  * @property string $pay_sn 支付号
  * @property integer $status 状态
+ * @property string $img_url 图片
+ * @property ClassOrder $class_order 相关订单
  */
 class Order extends Model
 {
     protected $table = "px_order";
 
-    protected $fillable = ["order_sn", "uid", "money", "type", "info"];
+    protected $fillable = ["order_sn", "uid", "money", "type", "info", "img_url"];
+
+    public function class_order(){
+        return $this->hasOne("class_order", "order_sn", "order_sn");
+    }
 
     public static function getOrderSn()
     {

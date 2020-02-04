@@ -77,6 +77,7 @@ class Order
             "type" => $order_type,
             "money" => $money,
             "info" => $handler->getInfo($order_data),
+            "img_url" => $handler->getImage($order_data),
         ];
 
         //生成订单

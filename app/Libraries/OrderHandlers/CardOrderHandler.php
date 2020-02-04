@@ -96,4 +96,9 @@ class CardOrderHandler extends AbstractOrderHandler
     {
         return "平台全场通用预约券";
     }
+
+    public function getImage($order_data): string
+    {
+        return "";
+    }
 }

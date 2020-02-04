@@ -85,4 +85,18 @@ class ClassOrderHandler extends AbstractOrderHandler
 
         return "购买课程【{$class->name}】";
     }
+
+    public function getImage($order_data): string
+    {
+        $class_id = $order_data['class_id'];
+
+        /** @var Classes|null $class */
+        $class = Classes::query()->find($class_id);
+
+        if(!$class){
+            throw new \Exception("课程不存在");
+        }
+
+        return $class->pic;
+    }
 }

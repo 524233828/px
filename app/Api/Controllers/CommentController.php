@@ -11,6 +11,7 @@ namespace App\Api\Controllers;
 
 use App\Models\Appoint;
 use App\Models\Classes;
+use App\Models\ClassOrder;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
@@ -41,6 +42,7 @@ class CommentController extends Controller
         $star = $request->get("star");
         $comment = $request->get("comment");
 
+        /** @var Classes $class */
         $class = Classes::find($class_id);
 
         if (!$class) {
@@ -52,7 +54,13 @@ class CommentController extends Controller
             ["uid", "=", User::$info['id']],
         ]);
 
-        if (!$appoint) {
+        $class_order = ClassOrder::query()->where([
+            ["class_id", "=", $class_id],
+            ["user_id", "=", User::$info['id']],
+            ["status", "=", 2],
+        ]);
+
+        if (!$appoint && !$class_order) {
             return $this->response([], 4001, "您未购买或预约过该课程");
         }
 
