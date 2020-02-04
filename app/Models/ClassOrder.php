@@ -16,5 +16,5 @@ class ClassOrder extends Model
 
     protected $table = "px_class_order";
 
-    protected $fillable = ["user_id", "order_sn", "class_id`"];
+    protected $fillable = ["user_id", "order_sn", "class_id"];
 }
