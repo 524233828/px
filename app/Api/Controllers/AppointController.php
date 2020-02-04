@@ -55,7 +55,7 @@ class AppointController extends Controller
         }
 
         $now = now();
-        if($now->gt($class->start_time)){
+        if ($now->gt($class->start_time)) {
             return $this->response([], 3006, "课程已过了上课时间");
         }
 
@@ -64,7 +64,7 @@ class AppointController extends Controller
             ["card_id", "=", $card_id],
         ])->first();
 
-        if($appoint){
+        if ($appoint) {
             return $this->response([], 3005, "已预约过该课程，请耐心等待上课");
         }
 
@@ -85,7 +85,7 @@ class AppointController extends Controller
             "appoint_sn" => Appoint::getAppointSn()
         ]);
 
-        if($appoint->save()){
+        if ($appoint->save()) {
             return $this->response([]);
         }
 
@@ -98,7 +98,7 @@ class AppointController extends Controller
         $page = $request->get("page", 1);
         $size = $request->get("size", 20);
         $where = [["uid", "=", User::$info['id']]];
-        if(!empty($status)){
+        if (!empty($status)) {
             $where[] = ["status", "=", $status];
         }
 
@@ -112,16 +112,38 @@ class AppointController extends Controller
             ->get();
 
 
-        if($appoint->isEmpty()){
+        if ($appoint->isEmpty()) {
             return $this->response([], 1, "暂无预约");
         }
 
-        $appoint->map(function(Appoint $item){
+        $appoint->map(function (Appoint $item) {
             $item->classes;
             $item->shop;
 
         });
 
         return $this->response(["list" => $appoint, "meta" => $pager->getPager($count)]);
+    }
+
+    public function get(Request $request)
+    {
+        $this->validate($request->all(), [
+            "appoint_id" => "required|integer",
+        ]);
+
+        $appoint_id = $request->get("appoint_id");
+
+        /** @var Appoint $appoint */
+        $appoint = Appoint::query()->find($appoint_id);
+
+        if(!$appoint){
+            return $this->response([], 3005, "预约不存在");
+        }
+
+        $appoint->classes;
+        $appoint->shop;
+
+        return $this->response($appoint->toArray());
+
     }
 }

@@ -140,12 +140,27 @@ class OrderController extends Controller
             $item->classOrder;
         });
 
-//        $appoint->map(function(Order $item){
-//            $item->classes;
-//            $item->shop;
-//
-//        });
-
         return $this->response(["list" => $order, "meta" => $pager->getPager($count)]);
+    }
+
+    public function get(Request $request)
+    {
+        $this->validate($request->all(), [
+            "order_id" => "required|integer",
+        ]);
+
+        $order_id = $request->get("order_id");
+
+        /** @var OrderModel $order */
+        $order = OrderModel::query()->find($order_id);
+
+        if(!$order){
+            return $this->response([], 2005, "订单不存在");
+        }
+
+        $order->classOrder;
+
+        return $this->response($order->toArray());
+
     }
 }

@@ -29,6 +29,7 @@ Route::get("/class/info", "ClassController@get")->middleware(["jwt.dispatch", "l
 //预约
 Route::post("/class/appoint", "AppointController@create")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/appoint/list", "AppointController@fetch")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/appoint", "AppointController@get")->middleware(["jwt.dispatch", "login.check"]);
 
 //评价
 Route::post("/comment/class", "CommentController@create")->middleware(["jwt.dispatch", "login.check"]);
@@ -42,6 +43,7 @@ Route::get("/category/list", "CategoryController@fetch");
 Route::post("/order/unifier", "OrderController@unifier")->middleware(["jwt.dispatch", "login.check"]);
 Route::post("/order/pay", "OrderController@pay")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/order/list", "OrderController@fetch")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/order", "OrderController@get")->middleware(["jwt.dispatch", "login.check"]);
 
 //用户
 Route::get("/user/info", "UserController@info")->middleware(["jwt.dispatch", "login.check"]);
