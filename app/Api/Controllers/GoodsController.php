@@ -41,7 +41,7 @@ class GoodsController extends Controller
             return $this->response(["list" => [], "meta" => $pager->getPager(0)]);
         }
 
-        $goods = $goods->map(function (Goods $item, $key){
+        $goods->map(function (Goods $item, $key){
             $item->computeBuyNum();
         });
 
