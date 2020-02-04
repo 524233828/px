@@ -145,14 +145,24 @@ class OrderController extends Controller
 
     public function get(Request $request)
     {
-        $this->validate($request->all(), [
-            "order_id" => "required|integer",
-        ]);
+//        $this->validate($request->all(), [
+//            "order_id" => "required|integer",
+//        ]);
 
-        $order_id = $request->get("order_id");
+        $order_id = $request->get("order_id", null);
 
-        /** @var OrderModel $order */
-        $order = OrderModel::query()->find($order_id);
+        $order_sn = $request->get("order_sn", null);
+
+        if(empty($order_id) || empty($order_sn)){
+            return $this->response([], 2005, "订单不存在");
+        }
+
+        if(!empty($order_id)){
+            /** @var OrderModel $order */
+            $order = OrderModel::query()->find($order_id);
+        }else{
+            $order = OrderModel::query()->where("order_sn", "=", $order_sn)->first();
+        }
 
         if(!$order){
             return $this->response([], 2005, "订单不存在");
