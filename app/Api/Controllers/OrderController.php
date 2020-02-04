@@ -153,7 +153,7 @@ class OrderController extends Controller
 
         $order_sn = $request->get("order_sn", null);
 
-        if(empty($order_id) || empty($order_sn)){
+        if(empty($order_id) && empty($order_sn)){
             return $this->response([], 2005, "订单不存在");
         }
 
