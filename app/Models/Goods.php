@@ -19,6 +19,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Goods extends Model
 {
+    use Image;
     protected $table = "px_goods";
+
+    public function getImgUrlAttribute($value){
+        return $this->imageHandle($value);
+    }
 
 }
