@@ -121,9 +121,11 @@ class GoodsController extends Controller
 
             $form->text('id',"id")->rules("required|integer");
             $form->text('name',"商品名称")->rules("required|string");
-            $form->image('img_url',"img_url");
-            $form->datetime('created_at',"created_at");
-            $form->datetime('updated_at',"updated_at");
+            $form->image('img_url',"上传图片");
+            $form->text("intro", "商品简介");
+            $form->editor("desc", "商品详情");
+//            $form->datetime('created_at',"created_at");
+//            $form->datetime('updated_at',"updated_at");
 
 
         });
