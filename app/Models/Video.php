@@ -48,7 +48,13 @@ class Video extends Model
         if ($type == self::TYPE_SHOP) {
             $business = Shop::query()->get(["id", "name as text"]);
         } else {
-            $business = Classes::query()->get(["id", "name as text"]);
+            $business = Classes::query()->get(["id", "name as text", "shop_id"]);
+
+            if($business->isNotEmpty()){
+                $business->map(function (Classes $classes, $key){
+                    $classes->text = $classes->shop->name . "-" . $classes->text;
+                });
+            }
         }
 
         return $business;
