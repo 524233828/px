@@ -96,6 +96,7 @@ class ShopController extends Controller
 
             $grid->column("id", "id")->sortable();
             $grid->column("name", "商店名称");
+            $grid->column("business.name", "所属商户");
             $grid->column("status", "status")->using([0 => "冻结", 1 => "启用"]);
 
 
