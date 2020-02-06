@@ -95,8 +95,9 @@ class ClassController extends Controller
 
             $grid->column("id","id")->sortable();
             $grid->column("name","课程名字");
-            $grid->column("start_time","上课时间");
-            $grid->column("created_at","created_at");
+            $grid->column("shop.name", "店铺名称");
+//            $grid->column("start_time","上课时间");
+//            $grid->column("created_at","created_at");
 
             //允许筛选的项
             //筛选规则不允许用like，且搜索字段必须为索引字段
