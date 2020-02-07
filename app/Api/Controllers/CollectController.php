@@ -108,7 +108,7 @@ class CollectController extends Controller
         
         if ($type == 1) {
             $collects->map(function(Collect $item){
-                $item->shop;
+                $item->shop->computeCommentsInfo();
             });
         } else {
             $collects->map(function(Collect $item) use ($latitude, $longitude){
