@@ -166,7 +166,8 @@ class Shop extends Model
     public function computeCommentsInfo()
     {
         $this->setAttribute("comment_count", $this->comments->count());
-        $this->setAttribute("comment_star", $this->comments->avg("star"));
+        $star = $this->comments->avg("star");
+        $this->setAttribute("comment_star", $star ?: 4);
         return $this;
     }
 
