@@ -10,6 +10,7 @@ namespace App\Api\Controllers;
 
 use App\Collections\CollectCollection;
 use App\Models\Collect;
+use App\Models\PxUser;
 use JoseChan\Base\Api\Controllers\Controller;
 use Illuminate\Http\Request;
 use JoseChan\Pager\Pager;
@@ -27,7 +28,14 @@ class CollectController extends Controller
         $business_id = $request->get("business_id");
         $type = $request->get("type");
 
-        $collect_res = Collect::where([["business_id", "=", $business_id], ["type", "=", $type]])->get();
+        /** @var PxUser $user */
+        $user = User::$info;
+
+        $collect_res = Collect::where([
+            ["business_id", "=", $business_id],
+            ["type", "=", $type],
+            ["uid", "=", $user],
+        ])->get();
 
         if ($collect_res->isNotEmpty()) {
             return $this->response([], 2000, "你已收藏");
