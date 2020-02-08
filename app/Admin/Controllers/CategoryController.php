@@ -99,7 +99,7 @@ class CategoryController extends Controller
                     return "--";
                 }
 
-                return "<img src='{$value}' />";
+                return "<img src='{$value}' width='100px' height='100px' />";
             });
             $grid->column("sort", "排序 大的在前");
 
