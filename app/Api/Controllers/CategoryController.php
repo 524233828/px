@@ -31,7 +31,10 @@ class CategoryController extends Controller
     {
         $parent_id = $request->get("parent_id", 0);
 
-        $category = Category::where("parent_id", "=", $parent_id)->get();
+        $category = Category::query()
+            ->where("parent_id", "=", $parent_id)
+            ->orderByDesc("sort")
+            ->get();
         if($category){
             return $this->response(["list" => $category->toArray()]);
         }

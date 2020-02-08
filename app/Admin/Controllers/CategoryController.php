@@ -91,19 +91,25 @@ class CategoryController extends Controller
     {
         return Admin::grid(Category::class, function (Grid $grid) {
 
-            $grid->column("id","id")->sortable();
-            $grid->column("name","分类名称");
-            $grid->column("parent.name","父类名称");
-            $grid->column("img_url","img_url");
-            $grid->column("created_at","created_at");
+            $grid->column("id", "id")->sortable();
+            $grid->column("name", "分类名称");
+            $grid->column("parent.name", "父类名称");
+            $grid->column("img_url", "图片")->display(function ($value) {
+                if (empty($value)) {
+                    return "--";
+                }
+
+                return "<img src='{$value}' />";
+            });
+            $grid->column("sort", "排序 大的在前");
 
 
             //允许筛选的项
             //筛选规则不允许用like，且搜索字段必须为索引字段
             //TODO: 使用模糊查询必须通过搜索引擎，此处请扩展搜索引擎
-            $grid->filter(function (Grid\Filter $filter){
+            $grid->filter(function (Grid\Filter $filter) {
 
-                $filter->equal("id","id");
+                $filter->equal("id", "id");
 
 
             });
@@ -116,21 +122,22 @@ class CategoryController extends Controller
     {
         return Admin::form(Category::class, function (Form $form) {
 
-            $form->display('id',"id");
-            $form->text('name',"分类名称")->rules("required|string");
+            $form->display('id', "id");
+            $form->text('name', "分类名称")->rules("required|string");
             $form->image("img_url", "img_url");
-            $form->select('parent_id',"上级分类")->options($this->getCategories())->default(0);
-            $form->select("status","状态")->options([0=>"冻结",1=>"启用"])->default(1);
+            $form->select('parent_id', "上级分类")->options($this->getCategories())->default(0);
+            $form->select('sort', "排序 大的在前")->default(0);
+            $form->select("status", "状态")->options([0 => "冻结", 1 => "启用"])->default(1);
 
         });
     }
 
     public function getCategories()
     {
-        $categories = [0=>"无"];
+        $categories = [0 => "无"];
         $category = Category::where("parent_id", "=", 0)->get();
-        if($category){
-            foreach ($category->toArray() as $item){
+        if ($category) {
+            foreach ($category->toArray() as $item) {
                 $categories[$item['id']] = $item['name'];
             }
         }

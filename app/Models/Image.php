@@ -16,7 +16,7 @@ trait Image
     {
         $url = config("app.resource_url");
 
-        return $url . DIRECTORY_SEPARATOR .$path;
+        return (!empty($path)) ? $url . DIRECTORY_SEPARATOR .$path : "";
     }
 
 }
