@@ -15,6 +15,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use function foo\func;
 
 class CategoryController extends Controller
 {
@@ -91,6 +92,7 @@ class CategoryController extends Controller
     {
         return Admin::grid(Category::class, function (Grid $grid) {
 
+            $grid->model()->orderBy("parent_id")->orderByDesc("sort");
             $grid->column("id", "id")->sortable();
             $grid->column("name", "分类名称");
             $grid->column("parent.name", "父类名称");
@@ -101,7 +103,14 @@ class CategoryController extends Controller
 
                 return "<img src='{$value}' width='100px' height='100px' />";
             });
-            $grid->column("sort", "排序 大的在前");
+            $grid->column("sort", "排序 大的在前")->editable();
+            $grid->column("children", "子分类")->display(function ($values){
+                $values = array_map(function ($value) {
+                    return "<span class='label label-success'>{$value['name']}</span>";
+                }, $values);
+
+                return join('&nbsp;', $values);
+            });
 
 
             //允许筛选的项
