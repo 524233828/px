@@ -58,26 +58,28 @@ class ClassController extends Controller
 
         $class_builder = Classes::query();
 
-        if(!empty($keyword)){
+        if (!empty($keyword)) {
             $where[] = ["name", "=", $keyword];
         }
 
         $class_builder->where($where);
 
-        if(!empty($category)){
+        if (!empty($category)) {
             /** @var Category|null $category_obj */
             $category_obj = Category::query()->find($category);
 
-            if($category_obj){
-                if($category_obj->parent_id == 0){
+            if ($category_obj) {
+                if ($category_obj->parent_id == 0) {
                     $children_category = $category_obj->getChildren();
 
-                    if($children_category->isNotEmpty()){
+                    if ($children_category->isNotEmpty()) {
                         $ids = array_column($children_category->toArray(), "id");
 
                         $class_builder->whereIn("category_id", $ids);
+                    } else {
+                        return $this->response(["list" => [], "meta" => $pager->getPager(0)]);
                     }
-                }else{
+                } else {
                     $class_builder->where("category_id", "=", $category);
                 }
             }
