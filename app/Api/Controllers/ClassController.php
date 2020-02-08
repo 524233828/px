@@ -87,7 +87,7 @@ class ClassController extends Controller
         $classes = $class_builder->get();
 
         $classes->sortBy(function (Classes $item, $key) use ($latitude, $longitude) {
-            return $item->shop->computeDistance($latitude, $longitude);
+            return $item->shop->computeCommentsInfo()->computeDistance($latitude, $longitude);
         });
 
         $classes->computeCommentsInfo();
