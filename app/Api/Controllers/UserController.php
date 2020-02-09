@@ -68,7 +68,7 @@ class UserController extends Controller
 
         $file_name = "user/invited_code/{$user->id}.jpg";
 
-        if (is_numeric($image) || Storage::disk("admin")->put($file_name, $image)) {
+        if (is_numeric($image) || !Storage::disk("admin")->put($file_name, $image)) {
             return $this->response([], 6000, "生成小程序码失败");
         }
 
