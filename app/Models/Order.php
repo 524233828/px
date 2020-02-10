@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $pay_sn 支付号
  * @property integer $status 状态
  * @property string $img_url 图片
+ * @property string $info 信息
  * @property ClassOrder $classOrder 相关订单
  */
 class Order extends Model

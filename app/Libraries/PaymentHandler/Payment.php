@@ -44,7 +44,7 @@ class Payment
         $order_info = [
             "order_id" => $pay_sn,
             "amount" => Amount::dollarToCent($order->money),
-            "subject" => "",
+            "subject" => $order->info,
             'currency' => 'CNY',
             'description' => $order['info'],
 //            'return_url' => $redirect_url,
