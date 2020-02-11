@@ -44,6 +44,7 @@ Route::post("/order/unifier", "OrderController@unifier")->middleware(["jwt.dispa
 Route::post("/order/pay", "OrderController@pay")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/order/list", "OrderController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/order", "OrderController@get")->middleware(["jwt.dispatch", "login.check"]);
+Route::post("/order/notify", "OrderController@notify");
 
 //用户
 Route::get("/user/info", "UserController@info")->middleware(["jwt.dispatch", "login.check"]);
