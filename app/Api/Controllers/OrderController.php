@@ -71,10 +71,13 @@ class OrderController extends Controller
      */
     public function notify(Request $request)
     {
+        $log = myLog("order_controller_notify");
         $config = config("payment");
         $pay = new Cashier(Payment::WECHAT_MINIPROGRAM, $config[Payment::WECHAT_MINIPROGRAM]);
 
         $form = $pay->notify("charge");
+
+        $log->debug("form:".json_encode($form->all()));
 
         if ($form->get("status") === "paid") {
             Payment::notify($form->get('trade_sn'));

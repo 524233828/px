@@ -88,9 +88,11 @@ class Payment
      */
     public static function notify($pay_sn)
     {
-        $log = myLog("order_notify");
+        $log = myLog("payment_notify");
         /** @var Order|null $order */
         $order = Order::query()->where("pay_sn", "=", $pay_sn)->first();
+
+        $log->debug("order:".json_encode($order->toArray()));
 
         if ($order) {
             //分销处理
