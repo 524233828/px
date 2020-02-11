@@ -79,6 +79,19 @@ class CardOrderHandler extends AbstractOrderHandler
      */
     public function buySuccess(OrderModel $order)
     {
+        /** @var CardOrder|null $card_order */
+        $card_order = CardOrder::query()->where("order_sn", "=", $order->order_sn)->first();
+
+        if(!$card_order){
+            return false;
+        }
+
+        $card_order->status = 1;
+
+        if($card_order->save()){
+            return true;
+        }
+
         return false;
     }
 

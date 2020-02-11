@@ -55,7 +55,20 @@ class GoodsOrderHandler extends AbstractOrderHandler
 
     public function buySuccess(OrderModel $order)
     {
-        // TODO: Implement buySuccess() method.
+        /** @var GoodsOrder|null $goods_order */
+        $goods_order = GoodsOrder::query()->where("order_sn", "=", $order->order_sn)->first();
+
+        if(!$goods_order){
+            return false;
+        }
+
+        $goods_order->status = 1;
+
+        if($goods_order->save()){
+            return true;
+        }
+
+        return false;
     }
 
     public function getMoney($order_data): float

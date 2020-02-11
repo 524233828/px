@@ -55,7 +55,20 @@ class ClassOrderHandler extends AbstractOrderHandler
 
     public function buySuccess(OrderModel $order)
     {
-        // TODO: Implement buySuccess() method.
+        /** @var ClassOrder|null $class_order */
+        $class_order = ClassOrder::query()->where("order_sn", "=", $order->order_sn)->first();
+
+        if(!$class_order){
+            return false;
+        }
+
+        $class_order->status = 1;
+
+        if($class_order->save()){
+            return true;
+        }
+
+        return false;
     }
 
     public function getMoney($order_data): float
