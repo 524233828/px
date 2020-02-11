@@ -17,7 +17,7 @@ function myLog($filename = "debug", $level = \Monolog\Logger::DEBUG)
 {
     //实例化一个Logger对象
     $log = new \Monolog\Logger($filename);
-    $log_path = storage_path('logs');
+    $log_path = storage_path('logs/');
 
     //日志文件保留天数，0为保留所有，n为保留最近n天的日志，可配置
     $max_file = config()->get("log_limit", 0);
