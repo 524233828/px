@@ -16,15 +16,19 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Models
  * @property string $expired_date
  * @property int $expired_time
+ * @property float $amount
+ * @property string $name
+ * @property string $image_url
  */
 class Card extends Model
 {
+
+    use Image;
 
     protected $table = "px_card";
 
     public function getExpiredDateAttribute()
     {
-        $expired_date = "";
         if ($this->expired_time < 60) {
             $expired_date = $this->expired_time . "秒";
         } elseif ($this->expired_time < 3600) {
@@ -42,5 +46,10 @@ class Card extends Model
         $this->setAttribute("expired_date", $expired_date);
 
         return $expired_date;
+    }
+
+    public function getImageUrlAttribute()
+    {
+        $this->imageHandle($this->image_url);
     }
 }

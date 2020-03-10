@@ -70,6 +70,7 @@ class CardController extends Controller
 
         $id = $request->get("id");
 
+        /** @var Card $card */
         $card = Card::query()->find($id);
 
         if(!$card){

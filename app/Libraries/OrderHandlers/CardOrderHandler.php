@@ -9,6 +9,7 @@
 namespace App\Libraries\OrderHandler;
 
 
+use App\Models\Card;
 use App\Models\CardOrder;
 use App\Models\Child;
 use App\Models\Config;
@@ -31,7 +32,8 @@ class CardOrderHandler extends AbstractOrderHandler
     public function validate($order_data): bool
     {
         return $this->validator($order_data,[
-            "child_id" => "required|Integer"
+            "child_id" => "required|Integer",
+            "card_id" => "required|Integer"
         ]);
     }
 
@@ -99,19 +101,51 @@ class CardOrderHandler extends AbstractOrderHandler
      * 获取价格
      * @param $order_data
      * @return float
+     * @throws
      */
     public function getMoney($order_data): float
     {
-        return Config::get("card_amount", 100.00);
+        /** @var Card $card */
+        $card = Card::query()->find($order_data['card_id']);
+
+        if(!$card){
+            throw new \Exception("卡券不存在");
+        }
+
+        return $card->amount;
     }
 
+    /**
+     * @param $order_data
+     * @return string
+     * @throws \Exception
+     */
     public function getInfo($order_data): string
     {
-        return "平台全场通用预约券";
+        /** @var Card $card */
+        $card = Card::query()->find($order_data['card_id']);
+
+        if(!$card){
+            throw new \Exception("卡券不存在");
+        }
+
+        return $card->name;
     }
 
+    /**
+     * @param $order_data
+     * @return string
+     * @throws \Exception
+     */
     public function getImage($order_data): string
     {
-        return "";
+        /** @var Card $card */
+        $card = Card::query()->find($order_data['card_id']);
+
+        if(!$card){
+            throw new \Exception("卡券不存在");
+        }
+
+        return $card->image_url;
     }
 }
