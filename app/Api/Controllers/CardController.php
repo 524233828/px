@@ -8,6 +8,7 @@
 
 namespace App\Api\Controllers;
 
+use App\Models\Card;
 use App\Models\CardOrder;
 use App\Models\Classes;
 use Illuminate\Http\Request;
@@ -59,6 +60,25 @@ class CardController extends Controller
         }
 
         return $this->response(["list" => $card]);
+    }
+
+    public function info(Request $request)
+    {
+        $this->validate($request->all(), [
+            "id" => "required"
+        ]);
+
+        $id = $request->get("id");
+
+        $card = Card::query()->find($id);
+
+        if(!$card){
+            return $this->response([],9000, "卡券不存在");
+        }
+
+        $card->expired_date;
+
+        return $this->response($card->toArray());
     }
 
 }
