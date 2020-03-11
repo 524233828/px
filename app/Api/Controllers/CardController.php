@@ -10,10 +10,12 @@ namespace App\Api\Controllers;
 
 use App\Models\Card;
 use App\Models\CardOrder;
+use App\Models\CardOrderChild;
 use App\Models\Classes;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\UserLogin\Constants\User;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * 卡券相关
@@ -48,15 +50,19 @@ class CardController extends Controller
                 ["status", "=", 1],
             ])->get();
 
-        $card->map(function (CardOrder $item){
-           $item->setAge();
+        $child_models = [];
+
+        $card->map(function (CardOrder $item) use (&$child_models){
+            $item->cardOrderChild->map(function (CardOrderChild $item) use (&$child_models){
+                $item->setAge();
+                $child_models[] = $item;
+            });
         });
 
-        if(!$card)
+
+        if(!$child_models)
         {
             $card = [];
-        }else{
-            $card = $card->toArray();
         }
 
         return $this->response(["list" => $card]);
@@ -80,6 +86,15 @@ class CardController extends Controller
         $card->expired_date;
 
         return $this->response($card->toArray());
+    }
+
+    public function listCard()
+    {
+
+        /** @var Collection $card */
+        $card = Card::query()->get();
+
+        return $this->response(["list" => $card->toArray()]);
     }
 
 }

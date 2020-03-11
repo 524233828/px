@@ -61,6 +61,7 @@ Route::post("/child/delete", "ChildController@delete")->middleware(["jwt.dispatc
 //预约卡
 Route::get("/card/fetch", "CardController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/card/info", "CardController@info")->middleware(["jwt.dispatch"]);
+Route::get("/card/list", "CardController@listCard")->middleware(["jwt.dispatch"]);
 
 //店铺
 Route::get("/shop/list", "ShopController@fetch");

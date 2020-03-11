@@ -10,14 +10,20 @@ namespace App\Models;
 
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use JoseChan\UserLogin\Constants\User;
 
+/**
+ * Class CardOrder
+ * @package App\Models
+ * @property Collection $cardOrderChild
+ */
 class CardOrder extends Model
 {
     protected $table = "px_card_order";
 
-    protected $fillable = ["user_id", "order_sn", "child_name", "child_tel", "child_birth", "child_gender"];
+    protected $fillable = ["user_id", "order_sn", "child_name", "child_tel", "child_birth", "child_gender", "expired_time", "card_id"];
 
     public static function getUserUsefulCard()
     {
@@ -32,4 +38,14 @@ class CardOrder extends Model
 
         return $this;
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cardOrderChild()
+    {
+        return $this->hasMany(CardOrderChild::class, "card_order_id", "id");
+    }
+
+
 }

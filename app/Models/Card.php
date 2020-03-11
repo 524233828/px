@@ -27,6 +27,8 @@ class Card extends Model
 
     protected $table = "px_card";
 
+    protected $fillable = ["image_url", "expire_time", "amount", "name"];
+
     public function getExpiredDateAttribute()
     {
         if ($this->expired_time < 60) {
@@ -50,6 +52,7 @@ class Card extends Model
 
     public function getImageUrlAttribute()
     {
-        $this->imageHandle($this->image_url);
+        $attribute = $this->getAttributes();
+        return $this->imageHandle(isset($attribute['image_url']) ? $attribute['image_url'] : "");
     }
 }

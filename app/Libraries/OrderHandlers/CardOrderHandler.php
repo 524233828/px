@@ -11,9 +11,11 @@ namespace App\Libraries\OrderHandler;
 
 use App\Models\Card;
 use App\Models\CardOrder;
+use App\Models\CardOrderChild;
 use App\Models\Child;
 use App\Models\Config;
 use App\Models\Order as OrderModel;
+use Illuminate\Database\Eloquent\Collection;
 use JoseChan\UserLogin\Constants\User;
 
 /**
@@ -31,8 +33,8 @@ class CardOrderHandler extends AbstractOrderHandler
      */
     public function validate($order_data): bool
     {
-        return $this->validator($order_data,[
-            "child_id" => "required|Integer",
+        return $this->validator($order_data, [
+            "child_id" => "required",
             "card_id" => "required|Integer"
         ]);
     }
@@ -46,28 +48,56 @@ class CardOrderHandler extends AbstractOrderHandler
      */
     public function create(OrderModel $order, $order_data)
     {
+        //获取卡的信息
+        $card_id = $order_data['card_id'];
+        /** @var Card $card */
+        $card = Card::query()->find($card_id);
+        if (!$card) {
+            throw new \Exception("卡券不存在");
+        }
+
         //获取常用人信息
-        $child_id = $order_data['child_id'];
+        $child_ids = $order_data['child_id'];
+        $child_ids = explode(",", $child_ids);
 
-        /** @var Child $child */
-        $child = Child::find($child_id);
+        if(count($child_ids) > $card->use_member){
+            throw new \Exception("选择人数超过可选数量");
+        }
 
-        if(!$child){
+        /** @var Collection $child */
+        $child = Child::query()->whereIn("id", $child_ids)->get();
+
+        if ($child->isEmpty()) {
             throw new \Exception("常用人不存在");
         }
 
         $data = [
             "user_id" => User::$info['id'],
             "order_sn" => $order->order_sn,
-            "child_name" => $child->name,
-            "child_tel" => $child->tel,
-            "child_birth" => $child->birth,
-            "child_gender" => $child->gender,
+            "child_name" => $child->first()->name,
+            "child_tel" => $child->first()->tel,
+            "child_birth" => $child->first()->birth,
+            "child_gender" => $child->first()->gender,
+            "expired_time" => time() + $card->expired_time,
+            "card_id" => $card->id
         ];
+
+        $child_data = [];
+        $child->map(function (Child $item) use (&$child_data) {
+            $child_data[] = [
+                "child_name" => $item->name,
+                "child_tel" => $item->tel,
+                "child_birth" => $item->birth,
+                "child_gender" => $item->gender,
+            ];
+        });
+
+
+        $models = CardOrderChild::buildCardOrderChild($child_data);
 
         $card_order = new CardOrder($data);
 
-        if(!$card_order->save()){
+        if (!$card_order->save() || !$card_order->cardOrderChild()->saveMany($models)) {
             throw new \Exception("生成业务单失败");
         }
 
@@ -84,13 +114,17 @@ class CardOrderHandler extends AbstractOrderHandler
         /** @var CardOrder|null $card_order */
         $card_order = CardOrder::query()->where("order_sn", "=", $order->order_sn)->first();
 
-        if(!$card_order){
+        if (!$card_order) {
             return false;
         }
 
-        $card_order->status = 1;
+        /** @var Card $card */
+        $card = Card::query()->find($card_order->card_id);
 
-        if($card_order->save()){
+        $card_order->status = 1;
+        $card_order->expired_time = time() + $card->expired_time;
+
+        if ($card_order->save()) {
             return true;
         }
 
@@ -108,7 +142,7 @@ class CardOrderHandler extends AbstractOrderHandler
         /** @var Card $card */
         $card = Card::query()->find($order_data['card_id']);
 
-        if(!$card){
+        if (!$card) {
             throw new \Exception("卡券不存在");
         }
 
@@ -125,7 +159,7 @@ class CardOrderHandler extends AbstractOrderHandler
         /** @var Card $card */
         $card = Card::query()->find($order_data['card_id']);
 
-        if(!$card){
+        if (!$card) {
             throw new \Exception("卡券不存在");
         }
 
@@ -142,7 +176,7 @@ class CardOrderHandler extends AbstractOrderHandler
         /** @var Card $card */
         $card = Card::query()->find($order_data['card_id']);
 
-        if(!$card){
+        if (!$card) {
             throw new \Exception("卡券不存在");
         }
 
