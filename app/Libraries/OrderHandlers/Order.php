@@ -10,6 +10,7 @@ namespace App\Libraries\OrderHandler;
 
 use App\Libraries\OrderHandlers\ClassOrderHandler;
 use App\Libraries\OrderHandlers\GoodsOrderHandler;
+use App\Libraries\OrderHandlers\SpecialClassHandler;
 use JoseChan\UserLogin\Constants\User;
 use App\Models\Order as OrderModel;
 
@@ -36,13 +37,20 @@ class Order
     public const GOODS = 2;
 
     /**
+     *
+     */
+    public const SPECIAL_CLASS = 3;
+
+
+    /**
      * 业务处理类
      * @var array $gateway
      */
     private static $gateway = [
         self::CARD => CardOrderHandler::class,
         self::CLASSES => ClassOrderHandler::class,
-        self::GOODS => GoodsOrderHandler::class
+        self::GOODS => GoodsOrderHandler::class,
+        self::SPECIAL_CLASS => SpecialClassHandler::class
     ];
 
     /**

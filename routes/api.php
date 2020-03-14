@@ -88,3 +88,11 @@ Route::get("/goods/details", "GoodsController@get")->middleware(["jwt.dispatch",
 
 //系统配置
 Route::get("/config", "ConfigController@get");
+
+//老师
+Route::get("/teacher/info", "TeacherController@get");
+//专栏
+Route::get("/special/list", "SpecialController@fetch");
+Route::get("/special_class/list", "SpecialClassController@fetch");
+Route::get("/special_class/info", "SpecialClassController@get");
+Route::post("/special_class/play", "SpecialClassController@play");

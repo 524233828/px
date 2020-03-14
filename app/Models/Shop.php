@@ -49,12 +49,14 @@ class Shop extends Model
     public const SORT_SYNTHETIC = 1;
     public const SORT_STAR = 2;
     public const SORT_DISTANCE = 3;
+    public const SORT_ONLINE = 4;
 
     public static $sort_type = [
         self::SORT_NOT,
         self::SORT_SYNTHETIC,
         self::SORT_STAR,
         self::SORT_DISTANCE,
+        self::SORT_ONLINE,
     ];
 
     /**

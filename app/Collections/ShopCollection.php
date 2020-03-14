@@ -77,6 +77,22 @@ class ShopCollection extends Collection
     }
 
     /**
+     * 按线上课排序排序
+     * @return ShopCollection
+     */
+    public function sortByOnline()
+    {
+        return $this->sortByDesc(function (Shop $item, $key) {
+            $online_class = $item->classes->where("type", "=", 2);
+            if($online_class->isEmpty()){
+                return -1;
+            }
+
+            return $online_class->max("id");
+        });
+    }
+
+    /**
      * 排序
      * @param $sort_type
      * @param null $latitude
@@ -109,6 +125,11 @@ class ShopCollection extends Collection
         //评分排序
         if($sort_type == Shop::SORT_STAR){
            return $this->sortByStar();
+        }
+
+        if($sort_type == Shop::SORT_ONLINE)
+        {
+            return $this->sortByOnline();
         }
 
         return $this;
