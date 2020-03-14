@@ -10,6 +10,7 @@ namespace App\Libraries\OrderHandlers;
 
 
 use App\Libraries\OrderHandler\AbstractOrderHandler;
+use App\Models\CardOrder;
 use App\Models\Classes;
 use App\Models\ClassOrder;
 use App\Models\Order as OrderModel;
@@ -80,6 +81,12 @@ class ClassOrderHandler extends AbstractOrderHandler
 
         if(!$class){
             throw new \Exception("课程不存在");
+        }
+
+        $user_level = CardOrder::getUserVipLevel();
+
+        if($user_level > 0){
+            return $class->vip_price;
         }
 
         return $class->price;

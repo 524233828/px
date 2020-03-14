@@ -9,6 +9,7 @@
 namespace App\Api\Controllers;
 
 use App\Models\Appoint;
+use App\Models\CardOrder;
 use App\Models\Goods;
 use function foo\func;
 use Illuminate\Http\Request;
@@ -64,9 +65,16 @@ class GoodsController extends Controller
             return $this->response([], 5001, "商品不存在");
         }
 
+        $level = CardOrder::getUserVipLevel();
+
+        if($level == 0){
+            $goods->removeVipPrice();
+        }
+
         $goods = $goods->computeBuyNum();
 
         return $this->response($goods);
 
     }
+
 }

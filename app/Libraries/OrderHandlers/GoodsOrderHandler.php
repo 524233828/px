@@ -10,6 +10,7 @@ namespace App\Libraries\OrderHandlers;
 
 
 use App\Libraries\OrderHandler\AbstractOrderHandler;
+use App\Models\CardOrder;
 use App\Models\Goods;
 use App\Models\GoodsOrder;
 use App\Models\Order as OrderModel;
@@ -34,7 +35,7 @@ class GoodsOrderHandler extends AbstractOrderHandler
         $goods = Goods::query()->find($goods_id);
 
         if(!$goods){
-            throw new \Exception("课程不存在");
+            throw new \Exception("商品不存在");
         }
 
         /** @var PxUser $user */
@@ -79,10 +80,17 @@ class GoodsOrderHandler extends AbstractOrderHandler
         $goods = Goods::query()->find($goods_id);
 
         if(!$goods){
-            throw new \Exception("课程不存在");
+            throw new \Exception("商品不存在");
+        }
+
+        $user_level = CardOrder::getUserVipLevel();
+
+        if($user_level > 0){
+            return $goods->vip_price;
         }
 
         return $goods->price;
+
     }
 
     public function getInfo($order_data): string
@@ -93,7 +101,7 @@ class GoodsOrderHandler extends AbstractOrderHandler
         $goods = Goods::query()->find($goods_id);
 
         if(!$goods){
-            throw new \Exception("课程不存在");
+            throw new \Exception("商品不存在");
         }
 
         return "购买【{$goods->name}】";
@@ -107,7 +115,7 @@ class GoodsOrderHandler extends AbstractOrderHandler
         $goods = Goods::query()->find($goods_id);
 
         if(!$goods){
-            throw new \Exception("课程不存在");
+            throw new \Exception("商品不存在");
         }
 
         return $goods->img_url;

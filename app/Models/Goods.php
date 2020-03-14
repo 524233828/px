@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name ID
  * @property string $img_url ID
  * @property float $price ID
+ * @property float $vip_price ID
  * @property string $created_at ID
  * @property string $updated_at ID
  * @property string $intro ID
@@ -39,6 +40,28 @@ class Goods extends Model
 
         return $this;
 
+    }
+
+    public function getVipPriceAttribute()
+    {
+        $vip_price = $this->attributes['vip_price'];
+        if (empty($vip_price)) {
+            $rate = Config::get("vip_price_rate", 0);
+            $vip_price = $rate * $this->attributes['price'];
+        }
+
+        if (empty($vip_price)) {
+            $vip_price = $this->attributes['price'];
+        }
+
+        return $vip_price;
+    }
+
+    public function removeVipPrice()
+    {
+        unset($this->attributes['vip_price']);
+
+        return $this;
     }
 
 }

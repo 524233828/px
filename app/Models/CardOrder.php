@@ -47,5 +47,21 @@ class CardOrder extends Model
         return $this->hasMany(CardOrderChild::class, "card_order_id", "id");
     }
 
+    public static function getUserVipLevel()
+    {
+        $card_order = CardOrder::query()
+            ->where("user_id", "=", User::$info['id'])
+            ->where("status", "=", 1)
+            ->where("expired_time", ">", time())
+            ->get();
+
+        if($card_order->isEmpty()){
+            return 0;
+        }
+
+        return $card_order->max("card_id");
+
+    }
+
 
 }

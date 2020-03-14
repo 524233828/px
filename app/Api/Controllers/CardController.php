@@ -48,6 +48,7 @@ class CardController extends Controller
             ->where([
                 ["user_id", "=", User::$info['id']],
                 ["status", "=", 1],
+                ["expired_time", ">", time()],
             ])->get();
 
         $child_models = [];
