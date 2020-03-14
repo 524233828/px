@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $code 邀请码，暂时无用
  * @property string $created_at ID 创建时间
  * @property string $updated_at ID 更新时间
+ * @property string $parent ID 更新时间
  *
  */
 class PxUser extends Model
@@ -36,11 +37,17 @@ class PxUser extends Model
             "nickname" => $this->nickname,
             "headimg_url" => $this->headimg_url,
             "phone_number" => $this->phone_number,
+            "pid" => $this->pid,
         ];
     }
 
     public function getCodeAttribute()
     {
         return str_pad($this->id, 8, "0", STR_PAD_LEFT);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(PxUser::class, "pid", "id");
     }
 }

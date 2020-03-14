@@ -9,6 +9,8 @@
 namespace App\Api\Controllers;
 
 
+use App\Models\Card;
+use App\Models\CardOrder;
 use App\Models\Image;
 use App\Models\PxUser;
 use App\Models\Wallet;
@@ -43,7 +45,25 @@ class UserController extends Controller
         $wallet = Wallet::query()->where("uid", "=", $user->id)->first();
         $return = $user->getFrontFields();
 
+        $vip_level = CardOrder::getUserVipLevel();
+        $card = Card::query()->find($vip_level);
+
         $return["amount"] = $wallet->amount;
+        if ($card) {
+            $return["vip_icon"] = $card->icon;
+        }else{
+            $return["vip_icon"] = "";
+        }
+
+        if($user->pid != 0){
+            /** @var PxUser $parent */
+            $parent = $user->parent;
+
+            $return ['parent_name'] = $parent->nickname;
+        }else{
+            $return ['parent_name'] = "";
+        }
+
 
         return $this->response($return);
     }
@@ -92,31 +112,31 @@ class UserController extends Controller
 
         $json = $mini_program->encryptedDataDecode($encryptedData, User::$extra['session_key'], $iv);
 
-        if(!$data = json_decode($json, true)){
+        if (!$data = json_decode($json, true)) {
             return $this->response([], 6002, "数据格式不正确");
         }
 
         /** @var PxUser $user */
         $user = User::$info;
-        if(isset($data['nickName'])){
+        if (isset($data['nickName'])) {
             $user->nickname = $data['nickName'];
         }
 
-        if(isset($data['avatarUrl'])){
+        if (isset($data['avatarUrl'])) {
             $user->headimg_url = $data['avatarUrl'];
         }
 
-        if(isset($data['avatarUrl'])){
+        if (isset($data['avatarUrl'])) {
             $user->headimg_url = $data['avatarUrl'];
         }
 
-        if(isset($data['phoneNumber'])){
+        if (isset($data['phoneNumber'])) {
             $user->phone_number = $data['phoneNumber'];
         }
 
-        if($user->save()){
+        if ($user->save()) {
             return $this->response([]);
-        }else{
+        } else {
             return $this->response([], 6003, "更新用户信息失败");
         }
 
@@ -128,28 +148,28 @@ class UserController extends Controller
             "code" => "required"
         ]);
 
-        $code = (int) $request->get("code");
+        $code = (int)$request->get("code");
 
         $parent = PxUser::query()->find($code);
 
-        if($code == 0 || !$parent){
+        if ($code == 0 || !$parent) {
             return $this->response([], 6004, "无效邀请码");
         }
 
         /** @var PxUser $user */
         $user = User::$info;
 
-        if($user->pid != 0){
+        if ($user->pid != 0) {
             return $this->response([], 6005, "已绑定过邀请码");
         }
 
-        if($user->id == $code){
+        if ($user->id == $code) {
             return $this->response([], 6006, "不能绑定自己的邀请码");
         }
 
         $user->pid = $code;
 
-        if($user->save()){
+        if ($user->save()) {
             return $this->response([]);
         }
 
