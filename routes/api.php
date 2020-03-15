@@ -90,15 +90,15 @@ Route::get("/goods/details", "GoodsController@get")->middleware(["jwt.dispatch",
 Route::get("/config", "ConfigController@get");
 
 //老师
-Route::get("/teacher/info", "TeacherController@get");
+Route::get("/teacher/info", "TeacherController@get")->middleware(["jwt.dispatch", "login.check"]);
 //专栏
-Route::get("/special/list", "SpecialController@fetch");
-Route::get("/special/info", "SpecialController@get");
-Route::get("/special_class/list", "SpecialClassController@fetch");
-Route::get("/special_class/info", "SpecialClassController@get");
-Route::post("/special_class/play", "SpecialClassController@play");
+Route::get("/special/list", "SpecialController@fetch")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/special/info", "SpecialController@get")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/special_class/list", "SpecialClassController@fetch")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/special_class/info", "SpecialClassController@get")->middleware(["jwt.dispatch", "login.check"]);
+Route::post("/special_class/play", "SpecialClassController@play")->middleware(["jwt.dispatch", "login.check"]);
 
 //首页入口
-Route::get("/index/entry", "IndexEntryController@fetch");
+Route::get("/index/entry", "IndexEntryController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 //会员权益
-Route::get("/vip/right", "VipRightController@fetch");
+Route::get("/vip/right", "VipRightController@fetch")->middleware(["jwt.dispatch", "login.check"]);
