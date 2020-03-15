@@ -97,3 +97,6 @@ Route::get("/special/info", "SpecialController@get");
 Route::get("/special_class/list", "SpecialClassController@fetch");
 Route::get("/special_class/info", "SpecialClassController@get");
 Route::post("/special_class/play", "SpecialClassController@play");
+
+//首页入口
+Route::get("/index/entry", "IndexEntry@fetch");

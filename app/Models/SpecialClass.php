@@ -28,4 +28,19 @@ class SpecialClass extends Model
         unset($this->attributes['video_url']);
         return $this;
     }
+
+    public function getTotalTimeAttribute()
+    {
+        $total_time = $this->attributes['total_time'];
+        if($total_time < 60){
+            $str = $total_time . "秒";
+        }elseif($total_time < 3600){
+            $str = floor($total_time/60) . "分" . ($total_time % 60) . "秒";
+        }else{
+            $str = floor($total_time/3600) . "小时" . floor(($total_time % 3600) / 60) . "分";
+        }
+
+        return $str;
+    }
+
 }
