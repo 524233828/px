@@ -38,7 +38,7 @@ class OrderController extends Controller
         $order_type = $request->get("order_type");
 
         $this->validate($request->all(), [
-            "order_type" => "required|in:0,1,2",
+            "order_type" => "required|in:0,1,2,3",
             "order_data" => "required"
         ]);
 

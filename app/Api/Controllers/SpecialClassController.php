@@ -47,6 +47,7 @@ class SpecialClassController extends Controller
         $result = [];
         $special->map(function (SpecialClass $item) use (&$result, $user_level){
             $data = [
+                "id" => $item->id,
                 "name" => $item->name,
                 "total_time" => $item->total_time,
                 "is_buy" => $user_level > 0 ? 0 : 1
