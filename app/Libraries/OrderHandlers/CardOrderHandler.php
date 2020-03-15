@@ -139,11 +139,23 @@ class CardOrderHandler extends AbstractOrderHandler
      */
     public function getMoney($order_data): float
     {
+
         /** @var Card $card */
         $card = Card::query()->find($order_data['card_id']);
 
         if (!$card) {
             throw new \Exception("卡券不存在");
+        }
+
+        //获取用户当前等级
+        $user_vip_level = CardOrder::getUserVipLevel();
+        if($user_vip_level > 0 ){
+            /** @var Card $old_level */
+            $old_level = Card::query()->find($user_vip_level);
+            if($old_level->id < $card->id){
+                //升级会员卡，只需补差价
+                $card->amount = $card->amount - $old_level->amount;
+            }
         }
 
         return $card->amount;
