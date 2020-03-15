@@ -120,6 +120,6 @@ class SpecialClassController extends Controller
 
         $special_class->save();
 
-        $this->response([]);
+        return $this->response([]);
     }
 }
