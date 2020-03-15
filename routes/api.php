@@ -99,4 +99,6 @@ Route::get("/special_class/info", "SpecialClassController@get");
 Route::post("/special_class/play", "SpecialClassController@play");
 
 //首页入口
-Route::get("/index/entry", "IndexEntry@fetch");
+Route::get("/index/entry", "IndexEntryController@fetch");
+//会员权益
+Route::get("/vip/right", "VipRightController@fetch");
