@@ -203,6 +203,8 @@ class Shop extends Model
             foreach ($banner as &$item){
                 $item = $this->imageHandle($item);
             }
+        }else{
+            $banner = [];
         }
 
         return $banner;
