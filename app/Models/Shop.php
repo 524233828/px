@@ -204,7 +204,9 @@ class Shop extends Model
                 $item = $this->imageHandle($item);
             }
         }else{
-            $banner = [];
+            $banner = [
+                $this->headimg_url
+            ];
         }
 
         return $banner;
