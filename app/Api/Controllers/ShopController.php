@@ -52,7 +52,7 @@ class ShopController extends Controller
         }
 
         /** @var ShopCollection $shops */
-        $shops = Shop::query()->where($where)->get();
+        $shops = Shop::query()->where($where)->orderByDesc("sort")->get();
 
         try {
             $shops = $shops->sortShops($sort, $latitude, $longitude);
