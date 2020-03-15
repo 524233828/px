@@ -188,12 +188,23 @@ class Shop extends Model
 
     public function setBannerAttribute($banner)
     {
-        var_dump($banner);
-        exit;
+        if(is_array($banner)){
+            $this->attributes['banner'] = json_encode($banner);
+        }
+
+        return $this;
     }
 
     public function getBannerAttribute($banner)
     {
-        return [];
+        $banner = json_decode($banner, true);
+
+        if(!empty($banner)){
+            foreach ($banner as &$item){
+                $item = $this->imageHandle($item);
+            }
+        }
+
+        return $banner;
     }
 }
