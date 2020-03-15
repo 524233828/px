@@ -12,6 +12,7 @@ namespace App\Api\Controllers;
 use App\Models\CardOrder;
 use App\Models\SpecialClass;
 use App\Models\SpecialClassOrder;
+use function foo\func;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\Pager\Pager;
@@ -41,8 +42,20 @@ class SpecialClassController extends Controller
         }
 
         $special = SpecialClass::query()->where($where)->offset($pager->getFirstIndex())->limit($size)->get();
+        $user_level = CardOrder::getUserVipLevel();
 
-        return $this->response(["list" => $special, "meta" => $pager->getPager($count)]);
+        $result = [];
+        $special->map(function (SpecialClass $item) use (&$result, $user_level){
+            $data = [
+                "name" => $item->name,
+                "total_time" => $item->total_time,
+                "is_buy" => $user_level > 0 ? 0 : 1
+            ];
+
+            $result[] = $data;
+        });
+
+        return $this->response(["list" => $result, "meta" => $pager->getPager($count)]);
     }
 
     public function get(Request $request)
