@@ -93,6 +93,7 @@ Route::get("/config", "ConfigController@get");
 Route::get("/teacher/info", "TeacherController@get");
 //专栏
 Route::get("/special/list", "SpecialController@fetch");
+Route::get("/special/info", "SpecialController@get");
 Route::get("/special_class/list", "SpecialClassController@fetch");
 Route::get("/special_class/info", "SpecialClassController@get");
 Route::post("/special_class/play", "SpecialClassController@play");

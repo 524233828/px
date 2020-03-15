@@ -102,6 +102,16 @@ class ClassController extends Controller
             });
         }
 
+        if($type == 2){
+            $classes->map(function (Classes $item, $key) {
+                return $item->setAttribute("is_appoint", 0);
+            });
+        }else{
+            $classes->map(function (Classes $item, $key) {
+                return $item->setAttribute("is_appoint", 1);
+            });
+        }
+
         $classes->computeCommentsInfo();
 
         $classes->getAgeInfo();
