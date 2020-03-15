@@ -206,6 +206,7 @@ class ShopController extends Controller
             $form->text('tel', "联系电话");
             $form->editor('desc', "详情");
             $form->image('headimg_url', "店铺头图")->move("shops/images");
+            $form->multipleImage( 'banner', "店铺轮播图")->move("shops/images");
             $form->select("status", "状态")->options([0 => "冻结", 1 => "启用"])->default(1);
 
             $form->distpicker([

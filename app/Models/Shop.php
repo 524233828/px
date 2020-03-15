@@ -185,4 +185,15 @@ class Shop extends Model
 
         return $this;
     }
+
+    public function setBannerAttribute($banner)
+    {
+        var_dump($banner);
+        exit;
+    }
+
+    public function getBannerAttribute($banner)
+    {
+        return [];
+    }
 }
