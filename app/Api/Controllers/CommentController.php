@@ -67,6 +67,7 @@ class CommentController extends Controller
         $comment_data = [
             "uid" => User::$info['id'],
             "class_id" => $class_id,
+            "special_id" => $class_id,
             "shop_id" => $class->shop_id,
             "comment" => $comment,
             "star" => $star
@@ -99,7 +100,7 @@ class CommentController extends Controller
         }elseif($type == 2){
             $where[] = ["class_id", "=", $id];
         }else{
-            $where[] = ["class_id", "=", $id];
+            $where[] = ["special_id", "=", $id];
         }
 
         $count = Comment::query()->where($where)->count();

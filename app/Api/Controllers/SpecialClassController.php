@@ -16,6 +16,7 @@ use function foo\func;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\Pager\Pager;
+use JoseChan\UserLogin\Constants\User;
 
 class SpecialClassController extends Controller
 {
@@ -46,11 +47,21 @@ class SpecialClassController extends Controller
 
         $result = [];
         $special->map(function (SpecialClass $item) use (&$result, $user_level){
+            $count = $item->specialClassOrder->where("user_id", "=", User::$info['id'])->count();
+            if($user_level > 0){
+                $is_buy = 0;
+            }else{
+                if($count > 0){
+                    $is_buy = 0;
+                }else{
+                    $is_buy = 1;
+                }
+            }
             $data = [
                 "id" => $item->id,
                 "name" => $item->name,
                 "total_time" => $item->total_time,
-                "is_buy" => $user_level > 0 ? 0 : 1
+                "is_buy" => $is_buy
             ];
 
             $result[] = $data;

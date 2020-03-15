@@ -10,7 +10,13 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
+/**
+ * Class SpecialClass
+ * @package App\Models
+ * @property SpecialClassOrder|Collection $specialClassOrder
+ */
 class SpecialClass extends Model
 {
 
@@ -21,6 +27,10 @@ class SpecialClass extends Model
     public function teacher()
     {
         return $this->belongsTo(Teacher::class, "teacher_id", "id");
+    }
+
+    public function specialClassOrder(){
+        return $this->hasMany(SpecialClassOrder::class, "class_id", "id");
     }
 
     public function removeVideoUrl()
