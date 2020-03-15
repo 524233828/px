@@ -84,7 +84,7 @@ class CommentController extends Controller
     public function fetch(Request $request)
     {
         $this->validate($request->all(), [
-            "type" => "required|in:1,2",
+            "type" => "required|in:1,2,3",
             "id" => "required"
         ]);
 
@@ -96,6 +96,8 @@ class CommentController extends Controller
         $where = [];
         if($type == 1){
             $where[] = ["shop_id", "=", $id];
+        }elseif($type == 2){
+            $where[] = ["class_id", "=", $id];
         }else{
             $where[] = ["class_id", "=", $id];
         }
