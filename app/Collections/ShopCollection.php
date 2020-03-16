@@ -132,6 +132,17 @@ class ShopCollection extends Collection
             return $this->sortByOnline();
         }
 
+        if($sort_type == Shop::SORT_NOT) {
+            //不排序的是首页
+            $this->map(function (Shop $shop, $key) {
+                if ($shop->classes->count() < 3) {
+                    $this->offsetUnset($key);
+                }
+            });
+
+            return $this->values();
+        }
+
         return $this;
     }
 
