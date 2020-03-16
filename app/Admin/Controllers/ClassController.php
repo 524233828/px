@@ -124,6 +124,7 @@ class ClassController extends Controller
             $form->text('price', "价格")->default(0);
             $form->text('start_age', "最小适龄(0为不限)")->rules("Integer")->default(0);
             $form->text('end_age', "最大适龄（0为不限）")->rules("Integer")->default(0);
+            $form->select('type', "类型")->options([1=>"线下课", 2=>"线上课"])->default(1);
 
 
 //            $form->column(1/3, function (Form $form){
