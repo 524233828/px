@@ -98,6 +98,7 @@ class ShopController extends Controller
             $grid->column("name", "商店名称");
             $grid->column("business.name", "所属商户");
             $grid->column("status", "status")->using([0 => "冻结", 1 => "启用"]);
+            $grid->column("sort", "排序")->editable();
 
 
             //允许筛选的项
