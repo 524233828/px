@@ -17,7 +17,10 @@ class IndexEntryController extends Controller
 
     public function fetch()
     {
-        $index_entry = IndexEntry::query()->orderBy("sort", "desc")->get();
+        $index_entry = IndexEntry::query()
+            ->where("is_show", "=", 1)
+            ->orderBy("sort", "desc")
+            ->get();
 
         return $this->response(["list" => $index_entry]);
     }
