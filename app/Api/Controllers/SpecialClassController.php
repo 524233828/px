@@ -47,7 +47,7 @@ class SpecialClassController extends Controller
 
         $result = [];
         $special->map(function (SpecialClass $item) use (&$result, $user_level){
-            $count = $item->specialClassOrder->where("user_id", "=", User::$info['id'])->count();
+            $count = $item->specialClassOrder->where([["user_id", "=", User::$info['id']], ["status", "=", 1]])->count();
             if($user_level > 0){
                 $is_buy = 0;
             }else{
