@@ -61,7 +61,7 @@ class SpecialClassController extends Controller
                 "id" => $item->id,
                 "name" => $item->name,
                 "total_time" => $item->total_time,
-                "is_buy" => $is_buy
+                "is_buy" => 0
             ];
 
             $result[] = $data;
@@ -85,16 +85,19 @@ class SpecialClassController extends Controller
             $this->response([], 900001, "课程不存在")->send();
         }
 
-        if(SpecialClassOrder::checkUserIsBuy($special_class_id)){
+//        if(SpecialClassOrder::checkUserIsBuy($special_class_id)){
+            //已购买
             $special_class->setAttribute("is_buy", 0);
-        }else{
-            if(CardOrder::getUserVipLevel() > 0){
-                $special_class->setAttribute("is_buy", 0);
-            }else{
-                $special_class->removeVideoUrl();
-                $special_class->setAttribute("is_buy", 1);
-            }
-        }
+//        }else{
+//            if(CardOrder::getUserVipLevel() > 0){
+//                //会员
+//                $special_class->setAttribute("is_buy", 0);
+//            }else{
+//                //未购买
+//                $special_class->removeVideoUrl();
+//                $special_class->setAttribute("is_buy", 1);
+//            }
+//        }
 
         $special_class->teacher;
 
