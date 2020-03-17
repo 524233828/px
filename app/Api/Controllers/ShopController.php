@@ -59,15 +59,17 @@ class ShopController extends Controller
 
             $shops = $shops->values();
 
-            if($sort != Shop::SORT_ONLINE){
-                $shops->getClasses()->computeCommentsInfo();
-            }
+            $shops->getClasses()->computeCommentsInfo();
         } catch (\Exception $exception) {
             return $this->response([], 5000, $exception->getMessage());
         }
 
         if (!empty($latitude) && !empty($longitude)) {
             $shops->computeDistance($latitude, $longitude);
+        }
+
+        if($sort == Shop::SORT_ONLINE){
+            $shops->unsetWithoutOnline();
         }
 
         $count = $shops->count();

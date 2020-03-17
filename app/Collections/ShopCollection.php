@@ -167,4 +167,15 @@ class ShopCollection extends Collection
             $item->computeCommentsInfo();
         });
     }
+
+    public function unsetWithoutOnline()
+    {
+        $this->map(function (Shop $shop, $key) {
+            if ($shop->classes->where("type", "=", 2)->isEmpty()) {
+                $this->offsetUnset($key);
+            }
+        });
+
+        return $this->values();
+    }
 }
