@@ -143,16 +143,16 @@ class ClassController extends Controller
 
         //类型是线上课程，判断是否购买，购买过才返回视频
         if ($class->type == 2) {
-            $class->setAttribute("is_appoint", 0);
-            if (ClassOrder::checkUserIsBuy($class_id)) {
-                //购买过
+//            $class->setAttribute("is_appoint", 0);
+//            if (ClassOrder::checkUserIsBuy($class_id)) {
+//                //购买过
                 $class->setAttribute("is_buy", 0);
                 $class->video;
-            } else {
-                $class->setAttribute("is_buy", 1);
-                $class->video;
-                $class->video->path = "";
-            }
+//            } else {
+//                $class->setAttribute("is_buy", 1);
+//                $class->video;
+//                $class->video->path = "";
+//            }
         } else {
             $class->setAttribute("is_appoint", 1);
             $class->video;
