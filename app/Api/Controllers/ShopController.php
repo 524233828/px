@@ -59,7 +59,9 @@ class ShopController extends Controller
 
             $shops = $shops->values();
 
-            $shops->getClasses()->computeCommentsInfo();
+            if($sort != Shop::SORT_ONLINE){
+                $shops->getClasses()->computeCommentsInfo();
+            }
         } catch (\Exception $exception) {
             return $this->response([], 5000, $exception->getMessage());
         }
