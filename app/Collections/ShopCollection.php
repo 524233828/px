@@ -85,7 +85,6 @@ class ShopCollection extends Collection
         return $this->sortByDesc(function (Shop $item, $key) {
             $online_class = $item->classes->where("type", "=", 2);
             if($online_class->isEmpty()){
-                $this->offsetUnset($key);
                 return -1;
             }
 
@@ -130,7 +129,12 @@ class ShopCollection extends Collection
 
         if($sort_type == Shop::SORT_ONLINE)
         {
-            return $this->sortByOnline();
+            return $this->sortByOnline()->map(function (Shop $shop, $key) {
+                $online_class = $shop->classes->where("type", "=", 2);
+                if($online_class->isEmpty()){
+                    $this->offsetUnset($key);
+                }
+            });
         }
 
         if($sort_type == Shop::SORT_NOT) {
