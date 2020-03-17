@@ -129,12 +129,7 @@ class ShopCollection extends Collection
 
         if($sort_type == Shop::SORT_ONLINE)
         {
-            return $this->sortByOnline()->map(function (Shop $shop, $key) {
-                $online_class = $shop->classes->where("type", "=", 2);
-                if($online_class->isEmpty()){
-                    $this->offsetUnset($key);
-                }
-            });
+            return $this->sortByOnline();
         }
 
         if($sort_type == Shop::SORT_NOT) {
