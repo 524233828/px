@@ -150,6 +150,8 @@ class ClassController extends Controller
                 $class->video;
             } else {
                 $class->setAttribute("is_buy", 1);
+                $class->video;
+                $class->video->path = "";
             }
         } else {
             $class->setAttribute("is_appoint", 1);

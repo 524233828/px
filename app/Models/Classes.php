@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $end_age 最大适龄
  * @property Shop $shop 店铺
  * @property Collection $comments 评价列表
- * @property Collection $video 视频列表
+ * @property Video $video 视频列表
  */
 class Classes extends Model
 {
