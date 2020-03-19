@@ -90,7 +90,7 @@ class ClassController extends Controller
         }
 
         /** @var ClassCollection $classes 获取课程 */
-        $classes = $class_builder->orderByDesc("id")->get();
+        $classes = $class_builder->get();
 
         $classes->map(function (Classes $item, $key) {
             return $item->shop->computeCommentsInfo();
@@ -199,6 +199,7 @@ class ClassController extends Controller
         /** @var ClassCollection $classes 获取课程 */
         $classes = Classes::query()
             ->where($where)
+            ->orderByDesc("id")
             ->offset($pager->getFirstIndex())
             ->limit($size)
             ->get();

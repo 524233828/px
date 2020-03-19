@@ -153,7 +153,7 @@ class ShopCollection extends Collection
     public function getClasses()
     {
         return $this->sortBy(function (Shop $item, $key) {
-            return $item->classes;
+            return $item->classes->sortByDesc("id");
         });
     }
 
