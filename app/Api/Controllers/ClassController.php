@@ -90,7 +90,7 @@ class ClassController extends Controller
         }
 
         /** @var ClassCollection $classes 获取课程 */
-        $classes = $class_builder->get();
+        $classes = $class_builder->orderByDesc("id")->get();
 
         $classes->map(function (Classes $item, $key) {
             return $item->shop->computeCommentsInfo();
