@@ -210,6 +210,7 @@ class ShopController extends Controller
             $form->multipleImage( 'banner', "店铺轮播图")->move("shops/images");
             $form->select("status", "状态")->options([0 => "冻结", 1 => "启用"])->default(1);
             $form->text("sort", "排序，越大排越前");
+            $form->text("like", "点赞数");
 
             $form->distpicker([
                 'province_id' => '省份',
