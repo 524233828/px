@@ -102,3 +102,5 @@ Route::post("/special_class/play", "SpecialClassController@play")->middleware(["
 Route::get("/index/entry", "IndexEntryController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 //会员权益
 Route::get("/vip/right", "VipRightController@fetch")->middleware(["jwt.dispatch", "login.check"]);
+//点赞
+Route::post("/like", "LikeController@create")->middleware(["jwt.dispatch", "login.check"]);

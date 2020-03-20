@@ -101,6 +101,8 @@ class SpecialClassController extends Controller
 
         $special_class->teacher;
 
+        $special_class->isLike(User::$info);
+
         return $this->response($special_class);
     }
 

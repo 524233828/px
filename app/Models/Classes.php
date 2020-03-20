@@ -123,4 +123,17 @@ class Classes extends Model
         return $this;
     }
 
+    public function isLike(PxUser $user)
+    {
+        $count = Like::query()->where([
+            ["business_id", "=", $this->id],
+            ["type", "=", Like::TYPE_CLASS],
+            ["uid", "=", $user->id]
+        ])->count();
+
+        $this->setAttribute("is_like", $count);
+
+        return $this;
+    }
+
 }

@@ -186,6 +186,19 @@ class Shop extends Model
         return $this;
     }
 
+    public function isLike(PxUser $user)
+    {
+        $count = Like::query()->where([
+            ["business_id", "=", $this->id],
+            ["type", "=", Like::TYPE_SHOP],
+            ["uid", "=", $user->id]
+        ])->count();
+
+        $this->setAttribute("is_like", $count);
+
+        return $this;
+    }
+
     public function setBannerAttribute($banner)
     {
         if(is_array($banner)){

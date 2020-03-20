@@ -113,6 +113,8 @@ class ShopController extends Controller
 
         $shop->isCollect(User::$info);
 
+        $shop->isLike(User::$info);
+
         return $this->response($shop);
     }
 }

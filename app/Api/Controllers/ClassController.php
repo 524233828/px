@@ -170,6 +170,8 @@ class ClassController extends Controller
         $class->setAgeInfo();
 
         $class->isCollect(User::$info);
+        $class->isLike(User::$info);
+
         return $this->response($class);
     }
 
