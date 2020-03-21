@@ -41,39 +41,53 @@ class CommentController extends Controller
         $class_id = $request->get("class_id");
         $star = $request->get("star");
         $comment = $request->get("comment");
+        $type = $request->get("type", 1);
 
-        /** @var Classes $class */
-        $class = Classes::find($class_id);
+        if ($type == 1) {
+            /** @var Classes $class */
+            $class = Classes::find($class_id);
 
-        if (!$class) {
-            return $this->response([], 4000, "课程不存在");
+            if (!$class) {
+                return $this->response([], 4000, "课程不存在");
+            }
+
+            $appoint = Appoint::query()->where([
+                ["class_id", "=", $class_id],
+                ["uid", "=", User::$info['id']],
+            ]);
+
+            $class_order = ClassOrder::query()->where([
+                ["class_id", "=", $class_id],
+                ["user_id", "=", User::$info['id']],
+                ["status", "=", 1],
+            ]);
+
+            if (!$appoint && !$class_order) {
+                return $this->response([], 4001, "您未购买或预约过该课程");
+            }
+
+            $comment_data = [
+                "uid" => User::$info['id'],
+                "class_id" => $class_id,
+                "shop_id" => $class->shop_id,
+                "comment" => $comment,
+                "star" => $star
+            ];
+            
+            $comment = new Comment($comment_data);
+        } else {
+            $comment_data = [
+                "uid" => User::$info['id'],
+                "special_id" => 1,
+                "shop_id" => 0,
+                "class_id" => 0,
+                "comment" => $comment,
+                "star" => $star
+            ];
+
+            $comment = new Comment($comment_data);
         }
 
-        $appoint = Appoint::query()->where([
-            ["class_id", "=", $class_id],
-            ["uid", "=", User::$info['id']],
-        ]);
-
-        $class_order = ClassOrder::query()->where([
-            ["class_id", "=", $class_id],
-            ["user_id", "=", User::$info['id']],
-            ["status", "=", 1],
-        ]);
-
-        if (!$appoint && !$class_order) {
-            return $this->response([], 4001, "您未购买或预约过该课程");
-        }
-
-        $comment_data = [
-            "uid" => User::$info['id'],
-            "class_id" => $class_id,
-            "special_id" => $class_id,
-            "shop_id" => $class->shop_id,
-            "comment" => $comment,
-            "star" => $star
-        ];
-
-        $comment = new Comment($comment_data);
 
         if ($comment->save()) {
             return $this->response([]);
@@ -95,27 +109,27 @@ class CommentController extends Controller
         $size = $request->get("size", 20);
 
         $where = [];
-        if($type == 1){
+        if ($type == 1) {
             $where[] = ["shop_id", "=", $id];
-        }elseif($type == 2){
+        } elseif ($type == 2) {
             $where[] = ["class_id", "=", $id];
-        }else{
+        } else {
             $where[] = ["special_id", "=", $id];
         }
 
         $count = Comment::query()->where($where)->count();
         $pager = new Pager($page, $size);
 
-        if($count == 0){
-            return $this->response(["list"=>[], "meta" => $pager->getPager($count)]);
+        if ($count == 0) {
+            return $this->response(["list" => [], "meta" => $pager->getPager($count)]);
         }
 
         $comment = Comment::query()->where($where)->offset($pager->getFirstIndex())->limit($size)->get();
 
-        $comment->map(function ($item){
+        $comment->map(function ($item) {
             $item->user;
         });
 
-        return $this->response(["list"=>$comment, "meta" => $pager->getPager($count)]);
+        return $this->response(["list" => $comment, "meta" => $pager->getPager($count)]);
     }
 }
