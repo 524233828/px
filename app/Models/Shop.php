@@ -169,7 +169,7 @@ class Shop extends Model
     {
         $this->setAttribute("comment_count", $this->comments->count());
         $star = $this->comments->avg("star");
-        $this->setAttribute("comment_star", $star ?: 4);
+        $this->setAttribute("comment_star", $star ?  number_format($star, 1) : 4);
         return $this;
     }
 
