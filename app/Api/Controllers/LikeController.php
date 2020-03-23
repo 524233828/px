@@ -47,14 +47,14 @@ class LikeController extends Controller
         $collect_res = Like::query()->where([
             ["business_id", "=", $business_id],
             ["type", "=", $type],
-            ["uid", "=", $user],
+            ["uid", "=", $user->id],
         ])->get();
 
         if ($collect_res->isNotEmpty()) {
             return $this->response([], 2000, "你已点赞");
         }
 
-        $collect = new Like(["uid" => User::$info['id']]);
+        $collect = new Like(["uid" => $user->id]);
 
         $collect->business_id = $business_id;
         $collect->type = $type;
