@@ -51,20 +51,20 @@ class CommentController extends Controller
                 return $this->response([], 4000, "课程不存在");
             }
 
-            $appoint = Appoint::query()->where([
-                ["class_id", "=", $class_id],
-                ["uid", "=", User::$info['id']],
-            ]);
-
-            $class_order = ClassOrder::query()->where([
-                ["class_id", "=", $class_id],
-                ["user_id", "=", User::$info['id']],
-                ["status", "=", 1],
-            ]);
-
-            if (!$appoint && !$class_order) {
-                return $this->response([], 4001, "您未购买或预约过该课程");
-            }
+//            $appoint = Appoint::query()->where([
+//                ["class_id", "=", $class_id],
+//                ["uid", "=", User::$info['id']],
+//            ]);
+//
+//            $class_order = ClassOrder::query()->where([
+//                ["class_id", "=", $class_id],
+//                ["user_id", "=", User::$info['id']],
+//                ["status", "=", 1],
+//            ]);
+//
+//            if (!$appoint && !$class_order) {
+//                return $this->response([], 4001, "您未购买或预约过该课程");
+//            }
 
             $comment_data = [
                 "uid" => User::$info['id'],
