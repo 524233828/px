@@ -99,8 +99,8 @@ Route::get("/special_class/info", "SpecialClassController@get")->middleware(["jw
 Route::post("/special_class/play", "SpecialClassController@play")->middleware(["jwt.dispatch", "login.check"]);
 
 //首页入口
-Route::get("/index/entry", "IndexEntryController@fetch")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/index/entry", "IndexEntryController@fetch")->middleware(["jwt.dispatch"]);
 //会员权益
-Route::get("/vip/right", "VipRightController@fetch")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/vip/right", "VipRightController@fetch")->middleware(["jwt.dispatch"]);
 //点赞
 Route::post("/like", "LikeController@create")->middleware(["jwt.dispatch", "login.check"]);
