@@ -64,7 +64,7 @@ Route::get("/card/info", "CardController@info")->middleware(["jwt.dispatch"]);
 Route::get("/card/list", "CardController@listCard")->middleware(["jwt.dispatch"]);
 
 //店铺
-Route::get("/shop/list", "ShopController@fetch");
+Route::get("/shop/list", "ShopController@fetch")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/shop/info", "ShopController@get")->middleware(["jwt.dispatch", "login.check"]);
 
 //收藏
