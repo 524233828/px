@@ -105,10 +105,7 @@ class ShopController extends Controller
             //筛选规则不允许用like，且搜索字段必须为索引字段
             //TODO: 使用模糊查询必须通过搜索引擎，此处请扩展搜索引擎
             $grid->filter(function (Grid\Filter $filter) {
-
-                $filter->equal("id", "id");
-
-
+                $filter->like("name", "商店名称");
             });
 
 
@@ -117,86 +114,6 @@ class ShopController extends Controller
 
     protected function form()
     {
-
-//        Admin::script(
-//            '
-//        $("#search-latitudelongitude").on("keyup", null, function (e) {
-//            let $this = $(this);
-//            let $val = $this.val();
-//            $("input[name=\'position\']").val($val)
-//        });
-//
-//        $("#search-latitudelongitude").on("change", null, function (e) {
-//            let $this = $(this);
-//            let $val = $this.val();
-//            $("input[name=\'position\']").val($val)
-//        });
-//
-//        $("select[name=\'province_id\']").on("change", null, function(e) {
-//
-//            let province_id = "";
-//            let city_id = "";
-//            let district_id = "";
-//            if($("select[name=\'province_id\']").find("option:selected").val() != ""){
-//                province_id = $("select[name=\'province_id\']").find("option:selected").text()
-//            }
-//
-//            if($("select[name=\'city_id\']").find("option:selected").val() != ""){
-//                city_id = $("select[name=\'city_id\']").find("option:selected").text()
-//            }
-//
-//            if($("select[name=\'district_id\']").find("option:selected").val() != ""){
-//                district_id = $("select[name=\'district_id\']").find("option:selected").text()
-//            }
-////            qq.maps.SearchService().search(province_id + city_id + district_id);
-//
-//            $("#search-latitudelongitude").val(province_id + city_id + district_id);
-////            $(".btn.btn-info.btn-flat").trigger("click");
-//        });
-//
-//        $("select[name=\'city_id\']").on("change", null, function(e) {
-//
-//            let province_id = "";
-//            let city_id = "";
-//            let district_id = "";
-//            if($("select[name=\'province_id\']").find("option:selected").val() != ""){
-//                province_id = $("select[name=\'province_id\']").find("option:selected").text()
-//            }
-//
-//            if($("select[name=\'city_id\']").find("option:selected").val() != ""){
-//                city_id = $("select[name=\'city_id\']").find("option:selected").text()
-//            }
-//
-//            if($("select[name=\'district_id\']").find("option:selected").val() != ""){
-//                district_id = $("select[name=\'district_id\']").find("option:selected").text()
-//            }
-//
-//            $("#search-latitudelongitude").val(province_id + city_id + district_id);
-////            $(".btn.btn-info.btn-flat").trigger("click");
-//        });
-//
-//        $("select[name=\'district_id\']").on("change", null, function(e) {
-//            let province_id = "";
-//            let city_id = "";
-//            let district_id = "";
-//            if($("select[name=\'province_id\']").find("option:selected").val() != ""){
-//                province_id = $("select[name=\'province_id\']").find("option:selected").text()
-//            }
-//
-//            if($("select[name=\'city_id\']").find("option:selected").val() != ""){
-//                city_id = $("select[name=\'city_id\']").find("option:selected").text()
-//            }
-//
-//            if($("select[name=\'district_id\']").find("option:selected").val() != ""){
-//                district_id = $("select[name=\'district_id\']").find("option:selected").text()
-//            }
-//
-//            $("#search-latitudelongitude").val(province_id + city_id + district_id);
-////            $(".btn.btn-info.btn-flat").trigger("click");
-//        });
-//
-//'
-//        );
         return Admin::form(Shop::class, function (Form $form) {
 
 
