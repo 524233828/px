@@ -18,7 +18,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Latlong\Latlong;
 use Encore\Admin\Layout\Content;
-use Intervention\Image\Image;
+use Intervention\Image\Facades\Image;
 
 class ShopController extends Controller
 {
@@ -124,7 +124,7 @@ class ShopController extends Controller
             $form->text('intro', "简介");
             $form->text('tel', "联系电话");
             $form->editor('desc', "详情");
-            $form->image('headimg_url', "店铺头图")->move("shops/images");
+            $form->image('headimg_url', "店铺头图")->move("shops/images")->uniqueName();
             $form->multipleImage( 'banner', "店铺轮播图")->move("shops/images");
             $form->select("status", "状态")->options([0 => "冻结", 1 => "启用"])->default(1);
             $form->text("sort", "排序，越大排越前");
