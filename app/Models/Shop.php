@@ -12,6 +12,7 @@ namespace App\Models;
 use App\Collections\ClassCollection;
 use App\Collections\ShopCollection;
 use Encore\Admin\Auth\Database\Administrator;
+use Encore\Admin\Traits\Resizable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,6 +43,7 @@ use Illuminate\Database\Eloquent\Model;
 class Shop extends Model
 {
     use Image;
+    use Resizable;
 
     protected $table = "px_shop";
 
@@ -90,6 +92,12 @@ class Shop extends Model
     {
         return $this->imageHandle($value);
     }
+
+//    public function setHeadimgUrlAttribute()
+//    {
+//        $this->attributes['headimg_url'] = $this->thumbnail("small");
+//        return $this;
+//    }
 
     /**
      * 获取距离

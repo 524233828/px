@@ -18,6 +18,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Latlong\Latlong;
 use Encore\Admin\Layout\Content;
+use Intervention\Image\Image;
 
 class ShopController extends Controller
 {
@@ -123,7 +124,7 @@ class ShopController extends Controller
             $form->text('intro', "简介");
             $form->text('tel', "联系电话");
             $form->editor('desc', "详情");
-            $form->image('headimg_url', "店铺头图")->move("shops/images")->thumbnail("headimg_url", 750);
+            $form->image('headimg_url', "店铺头图")->move("shops/images");
             $form->multipleImage( 'banner', "店铺轮播图")->move("shops/images");
             $form->select("status", "状态")->options([0 => "冻结", 1 => "启用"])->default(1);
             $form->text("sort", "排序，越大排越前");
@@ -142,6 +143,15 @@ class ShopController extends Controller
             $form->text('position', '详细地址');
             /** @var Latlong $map */
             $form->latlong('latitude', 'longitude', '位置')->default(['lat' => 24.8109, 'lng' => 113.5974]);
+            $form->saving(function (Form $form){
+                $file = $form->builder()->fields()->get("headimg_url");
+
+                /** @var \Intervention\Image\Image $image */
+                $image = Image::make($file);
+
+                $image->resize(750)->save();
+
+            });
 
 //            $form->text('latitude',"纬度")->rules("required|string");
 //            $form->text('longitude',"经度")->rules("required|string");
