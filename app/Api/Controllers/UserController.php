@@ -189,7 +189,7 @@ class UserController extends Controller
         $count = PxUser::query()->where("pid", "=", $user->id)->count();
         $pager = new Pager($page, $size);
 
-        $children = PxUser::query()->where("pid", "=", $user)
+        $children = PxUser::query()->where("pid", "=", $user->id)
             ->offset($pager->getFirstIndex())
             ->limit($size)
             ->get(["nickname","headimg_url"]);
