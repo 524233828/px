@@ -49,6 +49,7 @@ Route::post("/order/notify", "OrderController@notify");
 //用户
 Route::get("/user/info", "UserController@info")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/user/code", "UserController@code")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/user/children", "UserController@children")->middleware(["jwt.dispatch", "login.check"]);
 Route::post("/user/update", "UserController@update")->middleware(["jwt.dispatch", "login.check"]);
 Route::post("/user/bind", "UserController@bindCode")->middleware(["jwt.dispatch", "login.check"]);
 

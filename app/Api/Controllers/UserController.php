@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use JoseChan\Base\Api\Controllers\Controller;
+use JoseChan\Pager\Pager;
 use JoseChan\UserLogin\Constants\User;
 use JoseChan\UserLogin\Libraries\Wechat\MiniProgram\Application;
 
@@ -51,16 +52,16 @@ class UserController extends Controller
         $return["amount"] = $wallet->amount;
         if ($card) {
             $return["vip_icon"] = $card->icon;
-        }else{
+        } else {
             $return["vip_icon"] = "";
         }
 
-        if($user->pid != 0){
+        if ($user->pid != 0) {
             /** @var PxUser $parent */
             $parent = $user->parent;
 
             $return ['parent_name'] = $parent->nickname;
-        }else{
+        } else {
             $return ['parent_name'] = "";
         }
 
@@ -174,6 +175,27 @@ class UserController extends Controller
         }
 
         return $this->response([], 6007, "绑定邀请码失败");
+    }
+
+    public function fetchChildren(Request $request)
+    {
+
+        /** @var PxUser $user */
+        $user = User::$info;
+
+        $page = $request->get("page", 1);
+        $size = $request->get("size", 20);
+
+        $count = PxUser::query()->where("pid", "=", $user->id)->count();
+        $pager = new Pager($page, $size);
+
+        $children = PxUser::query()->where("pid", "=", $user)
+            ->offset($pager->getFirstIndex())
+            ->limit($size)
+            ->get();
+
+        return $this->response(["list" => $children, "meta" => $pager->getPager($count)]);
+
     }
 
 
