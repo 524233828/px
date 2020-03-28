@@ -192,7 +192,7 @@ class UserController extends Controller
         $children = PxUser::query()->where("pid", "=", $user)
             ->offset($pager->getFirstIndex())
             ->limit($size)
-            ->get();
+            ->get(["nickname","headimg_url"]);
 
         return $this->response(["list" => $children, "meta" => $pager->getPager($count)]);
 
