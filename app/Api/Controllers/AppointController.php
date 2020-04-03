@@ -14,9 +14,12 @@ use App\Models\CardOrder;
 use App\Models\Classes;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\Pager\Pager;
 use JoseChan\UserLogin\Constants\User;
+use JoseChan\Wechat\MiniProgram\Application;
 
 /**
  * 预约相关
@@ -86,6 +89,31 @@ class AppointController extends Controller
         ]);
 
         if ($appoint->save()) {
+            //发送订阅消息
+            $app = new Application(env("WECHAT_MINI_PROGRAM_APPID"), env("WECHAT_MINI_PROGRAM_SECRET"));
+
+
+            $app->bindRedis(Redis::connection("default")->client())
+                ->sendSubscribeMsg(
+                    User::$info['open_id'],
+                    "JpyDqkG8qh0-ldp9zOlF_mkEaJlIYNsQXH-SmzUw8oE",
+                    [
+                        "character_string1" => [
+                            "value" => $appoint->appoint_sn,
+                        ],
+                        "thing2" => [
+                            "value" => $class->shop->name,
+                        ],
+                        "thing3" => [
+                            "value" => $class->name,
+                        ],
+                        "time4" => [
+                            "value" => $class->start_time
+                        ]
+                    ],
+                    "pages/index/index"
+                );
+
             return $this->response([]);
         }
 

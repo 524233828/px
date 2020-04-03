@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7260514bb6beae0c9d33869bcc008bb9",
+    "content-hash": "f773daa40ef673d337dacbdb0aebd6af",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -1522,6 +1522,57 @@
                 "login"
             ],
             "time": "2020-01-22T02:23:09+00:00"
+        },
+        {
+            "name": "jose-chan/wechat-miniprogram",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ILoveJoseM/wechat-miniprogram.git",
+                "reference": "7302caaa70894c0626d6139667b976d639afb9be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ILoveJoseM/wechat-miniprogram/zipball/7302caaa70894c0626d6139667b976d639afb9be",
+                "reference": "7302caaa70894c0626d6139667b976d639afb9be",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-redis": "*",
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JoseChan\\Wechat\\MiniProgram\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "JoseChan",
+                    "email": "524233828@qq.com"
+                }
+            ],
+            "description": "wechat miniprogram library",
+            "keywords": [
+                "miniprogram",
+                "wechat"
+            ],
+            "time": "2020-04-02T11:06:08+00:00"
         },
         {
             "name": "laravel-admin-ext/china-distpicker",
