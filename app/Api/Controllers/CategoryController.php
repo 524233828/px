@@ -43,7 +43,7 @@ class CategoryController extends Controller
 
     public function fetch(){
         /** @var Collection $category */
-        $category = Category::get();
+        $category = Category::query()->where("status", "=", 1)->get();
 
         $parent_list = [];
         $child_list = [];
