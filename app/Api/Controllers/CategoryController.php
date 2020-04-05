@@ -33,6 +33,7 @@ class CategoryController extends Controller
 
         $category = Category::query()
             ->where("parent_id", "=", $parent_id)
+            ->where("status", "=", 1)
             ->orderByDesc("sort")
             ->get();
         if($category){
@@ -43,7 +44,7 @@ class CategoryController extends Controller
 
     public function fetch(){
         /** @var Collection $category */
-        $category = Category::query()->where("status", "=", 1)->get();
+        $category = Category::query()->get();
 
         $parent_list = [];
         $child_list = [];
