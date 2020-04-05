@@ -92,7 +92,7 @@ class WalletController extends Controller
         return Admin::grid(Wallet::class, function (Grid $grid) {
 
             $grid->disableCreateButton();
-            $grid->disableActions();
+//            $grid->disableActions();
             $grid->column("id","id");
             $grid->column("uid","用户ID");
             $grid->column("amount","余额");
