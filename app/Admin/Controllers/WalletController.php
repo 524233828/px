@@ -122,8 +122,8 @@ class WalletController extends Controller
             $form->text('uid',"用户ID")->rules("required|integer");
             $form->text('amount',"余额")->rules("required");
             $form->text('freeze_amount',"冻结金额")->rules("required");
-            $form->datetime('created_at',"创建时间");
-            $form->datetime('updated_at',"更新时间");
+//            $form->datetime('created_at',"创建时间");
+//            $form->datetime('updated_at',"更新时间");
 
 
         });
