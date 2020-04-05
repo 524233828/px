@@ -58,7 +58,8 @@ class Distribution
             $distribution_rate = Config::get("distribution_rate", 0);
 
             //奖励金额
-            $amount = bcmul($order->money, $distribution_rate, 2);
+//            $amount = bcmul($order->money, $distribution_rate, 2);
+            $amount = 68;//分销奖励先写死
 
             //创建分销记录
             $distribution = new \App\Models\Distribution([
