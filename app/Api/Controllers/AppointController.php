@@ -40,6 +40,7 @@ class AppointController extends Controller
 
         $class_id = $request->get("class_id");
         $card_id = $request->get("card_id");
+        $is_notify = $request->get("is_notify", 0);
 
         /** @var CardOrder $card */
         $card = CardOrder::find($card_id);
@@ -63,6 +64,8 @@ class AppointController extends Controller
         $appoint = Appoint::query()->where([
             ["class_id", "=", $class_id],
             ["card_id", "=", $card_id],
+            ["start_time", "=", $class->start_time],
+            ["end_time", "=", $class->end_time],
         ])->first();
 
         if ($appoint) {
@@ -91,28 +94,28 @@ class AppointController extends Controller
         if ($appoint->save()) {
             //发送订阅消息
             $app = new Application(env("WECHAT_MINI_PROGRAM_APPID"), env("WECHAT_MINI_PROGRAM_SECRET"));
-
-
-            $app->bindRedis(Redis::connection("default")->client())
-                ->sendSubscribeMsg(
-                    User::$info['open_id'],
-                    "JpyDqkG8qh0-ldp9zOlF_mkEaJlIYNsQXH-SmzUw8oE",
-                    [
-                        "character_string1" => [
-                            "value" => $appoint->appoint_sn,
+            if($is_notify){
+                $app->bindRedis(Redis::connection("default")->client())
+                    ->sendSubscribeMsg(
+                        User::$info['open_id'],
+                        "JpyDqkG8qh0-ldp9zOlF_mkEaJlIYNsQXH-SmzUw8oE",
+                        [
+                            "character_string1" => [
+                                "value" => $appoint->appoint_sn,
+                            ],
+                            "thing2" => [
+                                "value" => $class->shop->name,
+                            ],
+                            "thing3" => [
+                                "value" => $class->name,
+                            ],
+                            "time4" => [
+                                "value" => $class->start_time
+                            ]
                         ],
-                        "thing2" => [
-                            "value" => $class->shop->name,
-                        ],
-                        "thing3" => [
-                            "value" => $class->name,
-                        ],
-                        "time4" => [
-                            "value" => $class->start_time
-                        ]
-                    ],
-                    "pages/index/index"
-                );
+                        "pages/index/index"
+                    );
+            }
 
             return $this->response([]);
         }

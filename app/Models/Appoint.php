@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at ID
  * @property integer $card_id ID
  * @property integer $admin_id ID
+ * @property string $start_time ID
+ * @property string $end_time ID
  * @property Classes $classes ID
  * @property Shop $shop ID
  */
@@ -32,7 +34,7 @@ class Appoint extends Model
 
     protected $table = "px_appoint";
 
-    protected $fillable = ["shop_id", "uid", "class_id", "status", "card_id", "admin_id", "appoint_sn"];
+    protected $fillable = ["shop_id", "uid", "class_id", "status", "card_id", "admin_id", "appoint_sn", "start_time", "end_time"];
 
     public function classes()
     {
@@ -69,6 +71,6 @@ class Appoint extends Model
 
     public static function getAppointSn()
     {
-        return (string)(microtime(true)*10000);
+        return (string)(microtime(true) * 10000);
     }
 }
