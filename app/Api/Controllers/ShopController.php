@@ -76,7 +76,7 @@ class ShopController extends Controller
 
         $shops = $shops->slice($pager->getFirstIndex(), $size);
 
-        return $this->response(["list" => $shops, "meta" => $pager->getPager($count)]);
+        return $this->response(["list" => $shops->values(), "meta" => $pager->getPager($count)]);
     }
 
     /**

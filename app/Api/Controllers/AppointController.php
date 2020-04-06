@@ -83,7 +83,9 @@ class AppointController extends Controller
             "status" => 1,
             "card_id" => $card_id,
             "admin_id" => $class->shop->admin_id,
-            "appoint_sn" => Appoint::getAppointSn()
+            "appoint_sn" => Appoint::getAppointSn(),
+            "start_time" => $class->start_time,
+            "end_time" => $class->end_time
         ]);
 
         if ($appoint->save()) {
