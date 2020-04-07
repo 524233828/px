@@ -17,7 +17,7 @@ class Config extends Model
 
     public function getValueAttribute($value)
     {
-        if(!empty($this->callback)){
+        if (!empty($this->callback)) {
             return call_user_func($this->callback, $value);
         }
     }
@@ -26,10 +26,18 @@ class Config extends Model
     {
         $config = self::query()->where("key", "=", $key)->first();
 
-        if(!$config){
+        if (!$config) {
             return $default;
         }
 
         return $config->getAttribute("value");
+    }
+
+    public function setValueAttribute($value)
+    {
+        if($value == null){
+            return "";
+        }
+        return $value;
     }
 }
