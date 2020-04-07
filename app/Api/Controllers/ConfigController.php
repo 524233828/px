@@ -24,7 +24,7 @@ class ConfigController extends Controller
 
         $value = Config::get($key);
 
-        if(!$value){
+        if($value === null){
             return $this->response([], 8001, "配置项不存在");
         }
 
