@@ -36,7 +36,7 @@ class Config extends Model
     public function setValueAttribute($value)
     {
         if($value == null){
-            return "";
+            $value = "";
         }
         $this->attributes['value'] = $value;
     }
