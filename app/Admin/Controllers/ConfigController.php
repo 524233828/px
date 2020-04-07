@@ -123,7 +123,7 @@ class ConfigController extends Controller
 
             $form->display('id',"id");
             $form->text('desc',"描述")->rules("required|string");
-            $form->text('value',"值");
+            $form->text('value',"值")->default("");
 
             if($form->isEditing()){
                 $form->text('key',"变量名")->rules("required|string")->readonly();
