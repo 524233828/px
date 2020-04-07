@@ -38,6 +38,6 @@ class Config extends Model
         if($value == null){
             return "";
         }
-        return $value;
+        $this->attributes['value'] = $value;
     }
 }
