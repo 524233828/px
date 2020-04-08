@@ -94,7 +94,7 @@ class Payment
 
         $log->debug("order:".json_encode($order->toArray()));
 
-        if ($order) {
+        if ($order && $order->status == 0) {
             //分销处理
             try{
                 Distribution::handler($order);

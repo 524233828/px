@@ -80,7 +80,10 @@ class OrderController extends Controller
         $log->debug("form:".json_encode($form->all()));
 
         if ($form->get("status") === "paid") {
-            Payment::notify($form->get('order_id'));
+            if(Payment::notify($form->get('order_id'))){
+                echo $pay->success();
+                die();
+            }
         }
 
         return $this->response([]);
