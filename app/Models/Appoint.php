@@ -46,6 +46,11 @@ class Appoint extends Model
         return $this->belongsTo(Shop::class, "shop_id", "id");
     }
 
+    public function user()
+    {
+        return $this->belongsTo(PxUser::class, "uid", "id");
+    }
+
     /**
      * 统计卡券在某商店的预约次数
      * @param $shop_id

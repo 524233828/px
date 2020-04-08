@@ -104,6 +104,7 @@ class ClassController extends Controller
             //TODO: 使用模糊查询必须通过搜索引擎，此处请扩展搜索引擎
             $grid->filter(function (Grid\Filter $filter){
                 $filter->equal("id","id");
+                $filter->like("name", "课程名称");
             });
         });
     }
@@ -126,15 +127,7 @@ class ClassController extends Controller
             $form->text('end_age', "最大适龄（0为不限）")->rules("Integer")->default(0);
             $form->select('type', "类型")->options([1=>"线下课", 2=>"线上课"])->default(1);
             $form->text('like', "点赞数");
-
-
-//            $form->column(1/3, function (Form $form){
-//
-//            });
-//
-//            $form->column(1/3, function (Form $form){
-//
-//            });
+            
         });
     }
 }

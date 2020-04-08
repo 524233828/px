@@ -109,11 +109,14 @@ class AppointController extends Controller
             $grid->disableCreateButton();
             $grid->disableActions(true);
             $grid->column("id","id")->sortable();
-            $grid->column("uid","用户id");
+            $grid->column("user.nickname","用户昵称");
+            $grid->column("user.phone_number","手机号");
+            $grid->column("shop.name","店铺名称")->sortable();
             $grid->column("classes.name","课程名称")->sortable();
-            $grid->column("status","预约状态")->using([0 => "待上课", 1 => "已完成"]);
-            $grid->column("created_at","created_at")->sortable();
-            $grid->column("updated_at","updated_at")->sortable();
+            $grid->column("status","预约状态")->using([0 => "待上课", 1 => "已完成"])->editable();
+            $grid->column("created_at","预约时间")->sortable();
+            $grid->column("start_time","上课时间")->sortable();
+            $grid->column("end_time","下课时间")->sortable();
             $grid->column("card_id","卡券ID");
 
 
