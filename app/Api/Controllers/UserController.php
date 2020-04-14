@@ -177,6 +177,18 @@ class UserController extends Controller
         return $this->response([], 6007, "绑定邀请码失败");
     }
 
+    public function isBind(Request $request)
+    {
+        /** @var PxUser $user */
+        $user = User::$info;
+
+        if ($user->pid != 0) {
+            return $this->response(["is_bind" => 1]);
+        }
+
+        return $this->response(["is_bind" => 0]);
+    }
+
     public function fetchChildren(Request $request)
     {
 

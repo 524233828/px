@@ -52,6 +52,7 @@ Route::get("/user/code", "UserController@code")->middleware(["jwt.dispatch", "lo
 Route::get("/user/children", "UserController@fetchChildren")->middleware(["jwt.dispatch", "login.check"]);
 Route::post("/user/update", "UserController@update")->middleware(["jwt.dispatch", "login.check"]);
 Route::post("/user/bind", "UserController@bindCode")->middleware(["jwt.dispatch", "login.check"]);
+Route::get("/user/is_bind", "UserController@isBind")->middleware(["jwt.dispatch", "login.check"]);
 
 //常用人
 Route::post("/child/save", "ChildController@save")->middleware(["jwt.dispatch", "login.check"]);
