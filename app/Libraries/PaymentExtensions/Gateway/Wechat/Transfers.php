@@ -81,6 +81,8 @@ class Transfers extends AbstractWechatGateway
             'spbill_create_ip'   => $form['ip'],
         ];
 
+        $payload['sign'] = $this->sign($payload);
+
         $response = $this->request(
             self::TRANSFERS_URL,
             $payload,
