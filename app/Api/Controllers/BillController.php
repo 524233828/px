@@ -34,6 +34,7 @@ class BillController extends Controller
 
         //流水信息
         $bill = Bill::query()->where("uid", "=", $uesr->id)
+            ->orderByDesc("id")
             ->offset($pager->getFirstIndex())
             ->limit($size)
             ->get();
