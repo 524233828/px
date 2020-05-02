@@ -85,8 +85,11 @@ class WalletController extends Controller
         //是否允许直接提现
         if (Config::get("is_withdraw", 0)) {
             //允许
-            /** @var Transfers $pay */
-            $pay = new Cashier("wechat_transfer", config("payment.wechat_mina"));
+            $config = new \Runner\NezhaCashier\Utils\Config(config("payment.wechat_mina"));
+
+            $transfer = new Transfers($config);
+//            /** @var Cashier $pay */
+//            $cashier = new Cashier("wechat_transfer", config("payment.wechat_mina"));
 
             //生成账单
             $bill = new Bill([
@@ -102,7 +105,7 @@ class WalletController extends Controller
             //组装参数
             $data = [
                 "order_sn" => $order_sn,
-                "openid" => Withdraw::getWithdrawSn(),
+                "openid" => $user->open_id,
                 "amount" => $money,
                 "desc" => "用户提现",
                 "ip" => client_ip(0, true)
@@ -112,7 +115,7 @@ class WalletController extends Controller
                 return $this->response([], 7001, "钱包扣款失败");
             }
 
-            $result = $pay->pay($data);
+            $result = $transfer->pay($data);
 
             if ($result['return_code'] == "SUCCESS") {
                 //转账成功
