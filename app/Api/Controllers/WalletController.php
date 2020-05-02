@@ -58,11 +58,11 @@ class WalletController extends Controller
         //读取用户钱包
         $wallet = Wallet::query()->where("uid", "=", $user->id)->first();
 
-        if(!$wallet){
+        if (!$wallet) {
             return $this->response([], 7000, "操作失败");
         }
 
-        if($wallet->amount < $money){
+        if ($wallet->amount < $money) {
             return $this->response([], 7001, "钱包余额不足");
         }
 
@@ -83,7 +83,7 @@ class WalletController extends Controller
         $wallet->amount -= $money;
 
         //是否允许直接提现
-        if(Config::get("is_withdraw", 0)){
+        if (Config::get("is_withdraw", 0)) {
             //允许
             /** @var Transfers $pay */
             $pay = new Cashier("wechat_transfer", config("payment.wechat_mina"));
@@ -108,13 +108,13 @@ class WalletController extends Controller
                 "ip" => client_ip(0, true)
             ];
 
-            if(!$wallet->save()){
+            if (!$wallet->save()) {
                 return $this->response([], 7001, "钱包扣款失败");
             }
 
             $result = $pay->pay($data);
 
-            if($result['return_code'] == "SUCCESS"){
+            if ($result['return_code'] == "SUCCESS") {
                 //转账成功
                 $bill->save();
 
@@ -126,26 +126,32 @@ class WalletController extends Controller
                 return $this->response([]);
             }
 
+        } else {
+            //冻结
+            $wallet->freeze_amount += $money;
+
+            $bill = new Bill([
+                "bill_no" => Bill::getBillSn(),
+                "out_trade_type" => Bill::OUT_TYPE_WITHDRAW,
+                "out_trade_no" => $order_sn,
+                "type" => Bill::TYPE_OUTCOME,
+                "money" => $money,
+                "remark" => "提现金额",
+                "uid" => $user->id
+            ]);
+
+            if (!$wallet->save()) {
+                return $this->response([], 7001, "冻结金额失败");
+            }
+
         }
 
-        //冻结
-        $wallet->freeze_amount += $money;
 
-        $bill = new Bill([
-            "bill_no" => Bill::getBillSn(),
-            "out_trade_type" => Bill::OUT_TYPE_WITHDRAW,
-            "out_trade_no" => $order_sn,
-            "type" => Bill::TYPE_OUTCOME,
-            "money" => $money,
-            "remark" => "提现金额",
-            "uid" => $user->id
-        ]);
-
-        if($wallet->save() && $bill->save() && $withdraw->save()){
+        if ($bill->save() && $withdraw->save()) {
             $wallet->getConnection()->commit();
 
             return $this->response([], 1, "操作成功，请等待人工审核");
-        }else{
+        } else {
             $wallet->getConnection()->rollBack();
 
             return $this->response([], 7002, "操作失败");
