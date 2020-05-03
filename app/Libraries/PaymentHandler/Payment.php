@@ -97,7 +97,9 @@ class Payment
         if ($order && $order->status == 0) {
             //分销处理
             try{
-                Distribution::handler($order);
+                if(in_array($order->type, [\App\Libraries\OrderHandler\Order::CARD])){
+                    Distribution::handler($order);
+                }
             }catch (\Exception $exception){
                 $log->debug($exception->getMessage() . "\n". $exception->getTraceAsString());
             }
