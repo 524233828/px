@@ -69,6 +69,7 @@ class GoodsController extends Controller
 
         if($level == 0 || $goods->vip_price <= 0){
             $goods->removeVipPrice();
+            $goods->setAttribute("detail_price", $goods->price);
         }
 
         $goods = $goods->computeBuyNum();
