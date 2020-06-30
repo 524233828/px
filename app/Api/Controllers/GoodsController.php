@@ -67,7 +67,7 @@ class GoodsController extends Controller
 
         $level = CardOrder::getUserVipLevel();
 
-        if($level == 0){
+        if($level == 0 || $goods->vip_price <= 0){
             $goods->removeVipPrice();
         }
 

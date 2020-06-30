@@ -22,7 +22,7 @@ class GoodsOrderHandler extends AbstractOrderHandler
 
     public function validate($order_data): bool
     {
-        return $this->validator($order_data,[
+        return $this->validator($order_data, [
             "goods_id" => "required|Integer"
         ]);
     }
@@ -34,7 +34,7 @@ class GoodsOrderHandler extends AbstractOrderHandler
         /** @var Goods|null $class */
         $goods = Goods::query()->find($goods_id);
 
-        if(!$goods){
+        if (!$goods) {
             throw new \Exception("商品不存在");
         }
 
@@ -47,7 +47,7 @@ class GoodsOrderHandler extends AbstractOrderHandler
             "goods_id" => $goods_id,
         ]);
 
-        if(!$class_order->save()){
+        if (!$class_order->save()) {
             throw new \Exception("生成业务单失败");
         }
 
@@ -59,13 +59,13 @@ class GoodsOrderHandler extends AbstractOrderHandler
         /** @var GoodsOrder|null $goods_order */
         $goods_order = GoodsOrder::query()->where("order_sn", "=", $order->order_sn)->first();
 
-        if(!$goods_order){
+        if (!$goods_order) {
             return false;
         }
 
         $goods_order->status = 1;
 
-        if($goods_order->save()){
+        if ($goods_order->save()) {
             return true;
         }
 
@@ -79,13 +79,13 @@ class GoodsOrderHandler extends AbstractOrderHandler
         /** @var Goods|null $goods */
         $goods = Goods::query()->find($goods_id);
 
-        if(!$goods){
+        if (!$goods) {
             throw new \Exception("商品不存在");
         }
 
         $user_level = CardOrder::getUserVipLevel();
 
-        if($user_level > 0){
+        if ($user_level > 0 && $goods->vip_price > 0) {
             return $goods->vip_price;
         }
 
@@ -100,7 +100,7 @@ class GoodsOrderHandler extends AbstractOrderHandler
         /** @var Goods|null $goods */
         $goods = Goods::query()->find($goods_id);
 
-        if(!$goods){
+        if (!$goods) {
             throw new \Exception("商品不存在");
         }
 
@@ -114,7 +114,7 @@ class GoodsOrderHandler extends AbstractOrderHandler
         /** @var Goods|null $goods */
         $goods = Goods::query()->find($goods_id);
 
-        if(!$goods){
+        if (!$goods) {
             throw new \Exception("商品不存在");
         }
 
