@@ -108,6 +108,10 @@ class OrderController extends Controller
             return $this->response([], 2001, "订单不存在");
         }
 
+        if(strtotime($order->created_at) + 3600 > time()){
+            return $this->response([], 2006, "支付失败：订单已过期请重新购买");
+        }
+
         $payment = Payment::unified($order, $pay_type);
 
         $return['payment'] = $payment;
