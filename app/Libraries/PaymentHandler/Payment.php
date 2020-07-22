@@ -34,6 +34,10 @@ class Payment
     {
         $pay_sn = Order::getPaySn();
 
+        if(strtotime($order->created_at) + 3600 > time()){
+            throw new \Exception("订单已过期请重新购买");
+        }
+
         //更新订单的支付号
         $order->pay_sn = $pay_sn;
 
