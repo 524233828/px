@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $end_age 最大适龄
  * @property Shop $shop 店铺
  * @property Collection $comments 评价列表
+ * @property Collection $schoolTime 上课时间
  * @property Video $video 视频列表
  */
 class Classes extends Model
@@ -49,6 +50,11 @@ class Classes extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, "class_id", "id")->select(["star"]);
+    }
+
+    public function schoolTime()
+    {
+        return $this->hasMany(SchoolTime::class, "class_id", "id");
     }
 
     public function getPicAttribute($value)

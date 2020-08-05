@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Admin\Extensions\Form\Field\MultiDateTimeSelect;
+use Encore\Admin\Form;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
+        Form::extend("multiDatetime", MultiDateTimeSelect::class);
+
     }
 }

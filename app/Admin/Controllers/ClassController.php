@@ -8,6 +8,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Form\Field\MultiDateTimeSelect;
 use App\Models\Category;
 use App\Models\Classes;
 use App\Http\Controllers\Controller;
@@ -119,8 +120,7 @@ class ClassController extends Controller
             $form->text('info',"课程信息")->rules("required|string");
             $form->editor('desc', '课程简介');
             $form->image('pic',"课程图片")->move("classes/images");
-            $form->datetime('start_time',"上课时间");
-            $form->datetime('end_time',"下课时间");
+            $form->multiDatetime("schoolTime", "上课时间")->relateField("start_time");
             $form->radio('is_buy', "是否购买")->options(['1' => '是', '0'=> '否'])->default('0');
             $form->text('price', "价格")->default(0);
             $form->text('start_age', "最小适龄(0为不限)")->rules("Integer")->default(0);
