@@ -84,6 +84,6 @@ class Appoint extends Model
 
     public function getStartTimeAttribute($value){
         $datetime = new Carbon($value);
-        return $datetime->format("m月d日 H时i分"). " " . $datetime->localeDayOfWeek;
+        return $datetime->format("m月d日 H时i分"). " " . static::$weekLang[$datetime->dayOfWeek];
     }
 }
