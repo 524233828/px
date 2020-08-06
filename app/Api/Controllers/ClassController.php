@@ -10,6 +10,7 @@ namespace App\Api\Controllers;
 
 
 use App\Collections\ClassCollection;
+use App\Models\Appoint;
 use App\Models\Category;
 use App\Models\Classes;
 use App\Models\ClassOrder;
@@ -170,6 +171,11 @@ class ClassController extends Controller
         $class->computeCommentsInfo();
 
         $class->shop->computeCommentsInfo();
+
+        $class->schoolTime->map(function ($item){
+            $time = new Carbon($item->start_time);
+            $item->start_time_format = $time->format("m月d日 H时i分"). " " . Appoint::$weekLang[$time->dayOfWeek];
+        });
 
 
         if (!empty($latitude) && !empty($longitude)) {
