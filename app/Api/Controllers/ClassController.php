@@ -14,6 +14,8 @@ use App\Models\Category;
 use App\Models\Classes;
 use App\Models\ClassOrder;
 use App\Models\Shop;
+use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
@@ -139,7 +141,14 @@ class ClassController extends Controller
         $longitude = $request->get("longitude", null);
 
         /** @var Classes $class */
-        $class = Classes::find($class_id);
+        $class = Classes::query()->with(["schoolTime" => function($query){
+            /** @var Builder $query */
+            $now = new Carbon();
+
+            $query->where("start_time", ">", $now->format("Y-m-d H:i:s"))
+                ->where("start_time", "<", $now->addMonth()->format("Y-m-d H:i:s"));
+
+        }])->find($class_id);
 
         //类型是线上课程，判断是否购买，购买过才返回视频
         if ($class->type == 2) {

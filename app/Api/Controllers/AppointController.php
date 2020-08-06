@@ -12,6 +12,9 @@ namespace App\Api\Controllers;
 use App\Models\Appoint;
 use App\Models\CardOrder;
 use App\Models\Classes;
+use App\Models\SchoolTime;
+use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use JoseChan\Base\Api\Controllers\Controller;
@@ -46,7 +49,14 @@ class AppointController extends Controller
         $card = CardOrder::find($card_id);
 
         /** @var Classes $class */
-        $class = Classes::find($class_id);
+        $class = Classes::query()->with(["schoolTime" => function($query){
+            /** @var Builder $query */
+            $now = new Carbon();
+
+            $query->where("start_time", ">", $now->format("Y-m-d H:i:s"))
+                ->orderBy("start_time")->limit(1);
+
+        }])->find($class_id);
 
         if (!$card || !$class) {
             return $this->response([], 3001, "课程或卡券不存在");
@@ -57,14 +67,22 @@ class AppointController extends Controller
         }
 
         $now = now();
-        if ($now->gt($class->start_time)) {
+        //获取schoolTime
+        if(!$class->schoolTime || $class->schoolTime->isEmpty()){
+            return $this->response([], 3006, "暂时没有课程安排");
+        }
+
+        /** @var SchoolTime $school_time */
+        $school_time = $class->schoolTime->first;
+
+        if ($now->gt($school_time->start_time)) {
             return $this->response([], 3006, "课程已过了上课时间");
         }
 
         $appoint = Appoint::query()->where([
             ["class_id", "=", $class_id],
             ["card_id", "=", $card_id],
-            ["start_time", "=", $class->start_time],
+            ["start_time", "=", $school_time->start_time],
             ["end_time", "=", $class->end_time],
         ])->first();
 
@@ -87,7 +105,7 @@ class AppointController extends Controller
             "card_id" => $card_id,
             "admin_id" => $class->shop->admin_id,
             "appoint_sn" => Appoint::getAppointSn(),
-            "start_time" => $class->start_time,
+            "start_time" => $school_time->start_time,
             "end_time" => $class->end_time
         ]);
 
@@ -110,7 +128,7 @@ class AppointController extends Controller
                                 "value" => $class->name,
                             ],
                             "time4" => [
-                                "value" => $class->start_time
+                                "value" => $school_time->start_time
                             ]
                         ],
                         "pages/index/index"
