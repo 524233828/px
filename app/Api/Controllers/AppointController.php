@@ -52,7 +52,7 @@ class AppointController extends Controller
         /** @var Classes $class */
         $class = Classes::query()->with(["schoolTime" => function($query) use ($school_time_id){
             /** @var Builder $query */
-            if($school_time_id > 0){
+            if($school_time_id <= 0){
                 $now = new Carbon();
 
                 $query->where("start_time", ">", $now->format("Y-m-d H:i:s"))
