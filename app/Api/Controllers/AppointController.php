@@ -44,17 +44,22 @@ class AppointController extends Controller
         $class_id = $request->get("class_id");
         $card_id = $request->get("card_id");
         $is_notify = $request->get("is_notify", 0);
+        $school_time_id = $request->get("school_time_id", 0);
 
         /** @var CardOrder $card */
         $card = CardOrder::find($card_id);
 
         /** @var Classes $class */
-        $class = Classes::query()->with(["schoolTime" => function($query){
+        $class = Classes::query()->with(["schoolTime" => function($query) use ($school_time_id){
             /** @var Builder $query */
-            $now = new Carbon();
+            if($school_time_id > 0){
+                $now = new Carbon();
 
-            $query->where("start_time", ">", $now->format("Y-m-d H:i:s"))
-                ->orderBy("start_time")->limit(1);
+                $query->where("start_time", ">", $now->format("Y-m-d H:i:s"))
+                    ->orderBy("start_time")->limit(1);
+            }else{
+                $query->where("id", "=", $school_time_id);
+            }
 
         }])->find($class_id);
 
@@ -73,7 +78,7 @@ class AppointController extends Controller
         }
 
         /** @var SchoolTime $school_time */
-        $school_time = $class->schoolTime->first;
+        $school_time = $class->schoolTime->first();
 
         if ($now->gt($school_time->start_time)) {
             return $this->response([], 3006, "课程已过了上课时间");
