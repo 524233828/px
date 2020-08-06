@@ -9,6 +9,7 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -35,6 +36,8 @@ class Appoint extends Model
     protected $table = "px_appoint";
 
     protected $fillable = ["shop_id", "uid", "class_id", "status", "card_id", "admin_id", "appoint_sn", "start_time", "end_time"];
+
+    public static $weekLang = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 
     public function classes()
     {
@@ -77,5 +80,10 @@ class Appoint extends Model
     public static function getAppointSn()
     {
         return (string)(microtime(true) * 10000);
+    }
+
+    public function getStartTime($value){
+        $datetime = new Carbon($value);
+        return $datetime->format("m月d日 H时i分"). " " . $datetime->localeDayOfWeek;
     }
 }
