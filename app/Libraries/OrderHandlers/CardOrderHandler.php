@@ -131,8 +131,11 @@ class CardOrderHandler extends AbstractOrderHandler
             ->where("id", "<>", $card_order->id)->update(["expired"=>time()]);
 
         if ($card_order->save()) {
+            $connection->commit();
             return true;
         }
+
+        $connection->rollBack();
 
         return false;
     }
