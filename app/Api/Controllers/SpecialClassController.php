@@ -10,6 +10,7 @@ namespace App\Api\Controllers;
 
 
 use App\Models\CardOrder;
+use App\Models\Config;
 use App\Models\SpecialClass;
 use App\Models\SpecialClassOrder;
 use function foo\func;
@@ -98,6 +99,11 @@ class SpecialClassController extends Controller
 //                $special_class->setAttribute("is_buy", 1);
 //            }
 //        }
+
+        //审核模式
+        if(Config::get("review_mode")){
+            $special_class->removeVideoUrl();
+        }
 
         $special_class->teacher;
 

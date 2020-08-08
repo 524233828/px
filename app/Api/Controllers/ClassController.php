@@ -14,6 +14,7 @@ use App\Models\Appoint;
 use App\Models\Category;
 use App\Models\Classes;
 use App\Models\ClassOrder;
+use App\Models\Config;
 use App\Models\Shop;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
@@ -157,7 +158,9 @@ class ClassController extends Controller
 //            if (ClassOrder::checkUserIsBuy($class_id)) {
 //                //购买过
                 $class->setAttribute("is_buy", 0);
-                $class->video;
+                if(!Config::get("review_mode")){
+                    $class->video;
+                }
 //            } else {
 //                $class->setAttribute("is_buy", 1);
 //                $class->video;
@@ -165,7 +168,9 @@ class ClassController extends Controller
 //            }
         } else {
             $class->setAttribute("is_appoint", 1);
-            $class->video;
+            if(!Config::get("review_mode")){
+                $class->video;
+            }
         }
 
         $class->computeCommentsInfo();

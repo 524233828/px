@@ -10,6 +10,7 @@ namespace App\Api\Controllers;
 
 
 use App\Collections\ShopCollection;
+use App\Models\Config;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
@@ -107,7 +108,9 @@ class ShopController extends Controller
 
 //        $shop->classes;
 
-        $shop->video;
+        if(!Config::get("review_mode")){
+            $shop->video;
+        }
 
         $shop->computeCommentsInfo();
 
