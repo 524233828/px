@@ -18,6 +18,11 @@ use JoseChan\UserLogin\Constants\User;
  * Class CardOrder
  * @package App\Models
  * @property Collection $cardOrderChild
+ * @property int $id
+ * @property int $user_id
+ * @property string $order_sn
+ * @property int $card_id
+ * @property int $expired_time
  */
 class CardOrder extends Model
 {

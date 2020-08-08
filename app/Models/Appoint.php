@@ -35,7 +35,7 @@ class Appoint extends Model
 
     protected $table = "px_appoint";
 
-    protected $fillable = ["shop_id", "uid", "class_id", "status", "card_id", "admin_id", "appoint_sn", "start_time", "end_time"];
+    protected $fillable = ["shop_id", "uid", "class_id", "status", "card_id","card_child_id", "admin_id", "appoint_sn", "start_time", "end_time"];
 
     public static $weekLang = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 
@@ -67,13 +67,14 @@ class Appoint extends Model
     /**
      * 统计某卡券在某商户下预约次数
      * @param $admin_id
+     * @param $card_child_id
      * @return int
      */
-    public static function countBusinessCardAppointNum($admin_id, $card_id)
+    public static function countBusinessCardAppointNum($admin_id, $card_child_id)
     {
         return self::query()->where([
             ["admin_id", "=", $admin_id],
-            ["card_id", "=", $card_id],
+            ["card_child_id", "=", $card_child_id],
         ])->count();
     }
 

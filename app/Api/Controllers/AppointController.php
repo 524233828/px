@@ -43,6 +43,7 @@ class AppointController extends Controller
 
         $class_id = $request->get("class_id");
         $card_id = $request->get("card_id");
+        $card_child_id = $request->get("card_child_id");
         $is_notify = $request->get("is_notify", 0);
         $school_time_id = $request->get("school_time_id", 0);
 
@@ -87,6 +88,7 @@ class AppointController extends Controller
         $appoint = Appoint::query()->where([
             ["class_id", "=", $class_id],
             ["card_id", "=", $card_id],
+            ["card_child_id", "=", $card_child_id],
             ["start_time", "=", $school_time->start_time],
             ["end_time", "=", $class->end_time],
         ])->first();
@@ -96,7 +98,7 @@ class AppointController extends Controller
         }
 
         //检查卡券预约过多少次该商户的课程
-        $appoint_num = Appoint::countBusinessCardAppointNum($class->shop->admin_id, $card_id);
+        $appoint_num = Appoint::countBusinessCardAppointNum($class->shop->admin_id, $card_child_id);
         if ($appoint_num >= 3) {
             return $this->response([], 3003, "同一个商户只能预约三次");
         }
@@ -108,6 +110,7 @@ class AppointController extends Controller
             "class_id" => $class_id,
             "status" => 1,
             "card_id" => $card_id,
+            "card_child_id" => $card_child_id,
             "admin_id" => $class->shop->admin_id,
             "appoint_sn" => Appoint::getAppointSn(),
             "start_time" => $school_time->start_time,

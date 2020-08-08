@@ -118,11 +118,17 @@ class CardOrderHandler extends AbstractOrderHandler
             return false;
         }
 
+        $connection = Card::query()->getConnection();
+        $connection->beginTransaction();
         /** @var Card $card */
         $card = Card::query()->find($card_order->card_id);
 
         $card_order->status = 1;
         $card_order->expired_time = time() + $card->expired_time;
+
+        //其他卡设置成过期，同时只允许拥有一张卡
+        $other_card = CardOrder::query()->where("user_id" ,"=", $card_order->user_id)
+            ->where("id", "<>", $card_order->id)->update(["expired"=>time()]);
 
         if ($card_order->save()) {
             return true;
