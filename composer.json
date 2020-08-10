@@ -14,6 +14,7 @@
         "intervention/image": "~2.3",
         "jacobcyl/ali-oss-storage": "^2.1",
         "jose-chan/admin-creator": "v2.0.*",
+        "jose-chan/multiple-datetime": "dev-master",
         "jose-chan/pager": "^1.0",
         "jose-chan/user-login": "^0.1",
         "jose-chan/wechat-miniprogram": "~1.2",
