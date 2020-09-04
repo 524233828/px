@@ -95,6 +95,8 @@ class ShopController extends Controller
     {
         return Admin::grid(Shop::class, function (Grid $grid) {
 
+            $admin_id = Admin::user()->id;
+            $grid->model()->where("admin_id", $admin_id);
             $grid->column("id", "id")->sortable();
             $grid->column("name", "商店名称");
             $grid->column("business.name", "所属商户");
@@ -116,8 +118,6 @@ class ShopController extends Controller
     protected function form()
     {
         return Admin::form(Shop::class, function (Form $form) {
-
-
             $form->display('id', "id");
             $form->select('admin_id', "所属商户")->options($this->fetchBusiness())->rules("notIn:0");
             $form->text('name', "商店名称")->rules("required|string");

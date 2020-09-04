@@ -18,6 +18,8 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use function foo\func;
+use Illuminate\Database\Query\Builder;
 
 class ClassController extends Controller
 {
@@ -94,6 +96,11 @@ class ClassController extends Controller
     {
         return Admin::grid(Classes::class, function (Grid $grid) {
 
+            $admin_id = Admin::user()->id;
+            $grid->model()->getModel()->with(['shop' => function($query) use ($admin_id){
+                /** @var Builder $query */
+                $query->where("admin_id", "=", $admin_id);
+            }]);
             $grid->column("id","id")->sortable();
             $grid->column("name","课程名字");
             $grid->column("shop.name", "店铺名称");
