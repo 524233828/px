@@ -98,6 +98,12 @@ class OrderController extends Controller
                 $actions->disableView();
                 $actions->disableDelete();
             });
+            $uid = Admin::user()->id;
+
+            if(Admin::user()->isRole('business')){
+                $grid->model()->where([["type", "=", 1], ["admin_id", "=", $uid]]);
+            }
+
             $grid->column("id","id")->sortable();
             $grid->column("order_sn","订单号");
             $grid->column("uid","用户id");
@@ -108,13 +114,7 @@ class OrderController extends Controller
             $grid->column("pay_sn","支付号");
             $grid->column("status","订单状态 0-未付款 1-已付款 2-已退款");
 
-            $uid = Admin::user()->id;
-            $role = DB::table("admin_role_users")->where(["user_id" => $uid])->first(["role_id"]);
-            $role = (array)$role;
 
-            if ($role['role_id'] != 1) {
-                $grid->model()->where(["type", "=", 1], ["admin_id", "=", $uid]);
-            }
 
             //允许筛选的项
             //筛选规则不允许用like，且搜索字段必须为索引字段
