@@ -45,6 +45,7 @@ class ClassOrderHandler extends AbstractOrderHandler
             "user_id" => $user->id,
             "order_sn" => $order->order_sn,
             "class_id" => $class_id,
+            "admin_id" => $class->shop->admin_id,
         ]);
 
         if(!$class_order->save()){
