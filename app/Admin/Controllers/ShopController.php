@@ -95,8 +95,10 @@ class ShopController extends Controller
     {
         return Admin::grid(Shop::class, function (Grid $grid) {
 
-            $admin_id = Admin::user()->id;
-            $grid->model()->where("admin_id", $admin_id);
+            if(Admin::user()->isRole('business')){
+                $admin_id = Admin::user()->id;
+                $grid->model()->where("admin_id", $admin_id);
+            }
             $grid->column("id", "id")->sortable();
             $grid->column("name", "商店名称");
             $grid->column("business.name", "所属商户");

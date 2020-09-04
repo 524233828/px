@@ -96,11 +96,18 @@ class ClassController extends Controller
     {
         return Admin::grid(Classes::class, function (Grid $grid) {
 
-            $admin_id = Admin::user()->id;
-            $grid->model()->getModel()->with(['shop' => function($query) use ($admin_id){
-                /** @var Builder $query */
-                $query->where("admin_id", "=", $admin_id);
-            }]);
+            if(Admin::user()->isRole('business')){
+                $admin_id = Admin::user()->id;
+                $shop = Shop::query()->where("admin_id", "=", $admin_id)->get(["id"]);
+                if($shop && $shop->isNotEmpty()){
+                    $shop_id = array_column($shop->toArray(), "id");
+                    $grid->model()->whereIn("shop_id", $shop_id);
+                }
+            }
+//            $grid->model()->getModel()->with(['shop' => function($query) use ($admin_id){
+//                /** @var Builder $query */
+//                $query->where("admin_id", "=", $admin_id);
+//            }]);
             $grid->column("id","id")->sortable();
             $grid->column("name","课程名字");
             $grid->column("shop.name", "店铺名称");
