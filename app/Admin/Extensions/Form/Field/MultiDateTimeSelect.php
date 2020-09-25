@@ -115,10 +115,10 @@ var xm_select = xmSelect.render({
 
 layui.laydate.render({
 	elem: '#laydate-{$id_name}',
-	type: 'datetime',
+	type: 'time',
 	position: 'static',
 	showBottom: true,
-	format: 'yyyy-MM-dd HH:mm:ss',
+	format: 'HH:mm:ss',
 	change: function(){
 		dateSelect(xm_select.getValue('value'));
 	},

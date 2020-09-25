@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $category_id 分类ID
  * @property integer $start_age 最小适龄
  * @property integer $end_age 最大适龄
+ * @property array $week 上课的星期
  * @property Shop $shop 店铺
  * @property Collection $comments 评价列表
  * @property Collection $schoolTime 上课时间
@@ -140,6 +141,14 @@ class Classes extends Model
         $this->setAttribute("is_like", $count);
 
         return $this;
+    }
+
+    public function getWeekAttribute($value){
+        if(empty($value)){
+            return [];
+        }
+
+        return json_decode($value, true);
     }
 
 }

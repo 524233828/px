@@ -15,6 +15,7 @@ use App\Models\Category;
 use App\Models\Classes;
 use App\Models\ClassOrder;
 use App\Models\Config;
+use App\Models\SchoolTime;
 use App\Models\Shop;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
@@ -106,11 +107,11 @@ class ClassController extends Controller
             });
         }
 
-        if($type == 2){
+        if ($type == 2) {
             $classes->map(function (Classes $item, $key) {
                 return $item->setAttribute("is_appoint", 0);
             });
-        }else{
+        } else {
             $classes->map(function (Classes $item, $key) {
                 return $item->setAttribute("is_appoint", 1);
             });
@@ -143,7 +144,7 @@ class ClassController extends Controller
         $longitude = $request->get("longitude", null);
 
         /** @var Classes $class */
-        $class = Classes::query()->with(["schoolTime" => function($query){
+        $class = Classes::query()->with(["schoolTime" => function ($query) {
             /** @var Builder $query */
             $now = new Carbon();
 
@@ -157,10 +158,10 @@ class ClassController extends Controller
 //            $class->setAttribute("is_appoint", 0);
 //            if (ClassOrder::checkUserIsBuy($class_id)) {
 //                //购买过
-                $class->setAttribute("is_buy", 0);
-                if(!Config::get("review_mode")){
-                    $class->video;
-                }
+            $class->setAttribute("is_buy", 0);
+            if (!Config::get("review_mode")) {
+                $class->video;
+            }
 //            } else {
 //                $class->setAttribute("is_buy", 1);
 //                $class->video;
@@ -168,7 +169,7 @@ class ClassController extends Controller
 //            }
         } else {
             $class->setAttribute("is_appoint", 1);
-            if(!Config::get("review_mode")){
+            if (!Config::get("review_mode")) {
                 $class->video;
             }
         }
@@ -177,9 +178,39 @@ class ClassController extends Controller
 
         $class->shop->computeCommentsInfo();
 
-        $class->schoolTime->map(function ($item){
+        //获取上课时间
+        $times = array_column($class->schoolTime()->get()->toArray(), "start_time");
+
+        $date_in_week = [];
+        for ($i = 0; $i <= 7; $i++) {
+            $now = new Carbon();
+            $date_in_week[] = $now->addDay($i);
+        }
+
+        //寻找一周内的所有符合配置
+        $date = [];
+        if (!empty($class->week)) {
+            $now = new Carbon();
+            foreach ($class->week as $item) {
+                /** @var Carbon $value */
+                foreach ($date_in_week as $value) {
+                    $item == 7 && $item = 0;
+                    if ($value->isDayOfWeek((int)$item)) {
+                        foreach ($times as $time){
+
+                            if($value->setTimeFromTimeString($time)->gt($now)){
+                                $date[] = $value->setTimeFromTimeString($time)->format("m月d日 H时i分");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        $class->schoolTime->map(function ($item) {
             $time = new Carbon($item->start_time);
-            $item->start_time_format = $time->format("m月d日 H时i分"). " " . Appoint::$weekLang[$time->dayOfWeek];
+            $item->start_time_format = $time->format("m月d日 H时i分") . " " . Appoint::$weekLang[$time->dayOfWeek];
         });
 
 

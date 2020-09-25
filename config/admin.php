@@ -445,6 +445,19 @@ return [
                 'uploadImgServer' => '/admin/wangeditor/upload',
                 'uploadFileName' => 'wangeditor_image[]',
             ]
-        ]
+        ],
+
+//        'extensions' => [
+//
+//            'multiple-datetime' => [
+//
+//                // Set to `false` if you want to disable this extension
+//                'enable' => true,
+//
+//                'config' => [
+//                    //'alias' => "setYourName",//set your AliasName Or not Set
+//                ]
+//            ]
+//        ]
     ],
 ];
