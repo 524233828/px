@@ -32,17 +32,6 @@ class CardController extends Controller
      */
     public function fetch(Request $request)
     {
-//        $this->validate($request->all(), [
-//            "class_id" => "required"
-//        ]);
-//
-//        $class_id = $request->get("class_id");
-//
-//        $classes = Classes::find($class_id);
-//
-//        if(!$classes){
-//            return $this->response([],3000, "课程不存在");
-//        }
 
         $card = CardOrder::query()
             ->where([
