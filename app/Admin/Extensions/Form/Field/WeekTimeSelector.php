@@ -2,173 +2,46 @@
 /**
  * Created by PhpStorm.
  * User: chenyu
- * Date: 2020-08-04
- * Time: 21:28
+ * Date: 2020-11-10
+ * Time: 11:12
  */
 
 namespace App\Admin\Extensions\Form\Field;
 
 
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Form;
+use Encore\Admin\Admin;
 use Encore\Admin\Form\Field;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Laravel-admin Extension for Multiple DateTime Select
- * Class MultiDateTimeSelect
- * @package App\Admin\Extensions\Form\Field
- */
-class MultiDateTimeSelect extends Field
+class WeekTimeSelector extends Field
 {
-
-    public function __construct($column = '', array $arguments = [])
-    {
-        $my_column = $column;
-        if (Str::contains($my_column, '->') || Str::contains($my_column, '.')) {
-            $my_column = str_replace('->', '.', $my_column);
-            list($my_column, $other_key) = explode(".", $my_column);
-            $this->otherKey = $other_key;
-        }
-        $this->relationKey = $my_column;
-
-        parent::__construct($column, $arguments);
-    }
-
+    private $weekField = "week";
+    private $timeField = "time";
     /** @var array $css */
     protected static $css = [
-        "https://www.layuicdn.com/layui-v2.5.5/css/layui.css"
+        '/vendor/laravel-admin/AdminLTE/plugins/iCheck/all.css',
     ];
 
-    /** @var array $js */
     protected static $js = [
-        "https://www.layuicdn.com/layui-v2.5.5/layui.all.js",
-        "/js/xm-select/xm-select.js"
+        '/vendor/laravel-admin/AdminLTE/plugins/iCheck/icheck.min.js',
     ];
 
     /** @var string $view 视图 */
-    protected $view = "form.field.multiDatetimeSelect";
+    protected $view = "form.field.weekTimeSelector";
 
-    protected $relationKey;
-    protected $otherKey;
 
-    /**
-     * get Default Value When Edit
-     * @return false|string
-     */
-    private function getDefaultValue()
+    public function relatedField($weekField, $timeField)
     {
-        $value = [];
-        if (!empty($this->value)) {
-            foreach ($this->value as $datetime) {
-                $value[] = [
-                    "name" => $datetime,
-                    "value" => $datetime,
-                    "selected" => true
-                ];
-            }
-        }
-        return json_encode($value, JSON_UNESCAPED_UNICODE);
+        $this->weekField = $weekField;
+        $this->timeField = $timeField;
+
+        return $this;
     }
 
-    private function getFormName()
-    {
-        return !empty($this->otherKey) ? "{$this->relationKey}[{$this->otherKey}]" : $this->relationKey;
-    }
-
-    public function getIdName()
-    {
-        return !empty($this->otherKey) ? $this->otherKey : $this->relationKey;
-    }
-
-    public function relateField($field)
-    {
-        $this->otherKey = $field;
-    }
-
-    /**
-     * javascript
-     * @return string
-     */
     private function script()
     {
-        $value = $this->getDefaultValue();
-        $form_name = $this->getFormName();
-        $id_name = $this->getIdName();
-        $script = <<<EOT
-let {$id_name}val = {$value};
-var xm_select = xmSelect.render({
-	el: '#multi-date-selector-{$id_name}', 
-	name: '{$form_name}',
-	data:{$id_name}val,
-	content: '<div id="laydate-{$id_name}" />',
-	height: 'auto',
-	autoRow: true,
-	on: function(data){
-		if(!data.isAdd){
-			dateSelect(xm_select.getValue('value'));
-		}
-	}
-})
 
-layui.laydate.render({
-	elem: '#laydate-{$id_name}',
-	type: 'time',
-	position: 'static',
-	showBottom: true,
-	format: 'HH:mm:ss',
-	change: function(){
-		dateSelect(xm_select.getValue('value'));
-	},
-	done: function(value){
-		var values = xm_select.getValue('value');
-		var index = values.findIndex(function(val){
-			return val === value
-		});
-		
-		if(index != -1){
-			values.splice(index, 1);
-		}else{
-			values.push(value);
-		}
-
-		dateSelect(values);
-		
-		xm_select.update({
-			data: values.map(function(val){
-				return {
-					name: val,
-					value: val,
-					selected: true,
-				}
-			})
-		})
-	},
-	ready: removeAll,
-})
-
-function removeAll(){
-	document.querySelectorAll('#laydate-{$id_name} td[lay-ymd].layui-this').forEach(function(dom){
-		dom.classList.remove('layui-this');
-	});
-}
-
-function dateSelect(values){
-	removeAll();
-	values.forEach(function(val){
-		var dom = document.querySelector('#laydate-{$id_name} td[lay-ymd="'+val.replace(/-0([1-9])/g, '-$1')+'"]');
-		dom && dom.classList.add('layui-this');
-	});
-}
-
-EOT;
-
-        return $script;
     }
 
     /**
@@ -177,7 +50,8 @@ EOT;
      */
     public function render()
     {
-        $this->variables = array_merge($this->variables, ["id_name" => $this->getIdName()]);
+        $this->addVariables(["week" =>$this->weekField, "time" => $this->timeField]);
+//        $this->variables = array_merge($this->variables, ["id_name" => $this->getIdName()]);
         Admin::script($this->script());
         return parent::render(); // TODO: Change the autogenerated stub
     }

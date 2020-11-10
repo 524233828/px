@@ -58,6 +58,11 @@ class Classes extends Model
         return $this->hasMany(SchoolTime::class, "class_id", "id");
     }
 
+    public function weekTime()
+    {
+        return $this->hasMany(WeekTime::class, "class_id", "id");
+    }
+
     public function getPicAttribute($value)
     {
         return $this->imageHandle($value);

@@ -134,16 +134,17 @@ class ClassController extends Controller
             $form->text('info',"课程信息")->rules("required|string");
             $form->editor('desc', '课程简介');
             $form->image('pic',"课程图片")->move("classes/images");
-            $form->checkbox("week", "上课时间")->options([
-                "7" => "星期日",
-                "1" => "星期一",
-                "2" => "星期二",
-                "3" => "星期三",
-                "4" => "星期四",
-                "5" => "星期五",
-                "6" => "星期六",
-            ]);
-            $form->multiDatetime("schoolTime", "上课时间")->relateField("start_time");
+//            $form->weekTimeSelect('weekTime', "上课时间")->relatedField("week", "time");
+//            $form->checkbox("week", "上课时间")->options([
+//                "7" => "星期日",
+//                "1" => "星期一",
+//                "2" => "星期二",
+//                "3" => "星期三",
+//                "4" => "星期四",
+//                "5" => "星期五",
+//                "6" => "星期六",
+//            ]);
+//            $form->multiDatetime("schoolTime", "上课时间")->relateField("start_time");
             $form->radio('is_buy', "是否购买")->options(['1' => '是', '0'=> '否'])->default('0');
             $form->text('price', "价格")->default(0);
             $form->text('start_age', "最小适龄(0为不限)")->rules("Integer")->default(0);
