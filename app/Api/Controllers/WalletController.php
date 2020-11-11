@@ -107,7 +107,7 @@ class WalletController extends Controller
             $data = [
                 "order_sn" => $order_sn,
                 "openid" => $user->open_id,
-                "amount" => $money,
+                "amount" => Amount::dollarToCent($money),
                 "desc" => "用户提现",
                 "ip" => client_ip(0, true)
             ];
@@ -132,7 +132,7 @@ class WalletController extends Controller
                 }
             } catch (\Exception $exception) {
                 $wallet->getConnection()->rollBack();
-                return $this->response([], 7001, "转出金额失败");
+                return $this->response([], 7001, $exception->getMessage());
             }
 
         } else {
@@ -144,7 +144,7 @@ class WalletController extends Controller
                 "out_trade_type" => Bill::OUT_TYPE_WITHDRAW,
                 "out_trade_no" => $order_sn,
                 "type" => Bill::TYPE_OUTCOME,
-                "money" => Amount::dollarToCent($money),
+                "money" => $money,
                 "remark" => "提现金额",
                 "uid" => $user->id
             ]);
