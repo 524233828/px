@@ -53,10 +53,10 @@ class Classes extends Model
         return $this->hasMany(Comment::class, "class_id", "id")->select(["star"]);
     }
 
-    public function schoolTime()
-    {
-        return $this->hasMany(SchoolTime::class, "class_id", "id");
-    }
+//    public function schoolTime()
+//    {
+//        return $this->hasMany(SchoolTime::class, "class_id", "id");
+//    }
 
     public function weekTime()
     {

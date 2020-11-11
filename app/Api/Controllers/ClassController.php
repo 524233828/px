@@ -179,39 +179,39 @@ class ClassController extends Controller
         $class->shop->computeCommentsInfo();
 
         //获取上课时间
-        $times = array_column($class->schoolTime()->get()->toArray(), "start_time");
+//        $times = array_column($class->schoolTime()->get()->toArray(), "start_time");
 
-        $date_in_week = [];
-        for ($i = 0; $i <= 7; $i++) {
-            $now = new Carbon();
-            $date_in_week[] = $now->addDay($i);
-        }
+//        $date_in_week = [];
+//        for ($i = 0; $i <= 7; $i++) {
+//            $now = new Carbon();
+//            $date_in_week[] = $now->addDay($i);
+//        }
 
         //寻找一周内的所有符合配置
-        $date = [];
-        if (!empty($class->week)) {
-            $now = new Carbon();
-            foreach ($class->week as $item) {
-                /** @var Carbon $value */
-                foreach ($date_in_week as $value) {
-                    $item == 7 && $item = 0;
-                    if ($value->isDayOfWeek((int)$item)) {
-                        foreach ($times as $time){
+//        $date = [];
+//        if (!empty($class->week)) {
+//            $now = new Carbon();
+//            foreach ($class->week as $item) {
+//                /** @var Carbon $value */
+//                foreach ($date_in_week as $value) {
+//                    $item == 7 && $item = 0;
+//                    if ($value->isDayOfWeek((int)$item)) {
+//                        foreach ($times as $time){
+//
+//                            if($value->setTimeFromTimeString($time)->gt($now)){
+//                                $date[] = $value->setTimeFromTimeString($time)->format("m月d日 H时i分");
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
-                            if($value->setTimeFromTimeString($time)->gt($now)){
-                                $date[] = $value->setTimeFromTimeString($time)->format("m月d日 H时i分");
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
-
-        $class->schoolTime->map(function ($item) {
-            $time = new Carbon($item->start_time);
-            $item->start_time_format = $time->format("m月d日 H时i分") . " " . Appoint::$weekLang[$time->dayOfWeek];
-        });
+//        $class->schoolTime->map(function ($item) {
+//            $time = new Carbon($item->start_time);
+//            $item->start_time_format = $time->format("m月d日 H时i分") . " " . Appoint::$weekLang[$time->dayOfWeek];
+//        });
 
 
         if (!empty($latitude) && !empty($longitude)) {
