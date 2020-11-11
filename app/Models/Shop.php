@@ -210,6 +210,9 @@ class Shop extends Model
     public function setBannerAttribute($banner)
     {
         if(is_array($banner)){
+            foreach ($banner as $k => $item){
+                $banner[$k] = $this->removeHost($item);
+            }
             $this->attributes['banner'] = json_encode($banner);
         }
 
