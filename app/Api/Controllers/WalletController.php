@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use JoseChan\Base\Api\Controllers\Controller;
 use JoseChan\UserLogin\Constants\User;
 use Runner\NezhaCashier\Cashier;
+use Runner\NezhaCashier\Utils\Amount;
 
 class WalletController extends Controller
 {
@@ -115,18 +116,23 @@ class WalletController extends Controller
                 return $this->response([], 7001, "钱包扣款失败");
             }
 
-            $result = $transfer->pay($data);
+            try {
+                $result = $transfer->pay($data);
 
-            if ($result['return_code'] == "SUCCESS") {
-                //转账成功
-                $bill->save();
+                if ($result['return_code'] == "SUCCESS") {
+                    //转账成功
+                    $bill->save();
 
-                $withdraw->status = 1;
-                $withdraw->save();
+                    $withdraw->status = 1;
+                    $withdraw->save();
 
-                $wallet->getConnection()->commit();
+                    $wallet->getConnection()->commit();
 
-                return $this->response([]);
+                    return $this->response([]);
+                }
+            } catch (\Exception $exception) {
+                $wallet->getConnection()->rollBack();
+                return $this->response([], 7001, "转出金额失败");
             }
 
         } else {
@@ -138,7 +144,7 @@ class WalletController extends Controller
                 "out_trade_type" => Bill::OUT_TYPE_WITHDRAW,
                 "out_trade_no" => $order_sn,
                 "type" => Bill::TYPE_OUTCOME,
-                "money" => $money,
+                "money" => Amount::dollarToCent($money),
                 "remark" => "提现金额",
                 "uid" => $user->id
             ]);
