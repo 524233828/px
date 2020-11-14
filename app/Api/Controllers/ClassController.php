@@ -17,6 +17,7 @@ use App\Models\ClassOrder;
 use App\Models\Config;
 use App\Models\SchoolTime;
 use App\Models\Shop;
+use App\Models\WeekTime;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
@@ -171,17 +172,33 @@ class ClassController extends Controller
 
         $class->shop->computeCommentsInfo();
 
+        $class->weekTime;
+
         //获取上课时间
 //        $times = array_column($class->schoolTime()->get()->toArray(), "start_time");
 
-//        $date_in_week = [];
-//        for ($i = 0; $i <= 7; $i++) {
-//            $now = new Carbon();
-//            $date_in_week[] = $now->addDay($i);
-//        }
+        /** @var Carbon[] $date_in_week */
+        $date_in_week = [];
+        for ($i = 0; $i <= 7; $i++) {
+            $now = new Carbon();
+            $date_in_week[] = $now->addDay($i);
+        }
 
         //寻找一周内的所有符合配置
-//        $date = [];
+        $date = [];
+        $class->weekTime->map(function ($item) use ($date_in_week, &$date){
+            /** @var WeekTime $item */
+            foreach ($date_in_week as $value){
+                $week = $item->week;
+                $week== 7 && $week = 0;
+                if ($value->isDayOfWeek((int)$week)) {
+                    $date[] = ["start_time_format"=> $value->setTimeFromTimeString($item->time)->format("m月d日 H时i分"), "id" => $item->id];
+                }
+            }
+
+        });
+
+        $class->setAttribute("date", $date);
 //        if (!empty($class->week)) {
 //            $now = new Carbon();
 //            foreach ($class->week as $item) {

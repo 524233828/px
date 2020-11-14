@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Collection $comments 评价列表
  * @property Collection $schoolTime 上课时间
  * @property Video $video 视频列表
+ * @property Collection $weekTime 视频列表
  */
 class Classes extends Model
 {
@@ -148,12 +149,29 @@ class Classes extends Model
         return $this;
     }
 
-    public function getWeekAttribute($value){
-        if(empty($value)){
+    public function getWeekAttribute($value)
+    {
+        if (empty($value)) {
             return [];
         }
 
         return json_decode($value, true);
+    }
+
+    /**
+     * 组装评价参数
+     * @return $this
+     */
+    public function getSchoolTimeAttribute($value)
+    {
+        $value = "";
+        $this->weekTime->map(function ($item) use (&$value){
+            /** @var WeekTime $item */
+
+            $value .= "<p>" . WeekTime::$week_name[$item->week] . " " . $item->time . "</p>";
+        });
+
+        return $value;
     }
 
 }

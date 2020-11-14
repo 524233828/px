@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         //
         Schema::defaultStringLength(191);
         Form::extend("multiDatetime", MultiDateTimeSelect::class);
-//        Form::extend("weekTimeSelect", WeekTimeSelector::class);
+        Form::extend("weekTimeSelect", WeekTimeSelector::class);
 
     }
 }
