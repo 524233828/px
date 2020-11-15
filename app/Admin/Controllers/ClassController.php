@@ -124,7 +124,7 @@ class ClassController extends Controller
             //TODO: 使用模糊查询必须通过搜索引擎，此处请扩展搜索引擎
             $grid->filter(function (Grid\Filter $filter) use($shop_option) {
                 $filter->equal("id", "id");
-                $filter->equal("id", "店铺")->select($shop_option);
+                $filter->equal("shop_id", "店铺")->select($shop_option);
                 $filter->like("name", "课程名称");
             });
         });
