@@ -96,20 +96,25 @@ class ClassController extends Controller
     {
         return Admin::grid(Classes::class, function (Grid $grid) {
 
-            if(Admin::user()->isRole('business')){
+            $shop_option = Shop::getSelector();
+            if (Admin::user()->isRole('business')) {
                 $admin_id = Admin::user()->id;
                 $shop = Shop::query()->where("admin_id", "=", $admin_id)->get(["id"]);
-                if($shop && $shop->isNotEmpty()){
+                if ($shop && $shop->isNotEmpty()) {
                     $shop_id = array_column($shop->toArray(), "id");
+                    $shop_option = [];
                     $grid->model()->whereIn("shop_id", $shop_id);
+                    foreach ($shop->toArray() as $value) {
+                        $shop_option[$value['id']] = $value['name'];
+                    }
                 }
             }
 //            $grid->model()->getModel()->with(['shop' => function($query) use ($admin_id){
 //                /** @var Builder $query */
 //                $query->where("admin_id", "=", $admin_id);
 //            }]);
-            $grid->column("id","id")->sortable();
-            $grid->column("name","课程名字");
+            $grid->column("id", "id")->sortable();
+            $grid->column("name", "课程名字");
             $grid->column("shop.name", "店铺名称");
 //            $grid->column("start_time","上课时间");
 //            $grid->column("created_at","created_at");
@@ -117,8 +122,9 @@ class ClassController extends Controller
             //允许筛选的项
             //筛选规则不允许用like，且搜索字段必须为索引字段
             //TODO: 使用模糊查询必须通过搜索引擎，此处请扩展搜索引擎
-            $grid->filter(function (Grid\Filter $filter){
-                $filter->equal("id","id");
+            $grid->filter(function (Grid\Filter $filter) use($shop_option) {
+                $filter->equal("id", "id");
+                $filter->equal("id", "店铺")->select($shop_option);
                 $filter->like("name", "课程名称");
             });
         });
@@ -127,13 +133,13 @@ class ClassController extends Controller
     protected function form()
     {
         return Admin::form(Classes::class, function (Form $form) {
-            $form->display('id',"id");
-            $form->select('shop_id',"店铺")->options(Shop::getSelector())->rules("notIn:0");
+            $form->display('id', "id");
+            $form->select('shop_id', "店铺")->options(Shop::getSelector())->rules("notIn:0");
             $form->select("category_id", "分类")->options(Category::getSelector())->rules("notIn:0");
-            $form->text('name',"课程名字")->rules("required|string");
-            $form->text('info',"课程信息")->rules("required|string");
+            $form->text('name', "课程名字")->rules("required|string");
+            $form->text('info', "课程信息")->rules("required|string");
             $form->editor('desc', '课程简介');
-            $form->image('pic',"课程图片")->move("classes/images");
+            $form->image('pic', "课程图片")->move("classes/images");
             $form->weekTimeSelect('weekTime', "上课时间")->relatedField("week", "time");
 //            $form->checkbox("week", "上课时间")->options([
 //                "7" => "星期日",
@@ -146,13 +152,13 @@ class ClassController extends Controller
 //            ]);
 //            $form->multiDatetime("schoolTime", "上课时间")->relateField("start_time");
 //            $form->editor('school_time', "上课时间");
-            $form->radio('is_buy', "是否购买")->options(['1' => '是', '0'=> '否'])->default('0');
+            $form->radio('is_buy', "是否购买")->options(['1' => '是', '0' => '否'])->default('0');
             $form->text('price', "价格")->default(0);
             $form->text('start_age', "最小适龄(0为不限)")->rules("Integer")->default(0);
             $form->text('end_age', "最大适龄（0为不限）")->rules("Integer")->default(0);
-            $form->select('type', "类型")->options([1=>"线下课", 2=>"线上课"])->default(1);
+            $form->select('type', "类型")->options([1 => "线下课", 2 => "线上课"])->default(1);
             $form->text('like', "点赞数");
-            
+
         });
     }
 }
