@@ -42,7 +42,7 @@ class Distribution
             $distribution_user = PxUser::find($user->pid);
 
             //用户不存在，不分销
-            if(!$distribution_user){
+            if (!$distribution_user) {
                 throw new \Exception("用户不存在");
             }
 
@@ -50,7 +50,7 @@ class Distribution
             $wallet = Wallet::query()->where("uid", "=", $distribution_user->id)->first();
 
             //没有钱包
-            if(!$wallet){
+            if (!$wallet) {
                 throw new \Exception("钱包获取失败");
             }
 
@@ -71,6 +71,12 @@ class Distribution
                 "amount" => $amount
             ]);
 
+            //查找流水账单
+            $old_bill = Bill::query()->where("out_trade_no", "=", $order->order_sn)->first();
+            if ($old_bill) {
+                return true;
+            }
+
             //创建账单流水
             $bill = new Bill([
                 "bill_no" => Bill::getBillSn(),
@@ -88,11 +94,11 @@ class Distribution
             //开始事务
             $wallet->getConnection()->beginTransaction();
 
-            if($wallet->save() && $distribution->save() && $bill->save()){
+            if ($wallet->save() && $distribution->save() && $bill->save()) {
                 $wallet->getConnection()->commit();
 
                 return true;
-            }else{
+            } else {
                 throw new \Exception("保存分销记录失败");
             }
         }

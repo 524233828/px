@@ -128,7 +128,7 @@ class CardOrderHandler extends AbstractOrderHandler
 
         //其他卡设置成过期，同时只允许拥有一张卡
         $other_card = CardOrder::query()->where("user_id" ,"=", $card_order->user_id)
-            ->where("id", "<>", $card_order->id)->update(["expired"=>time()]);
+            ->where("id", "<>", $card_order->id)->update(["expired_time"=>time()]);
 
         if ($card_order->save()) {
             $connection->commit();
