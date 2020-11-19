@@ -36,30 +36,38 @@ class CategoryController extends Controller
             ->where("status", "=", 1)
             ->orderByDesc("sort")
             ->get();
-        if($category){
-            return $this->response(["list" => $category->toArray()]);
+        if ($category) {
+            //10个一组分组
+            $final = [];
+            $page_size = 10;
+            $page = ceil($category->count() / $page_size);
+            for ($i = 0; $i < $page; $i++) {
+                $final[] = $category->slice($page_size * $i, $page_size)->toArray();
+            }
+            return $this->response(["list" => $final]);
         }
         return $this->response(["list" => []]);
     }
 
-    public function fetch(){
+    public function fetch()
+    {
         /** @var Collection $category */
         $category = Category::query()->get();
 
         $parent_list = [];
         $child_list = [];
-        if($category->isNotEmpty()){
-            foreach ($category->toArray() as $item){
-                if($item['parent_id'] == 0){
+        if ($category->isNotEmpty()) {
+            foreach ($category->toArray() as $item) {
+                if ($item['parent_id'] == 0) {
                     $parent_list[$item['id']] = $item;
-                }else{
+                } else {
                     $child_list[$item['parent_id']][] = $item;
                 }
             }
 
-            if(!empty($child_list)){
-                foreach ($child_list as $parent_id => $children){
-                    if(isset($parent_list[$parent_id])){
+            if (!empty($child_list)) {
+                foreach ($child_list as $parent_id => $children) {
+                    if (isset($parent_list[$parent_id])) {
                         $parent_list[$parent_id]['children'] = $children;
                     }
                 }
