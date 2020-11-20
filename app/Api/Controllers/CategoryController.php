@@ -37,14 +37,18 @@ class CategoryController extends Controller
             ->orderByDesc("sort")
             ->get();
         if ($category) {
-            //10个一组分组
-            $final = [];
-            $page_size = 10;
-            $page = ceil($category->count() / $page_size);
-            for ($i = 0; $i < $page; $i++) {
-                $final[] = $category->slice($page_size * $i, $page_size)->toArray();
+            if($parent_id == 0){
+                //10个一组分组
+                $final = [];
+                $page_size = 10;
+                $page = ceil($category->count() / $page_size);
+                for ($i = 0; $i < $page; $i++) {
+                    $final[] = $category->slice($page_size * $i, $page_size)->toArray();
+                }
+                return $this->response(["list" => $final]);
+            } else {
+                return $this->response(["list" => $category->toArray()]);
             }
-            return $this->response(["list" => $final]);
         }
         return $this->response(["list" => []]);
     }
