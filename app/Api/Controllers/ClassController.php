@@ -172,31 +172,48 @@ class ClassController extends Controller
 
         $class->shop->computeCommentsInfo();
 
-        $class->weekTime;
+//        $class->weekTime;
 
         //获取上课时间
 //        $times = array_column($class->schoolTime()->get()->toArray(), "start_time");
 
-        /** @var Carbon[] $date_in_week */
-        $date_in_week = [];
-        for ($i = 0; $i <= 7; $i++) {
-            $now = new Carbon();
-            $date_in_week[] = $now->addDay($i);
-        }
-
-        //寻找一周内的所有符合配置
-        $date = [];
-        $class->weekTime->map(function ($item) use ($date_in_week, &$date){
-            /** @var WeekTime $item */
-            foreach ($date_in_week as $value){
-                $week = $item->week;
-                $week== 7 && $week = 0;
-                if ($value->isDayOfWeek((int)$week)) {
-                    $date[] = ["start_time_format"=> $value->setTimeFromTimeString($item->time)->format("m月d日 H时i分"), "id" => $item->id];
-                }
-            }
-
-        });
+//        /** @var Carbon[] $date_in_week */
+//        $date_in_week = [];
+//        for ($i = 0; $i <= 7; $i++) {
+//            $now = new Carbon();
+//            $date_in_week[] = $now->addDay($i);
+//        }
+//
+//        //寻找一周内的所有符合配置
+//        $date = [];
+//        $class->weekTime->map(function ($item) use ($date_in_week, &$date){
+//            /** @var WeekTime $item */
+//            foreach ($date_in_week as $value){
+//                $week = $item->week;
+//                $week== 7 && $week = 0;
+//                if ($value->isDayOfWeek((int)$week)) {
+//                    $date[] = ["start_time_format"=> $value->setTimeFromTimeString($item->time)->format("m月d日 H时i分"), "id" => $item->id];
+//                }
+//            }
+//
+//        });
+        $date = [
+            ["id" => 1, "start_time_format"=> "周三 上午"],
+            ["id" => 2,"start_time_format"=>"周三 下午"],
+            ["id" => 3,"start_time_format"=>"周三 晚上"],
+            ["id" => 4,"start_time_format"=>"周四 上午"],
+            ["id" => 5,"start_time_format"=>"周四 下午"],
+            ["id" => 6,"start_time_format"=>"周四 晚上"],
+            ["id" => 7,"start_time_format"=>"周五 上午"],
+            ["id" => 8,"start_time_format"=>"周五 下午"],
+            ["id" => 9,"start_time_format"=>"周五 晚上"],
+            ["id" => 10,"start_time_format"=>"周六 上午"],
+            ["id" => 11,"start_time_format"=>"周六 下午"],
+            ["id" => 12,"start_time_format"=>"周六 晚上"],
+            ["id" => 13,"start_time_format"=>"周日 上午"],
+            ["id" => 14,"start_time_format"=>"周日 下午"],
+            ["id" => 15,"start_time_format"=>"周日 晚上"],
+        ];
 
         $class->setAttribute("date", $date);
 //        if (!empty($class->week)) {
