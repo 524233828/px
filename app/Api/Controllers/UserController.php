@@ -46,14 +46,18 @@ class UserController extends Controller
         $wallet = Wallet::query()->where("uid", "=", $user->id)->first();
         $return = $user->getFrontFields();
 
-        $vip_level = CardOrder::getUserVipLevel();
+        $card_order = CardOrder::getUsefulCard();
+        $vip_level = CardOrder::getUserVipLevelByCardOrder($card_order);
+        $expired_time = CardOrder::getVipExpiredByCardOrder($card_order);
         $card = Card::query()->find($vip_level);
 
         $return["amount"] = $wallet->amount;
         if ($card) {
             $return["vip_icon"] = $card->icon;
+            $return["expired_time"] = date("Y-m-d H:i:s", $expired_time);
         } else {
             $return["vip_icon"] = "";
+            $return["expired_time"] = 0;
         }
 
         if ($user->pid != 0) {

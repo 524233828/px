@@ -52,6 +52,26 @@ class CardOrder extends Model
         return $this->hasMany(CardOrderChild::class, "card_order_id", "id");
     }
 
+
+    /**
+     * 获取可用卡
+     * @return \Illuminate\Database\Eloquent\Builder[]|Collection
+     */
+    public static function getUsefulCard()
+    {
+        $card_order = CardOrder::query()
+            ->where("user_id", "=", User::$info['id'])
+            ->where("status", "=", 1)
+            ->where("expired_time", ">", time())
+            ->get();
+
+        return $card_order;
+    }
+
+    /**
+     * 获取用户当前vip登记
+     * @return int|mixed
+     */
     public static function getUserVipLevel()
     {
         $card_order = CardOrder::query()
@@ -60,12 +80,37 @@ class CardOrder extends Model
             ->where("expired_time", ">", time())
             ->get();
 
-        if($card_order->isEmpty()){
+        if ($card_order->isEmpty()) {
             return 0;
         }
 
         return $card_order->max("card_id");
+    }
 
+    /**
+     * @param Collection $card_order
+     * @return int
+     */
+    public static function getUserVipLevelByCardOrder($card_order)
+    {
+        if ($card_order->isEmpty()) {
+            return 0;
+        }
+
+        return $card_order->max("card_id");
+    }
+
+    /**
+     * @param Collection $card_order
+     * @return int
+     */
+    public static function getVipExpiredByCardOrder($card_order)
+    {
+        if ($card_order->isEmpty()) {
+            return 0;
+        }
+
+        return $card_order->max("expired_time");
     }
 
 
