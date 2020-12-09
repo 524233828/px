@@ -64,9 +64,9 @@ class AppointController extends Controller
 
         $now = now();
         //获取schoolTime
-        if(!$class->weekTime || $class->weekTime->isEmpty()){
-            return $this->response([], 3006, "暂时没有课程安排");
-        }
+//        if(!$class->weekTime || $class->weekTime->isEmpty()){
+//            return $this->response([], 3006, "暂时没有课程安排");
+//        }
 
         /** @var SchoolTime $school_time */
 //        $school_time = $class->schoolTime->first();
