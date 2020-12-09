@@ -71,17 +71,17 @@ class AppointController extends Controller
         /** @var SchoolTime $school_time */
 //        $school_time = $class->schoolTime->first();
 
-        $appoint = Appoint::query()->where([
-            ["class_id", "=", $class_id],
-            ["card_id", "=", $card_id],
-            ["card_child_id", "=", $card_child_id],
-            ["start_time", "=", $school_time],
-//            ["end_time", "=", ""],
-        ])->first();
+//        $appoint = Appoint::query()->where([
+//            ["class_id", "=", $class_id],
+//            ["card_id", "=", $card_id],
+//            ["card_child_id", "=", $card_child_id],
+//            ["start_time", "=", $school_time],
+////            ["end_time", "=", ""],
+//        ])->first();
 
-        if ($appoint) {
-            return $this->response([], 3005, "已预约过该课程，请耐心等待上课");
-        }
+//        if ($appoint) {
+//            return $this->response([], 3005, "已预约过该课程，请耐心等待上课");
+//        }
 
         //检查卡券预约过多少次该商户的课程
         $appoint_num = Appoint::countBusinessCardAppointNum($class->shop->admin_id, $card_child_id);
