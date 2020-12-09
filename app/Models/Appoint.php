@@ -83,8 +83,8 @@ class Appoint extends Model
         return (string)(microtime(true) * 10000);
     }
 
-    public function getStartTimeAttribute($value){
-        $datetime = new Carbon($value);
-        return $datetime->format("m月d日 H时i分"). " " . static::$weekLang[$datetime->dayOfWeek];
-    }
+//    public function getStartTimeAttribute($value){
+//        $datetime = new Carbon($value);
+//        return $datetime->format("m月d日 H时i分"). " " . static::$weekLang[$datetime->dayOfWeek];
+//    }
 }
