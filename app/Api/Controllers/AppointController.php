@@ -94,7 +94,7 @@ class AppointController extends Controller
             "shop_id" => $class->shop_id,
             "uid" => User::$info['id'],
             "class_id" => $class_id,
-            "status" => 1,
+            "status" => 0,
             "card_id" => $card_id,
             "card_child_id" => $card_child_id,
             "admin_id" => $class->shop->admin_id,
