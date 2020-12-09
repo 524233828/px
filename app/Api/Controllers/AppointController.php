@@ -76,7 +76,7 @@ class AppointController extends Controller
             ["card_id", "=", $card_id],
             ["card_child_id", "=", $card_child_id],
             ["start_time", "=", $school_time],
-            ["end_time", "=", ""],
+//            ["end_time", "=", ""],
         ])->first();
 
         if ($appoint) {
@@ -100,7 +100,7 @@ class AppointController extends Controller
             "admin_id" => $class->shop->admin_id,
             "appoint_sn" => Appoint::getAppointSn(),
             "start_time" => $school_time,
-            "end_time" => ""
+//            "end_time" => ""
         ]);
 
         if ($appoint->save()) {
