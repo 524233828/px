@@ -114,7 +114,10 @@ class OrderController extends Controller
             $grid->column("created_at","创建时间")->sortable();
             $grid->column("updated_at","更新时间")->sortable();
             $grid->column("pay_sn","支付号");
-            $grid->column("status","订单状态 0-未付款 1-已付款 2-已退款");
+            $grid->column("status","订单状态 0-未付款 1-已付款 2-已退款")->using([
+                0=>"未付款",
+                1=>"已付款",
+            ]);
 
 
 
