@@ -54,6 +54,17 @@ class Order
     ];
 
     /**
+     * 业务处理类
+     * @var array $gateway
+     */
+    public static $name = [
+        self::CARD => "会员卡",
+        self::CLASSES => "课程",
+        self::GOODS => "商品",
+        self::SPECIAL_CLASS => "线上教育"
+    ];
+
+    /**
      * 创建订单
      * @param int $order_type
      * @param array $order_data

@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $status 状态
  * @property string $img_url 图片
  * @property string $info 信息
+ * @property PxUser $user 信息
  * @property ClassOrder $classOrder 相关订单
  */
 class Order extends Model
@@ -32,18 +33,24 @@ class Order extends Model
 
     protected $fillable = ["order_sn", "uid", "money", "type", "info", "img_url"];
 
-    public function classOrder(){
+    public function classOrder()
+    {
         return $this->hasOne(ClassOrder::class, "order_sn", "order_sn");
     }
 
     public static function getOrderSn()
     {
-        return (string)(microtime(true)*10000);
+        return (string)(microtime(true) * 10000);
     }
 
     public static function getPaySn()
     {
-        return (string)(microtime(true)*10000);
+        return (string)(microtime(true) * 10000);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(PxUser::class, "uid", "id");
     }
 
 }

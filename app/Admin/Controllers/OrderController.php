@@ -106,8 +106,10 @@ class OrderController extends Controller
 
             $grid->column("id","id")->sortable();
             $grid->column("order_sn","订单号");
-            $grid->column("uid","用户id");
-            $grid->column("type","订单类型");
+            $grid->column("uid","用户ID");
+            $grid->column("user.nickname","用户名");
+            $grid->column("user.phone_number","手机号");
+            $grid->column("type","订单类型")->using(\App\Libraries\OrderHandler\Order::$name);
             $grid->column("money","订单金额");
             $grid->column("created_at","创建时间")->sortable();
             $grid->column("updated_at","更新时间")->sortable();
@@ -125,9 +127,12 @@ class OrderController extends Controller
                     $query->where('order_sn', 'like', "{$this->input}%");
                 }, '订单号');
                 $filter->equal("uid","用户id");
-                $filter->equal("type","订单类型");
+                $filter->equal("type","订单类型")->select(\App\Libraries\OrderHandler\Order::$name);
                 $filter->between("created_at","创建时间")->datetime();
-                $filter->equal("status","订单状态 0-未付款 1-已付款 2-已退款")->select(0,1,2);
+                $filter->equal("status","订单状态 0-未付款 1-已付款 2-已退款")->select([
+                    0=>"未付款",
+                    1=>"已付款",
+                ]);
 
 
 
@@ -149,10 +154,11 @@ class OrderController extends Controller
             $form->datetime('created_at',"创建时间");
             $form->datetime('updated_at',"更新时间");
             $form->text('pay_sn',"支付号")->rules("required|string");
-            $form->select("status","订单状态 0-未付款 1-已付款 2-已退款")->options(0,1,2);
-
-
-
+            $form->select("status","订单状态 0-未付款 1-已付款 2-已退款")->options([
+                0=>"未付款",
+                1=>"已付款",
+                2=>"已退款",
+            ]);
         });
     }
 }
