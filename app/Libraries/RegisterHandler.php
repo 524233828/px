@@ -26,6 +26,7 @@ class RegisterHandler extends AbstractHandler
         $user = new PxUser();
 
         $user->open_id = $user_info['openid'];
+        $user->union_id = !empty($user_info['unionid']) ? $user_info['unionid'] : "";
 
         $user->getConnection()->beginTransaction();
 

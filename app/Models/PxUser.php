@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Models
  * @property integer $id ID
  * @property string $open_id openID
+ * @property string $union_id unionId
  * @property integer $pid 父ID
  * @property string $nickname 昵称
  * @property string $headimg_url 头像地址
