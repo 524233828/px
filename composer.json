@@ -37,6 +37,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "platform": {
+            "php": "7.2",
             "ext-redis": "5.3.1"
         }
     },
