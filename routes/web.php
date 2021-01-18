@@ -12,14 +12,14 @@
 */
 
 Route::get('/', function () {
-    /** @var \Illuminate\Cache\Repository $cache */
-    $cache = \Illuminate\Support\Facades\Cache::store("redis");
-    /** @var \Illuminate\Cache\RedisStore $store */
-    $store = $cache->getStore();
-    /** @var \Illuminate\Redis\RedisManager $manager */
-    $manager = $store->getRedis();
-
-    $redis = \Illuminate\Support\Facades\Redis::connection("default");
-    var_dump($redis->client());exit;
+//    /** @var \Illuminate\Cache\Repository $cache */
+//    $cache = \Illuminate\Support\Facades\Cache::store("redis");
+//    /** @var \Illuminate\Cache\RedisStore $store */
+//    $store = $cache->getStore();
+//    /** @var \Illuminate\Redis\RedisManager $manager */
+//    $manager = $store->getRedis();
+//
+//    $redis = \Illuminate\Support\Facades\Redis::connection("default");
+//    var_dump($redis->client());exit;
     return view('welcome');
 });
