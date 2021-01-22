@@ -288,6 +288,8 @@ class UserController extends Controller
             return $this->response([], 6012, "已注册过，请勿重复注册");
         }
 
+        return $this->response([]);
+
     }
 
 }
