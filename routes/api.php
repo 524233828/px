@@ -54,7 +54,7 @@ Route::post("/user/update", "UserController@update")->middleware(["jwt.dispatch"
 Route::post("/user/bind", "UserController@bindCode")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/user/is_bind", "UserController@isBind")->middleware(["jwt.dispatch", "login.check"]);
 //同步用户
-Route::post("/user/check", "UserController@checkUser");
+Route::get("/user/check", "UserController@checkUser");
 Route::post("/user/register", "UserController@register");
 
 //常用人
