@@ -9,6 +9,7 @@
 namespace App\Api\Controllers;
 
 
+use App\Libraries\RegisterHandler;
 use App\Models\Card;
 use App\Models\CardOrder;
 use App\Models\Image;
@@ -215,8 +216,78 @@ class UserController extends Controller
         });
 
         return $this->response(["list" => $children, "meta" => $pager->getPager($count)]);
-
     }
 
+    /**
+     * 检查用户是否注册
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkUser(Request $request)
+    {
+        $union_id = $request->get("union_id", "");
+
+        if (empty($union_id)) {
+            return $this->response([], 6008, "union_id不能为空");
+        }
+
+        $user = PxUser::query()->where("union_id", "=", $union_id)->first();
+        if (empty($user) || !$user->exists) {
+            return $this->response(["is_register" => 0]);
+        }
+
+        return $this->response(["is_register" => 1]);
+    }
+
+    /**
+     * 注册用户
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        $access_token = $request->post("access_token", "");
+        $open_id = $request->post("open_id", "");
+
+        if (empty($access_token) || empty($open_id)) {
+            return $this->response([], 6009, "参数不能为空");
+        }
+
+        //请求微信获取用户信息
+        $url = "https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$open_id}&lang=zh_CN";
+        $json = file_get_contents($url);
+        if (empty($json)) {
+            return $this->response([], 6010, "拉取用户信息失败");
+        }
+
+        $result = json_decode($json, true);
+
+        if (empty($result)) {
+            return $this->response([], 6010, "拉取用户信息失败");
+        }
+
+        $union_id = $result['unionid'];
+
+        if (empty($union_id)) {
+            return $this->response([], 6010, "拉去用户信息失败");
+        }
+
+        $user = PxUser::query()->where("union_id", "=", $union_id)->first();
+        if (empty($user) || !$user->exists) {
+            $user_info = [
+                "unionid" => $union_id,
+                "openid" => ""
+            ];
+
+            $user = (new RegisterHandler())->handler($user_info);
+
+            if (!$user) {
+                return $this->response([], 6011, "注册失败");
+            }
+        } else {
+            return $this->response([], 6012, "已注册过，请勿重复注册");
+        }
+
+    }
 
 }

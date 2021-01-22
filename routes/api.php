@@ -53,6 +53,9 @@ Route::get("/user/children", "UserController@fetchChildren")->middleware(["jwt.d
 Route::post("/user/update", "UserController@update")->middleware(["jwt.dispatch", "login.check"]);
 Route::post("/user/bind", "UserController@bindCode")->middleware(["jwt.dispatch", "login.check"]);
 Route::get("/user/is_bind", "UserController@isBind")->middleware(["jwt.dispatch", "login.check"]);
+//同步用户
+Route::post("/user/check", "UserController@checkUser");
+Route::post("/user/register", "UserController@register");
 
 //常用人
 Route::post("/child/save", "ChildController@save")->middleware(["jwt.dispatch", "login.check"]);
@@ -106,3 +109,5 @@ Route::get("/index/entry", "IndexEntryController@fetch")->middleware(["jwt.dispa
 Route::get("/vip/right", "VipRightController@fetch")->middleware(["jwt.dispatch"]);
 //点赞
 Route::post("/like", "LikeController@create")->middleware(["jwt.dispatch", "login.check"]);
+
+
