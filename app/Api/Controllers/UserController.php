@@ -247,6 +247,9 @@ class UserController extends Controller
         if ($level > 0) {
             $data["is_vip"] = 1;
             $data["vip_level"] = $level;
+        } else {
+            $data["is_vip"] = 0;
+            $data["vip_level"] = 0;
         }
 
         return $this->response($data);
