@@ -284,7 +284,7 @@ class UserController extends Controller
             return $this->response([], 6010, "拉取用户信息失败");
         }
 
-        $union_id = $result['unionid'];
+        $union_id = isset($result['unionid']) ? $result['unionid'] : "";
 
         if (empty($union_id)) {
             return $this->response([], 6010, "拉取用户信息失败");
