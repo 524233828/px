@@ -28,7 +28,7 @@ class CardOrder extends Model
 {
     protected $table = "px_card_order";
 
-    protected $fillable = ["user_id", "order_sn", "child_name", "child_tel", "child_birth", "child_gender", "expired_time", "card_id"];
+    protected $fillable = ["user_id", "order_sn", "child_name", "child_tel", "child_birth", "child_gender", "expired_time", "card_id", "status"];
 
     public static function getUserUsefulCard()
     {
