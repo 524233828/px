@@ -12,7 +12,9 @@ namespace App\Api\Controllers;
 use App\Libraries\RegisterHandler;
 use App\Models\Card;
 use App\Models\CardOrder;
+use App\Models\Child;
 use App\Models\Image;
+use App\Models\Order;
 use App\Models\PxUser;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
@@ -242,7 +244,7 @@ class UserController extends Controller
 
         $data = ["is_register" => 1];
 
-        if($level > 0){
+        if ($level > 0) {
             $data["is_vip"] = 1;
             $data["vip_level"] = $level;
         }
@@ -254,13 +256,15 @@ class UserController extends Controller
      * 注册用户
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function register(Request $request)
     {
         $access_token = $request->post("access_token", "");
         $open_id = $request->post("open_id", "");
+        $order_sn = $request->post("order_sn", "");
 
-        if (empty($access_token) || empty($open_id)) {
+        if (empty($access_token) || empty($open_id) || empty($order_sn)) {
             return $this->response([], 6009, "参数不能为空");
         }
 
@@ -280,7 +284,7 @@ class UserController extends Controller
         $union_id = $result['unionid'];
 
         if (empty($union_id)) {
-            return $this->response([], 6010, "拉去用户信息失败");
+            return $this->response([], 6010, "拉取用户信息失败");
         }
 
         $user = PxUser::query()->where("union_id", "=", $union_id)->first();
@@ -295,9 +299,76 @@ class UserController extends Controller
             if (!$user) {
                 return $this->response([], 6011, "注册失败");
             }
-        } else {
+        }
+//        else {
+//            return $this->response([], 6012, "已注册过，请勿重复注册");
+//        }
+
+        //判断用户会员
+        //已注册判断是否会员
+        $level = CardOrder::getUserVipLevelByUserId($user->id);
+
+        if ($level > 0) {
             return $this->response([], 6012, "已注册过，请勿重复注册");
         }
+
+        /** @var Card $card */
+        $card = Card::query()->find(1);
+        //否则创建
+        $connection = $user->getConnection();
+
+        $connection->beginTransaction();
+
+        //创建订单
+        $order = new Order([
+            "order_sn" => $order_sn,
+            "uid" => $user->id,
+            "type" => \App\Libraries\OrderHandler\Order::CARD,
+            "money" => 0,
+            "status" => 1,
+            "info" => "平台全场通用预约券 - 小学堂购买",
+        ]);
+
+
+        //创建小朋友
+        //获取用户的小朋友
+        /** @var Child $child */
+        $child = Child::query()->where('uid', "=", $user->id)->first();
+        if (!empty($child) && $child->exists) {
+            //创建会员卡
+            $card_order = new CardOrder([
+                "user_id" => $user->id,
+                "order_sn" => $order_sn,
+                "child_name" => $child->name,
+                "child_tel" => $child->tel,
+                "child_birth" => $child->birth,
+                "child_gender" => $child->gender,
+                "buy_time" => time(),
+                "status" => 1,
+                "expired_time" => time() + $card->expired_time,
+                "card_id" => 1,
+            ]);
+        } else {
+            $card_order = new CardOrder([
+                "user_id" => $user->id,
+                "order_sn" => $order_sn,
+                "child_name" => isset($result['nickname']) ? $result['nickname'] : "",
+                "child_tel" => "",
+                "child_birth" => "",
+                "child_gender" => isset($result['sex']) ? $result['sex'] : 1,
+                "buy_time" => time(),
+                "status" => 1,
+                "expired_time" => time() + $card->expired_time,
+                "card_id" => 1,
+            ]);
+        }
+
+        if (!$order->save() || !$card_order->save()) {
+            $connection->rollBack();
+            return $this->response([], 6013, "创建会员失败");
+        }
+
+        $connection->commit();
 
         return $this->response([]);
 
