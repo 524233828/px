@@ -357,7 +357,7 @@ class UserController extends Controller
                 "order_sn" => $order_sn,
                 "child_name" => isset($result['nickname']) ? $result['nickname'] : "",
                 "child_tel" => "",
-                "child_birth" => "0000-00-00",
+                "child_birth" => date("Y-m-d"),
                 "child_gender" => isset($result['sex']) ? $result['sex'] : 1,
                 "buy_time" => time(),
                 "status" => 1,
