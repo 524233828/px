@@ -113,5 +113,24 @@ class CardOrder extends Model
         return $card_order->max("expired_time");
     }
 
+    /**
+     * 根据用户ID获取用户vip等级
+     * @param $user_id
+     * @return int|mixed
+     */
+    public static function getUserVipLevelByUserId($user_id)
+    {
+        $card_order = CardOrder::query()
+            ->where("user_id", "=", $user_id)
+            ->where("status", "=", 1)
+            ->where("expired_time", ">", time())
+            ->get();
+
+        if ($card_order->isEmpty()) {
+            return 0;
+        }
+
+        return $card_order->max("card_id");
+    }
 
 }

@@ -231,12 +231,23 @@ class UserController extends Controller
             return $this->response([], 6008, "union_id不能为空");
         }
 
+        /** @var PxUser $user */
         $user = PxUser::query()->where("union_id", "=", $union_id)->first();
         if (empty($user) || !$user->exists) {
             return $this->response(["is_register" => 0]);
         }
 
-        return $this->response(["is_register" => 1]);
+        //已注册判断是否会员
+        $level = CardOrder::getUserVipLevelByUserId($user->id);
+
+        $data = ["is_register" => 1];
+
+        if($level > 0){
+            $data["is_vip"] = 1;
+            $data["vip_level"] = $level;
+        }
+
+        return $this->response($data);
     }
 
     /**
