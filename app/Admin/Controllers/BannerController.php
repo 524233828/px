@@ -95,7 +95,7 @@ class BannerController extends Controller
 
             $grid->column("id","id")->sortable();
             $grid->column("name","name");
-            $grid->column("img_url","img_url");
+            $grid->column("img_url","img_url")->image();
             $grid->column("created_at","created_at")->sortable();
             $grid->column("updated_at","updated_at");
             $grid->column("status","status")->using([0=>"冻结",1=>"启用"]);

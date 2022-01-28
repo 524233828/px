@@ -95,7 +95,7 @@ class VideoController extends Controller
 
             $grid->column("id","id");
             $grid->column("type","业务类型")->using(Video::$business_type);
-            $grid->column("path","地址");
+            $grid->column("path","地址")->link();
             $grid->column("business_id","业务ID");
             $grid->column("created_at","创建时间");
             $grid->column("updated_at","更新时间");

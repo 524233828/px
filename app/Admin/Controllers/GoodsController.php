@@ -93,7 +93,7 @@ class GoodsController extends Controller
 
             $grid->column("id","id")->sortable();
             $grid->column("name","商品名称");
-            $grid->column("img_url","商品图片");
+            $grid->column("img_url","商品图片")->image();
             $grid->column("created_at","created_at")->sortable();
             $grid->column("updated_at","updated_at")->sortable();
 
