@@ -101,7 +101,7 @@ class UserController extends Controller
             $grid->column("open_id","微信open_id");
             $grid->column("pid","上级用户id");
             $grid->column("nickname","昵称");
-            $grid->column("headimg_url","头像");
+            $grid->column("headimg_url","头像")->image();
             $grid->column("phone_number","手机号");
             $grid->column("code","邀请码");
             $grid->column("created_at","created_at")->sortable();
